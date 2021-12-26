@@ -33,5 +33,5 @@ public @interface Resources {
     /**
      * @return a Resource[] with the value of this Resources
      */
-    public Resource[] value();
+    Resource[] value();
 }

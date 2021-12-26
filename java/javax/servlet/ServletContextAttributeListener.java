@@ -35,7 +35,7 @@ public interface ServletContextAttributeListener extends EventListener {
      * The default implementation is a NO-OP.
      * @param scae Information about the new attribute
      */
-    public default void attributeAdded(ServletContextAttributeEvent scae) {
+    default void attributeAdded(ServletContextAttributeEvent scae) {
     }
 
     /**
@@ -44,7 +44,7 @@ public interface ServletContextAttributeListener extends EventListener {
      * The default implementation is a NO-OP.
      * @param scae Information about the removed attribute
      */
-    public default void attributeRemoved(ServletContextAttributeEvent scae) {
+    default void attributeRemoved(ServletContextAttributeEvent scae) {
     }
 
     /**
@@ -53,6 +53,6 @@ public interface ServletContextAttributeListener extends EventListener {
      * The default implementation is a NO-OP.
      * @param scae Information about the replaced attribute
      */
-    public default void attributeReplaced(ServletContextAttributeEvent scae) {
+    default void attributeReplaced(ServletContextAttributeEvent scae) {
     }
 }

@@ -38,20 +38,20 @@ public interface HttpServletRequest extends ServletRequest {
     /**
      * String identifier for Basic authentication. Value "BASIC"
      */
-    public static final String BASIC_AUTH = "BASIC";
+    String BASIC_AUTH = "BASIC";
     /**
      * String identifier for Form authentication. Value "FORM"
      */
-    public static final String FORM_AUTH = "FORM";
+    String FORM_AUTH = "FORM";
     /**
      * String identifier for Client Certificate authentication. Value
      * "CLIENT_CERT"
      */
-    public static final String CLIENT_CERT_AUTH = "CLIENT_CERT";
+    String CLIENT_CERT_AUTH = "CLIENT_CERT";
     /**
      * String identifier for Digest authentication. Value "DIGEST"
      */
-    public static final String DIGEST_AUTH = "DIGEST";
+    String DIGEST_AUTH = "DIGEST";
 
     /**
      * Returns the name of the authentication scheme used to protect the
@@ -67,7 +67,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         container-specific string indicating the authentication scheme,
      *         or <code>null</code> if the request was not authenticated.
      */
-    public String getAuthType();
+    String getAuthType();
 
     /**
      * Returns an array containing all of the <code>Cookie</code> objects the
@@ -77,7 +77,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @return an array of all the <code>Cookies</code> included with this
      *         request, or <code>null</code> if the request has no cookies
      */
-    public Cookie[] getCookies();
+    Cookie[] getCookies();
 
     /**
      * Returns the value of the specified request header as a <code>long</code>
@@ -100,7 +100,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @exception IllegalArgumentException
      *                If the header value can't be converted to a date
      */
-    public long getDateHeader(String name);
+    long getDateHeader(String name);
 
     /**
      * Returns the value of the specified request header as a
@@ -116,7 +116,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         header, or <code>null</code> if the request does not have a
      *         header of that name
      */
-    public String getHeader(String name);
+    String getHeader(String name);
 
     /**
      * Returns all the values of the specified request header as an
@@ -137,7 +137,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         return an empty enumeration. If the container does not allow
      *         access to header information, return null
      */
-    public Enumeration<String> getHeaders(String name);
+    Enumeration<String> getHeaders(String name);
 
     /**
      * Returns an enumeration of all the header names this request contains. If
@@ -151,7 +151,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         container does not allow servlets to use this method,
      *         <code>null</code>
      */
-    public Enumeration<String> getHeaderNames();
+    Enumeration<String> getHeaderNames();
 
     /**
      * Returns the value of the specified request header as an <code>int</code>.
@@ -169,14 +169,14 @@ public interface HttpServletRequest extends ServletRequest {
      *                If the header value can't be converted to an
      *                <code>int</code>
      */
-    public int getIntHeader(String name);
+    int getIntHeader(String name);
 
     /**
      * Obtain the mapping information for this request.
      *
      * @return the mapping information for this request
      */
-    public default HttpServletMapping getHttpServletMapping() {
+    default HttpServletMapping getHttpServletMapping() {
         return new HttpServletMapping() {
 
             @Override
@@ -209,7 +209,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @return a <code>String</code> specifying the name of the method with
      *         which this request was made
      */
-    public String getMethod();
+    String getMethod();
 
     /**
      * Returns any extra path information associated with the URL the client
@@ -227,7 +227,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         before the query string in the request URL; or <code>null</code>
      *         if the URL does not have any extra path information
      */
-    public String getPathInfo();
+    String getPathInfo();
 
     /**
      * Returns any extra path information after the servlet name but before the
@@ -243,7 +243,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         <code>null</code> if the URL does not have any extra path
      *         information
      */
-    public String getPathTranslated();
+    String getPathTranslated();
 
     /**
      * Obtain a builder for generating push requests. {@link PushBuilder}
@@ -259,7 +259,7 @@ public interface HttpServletRequest extends ServletRequest {
      *
      * @since Servlet 4.0
      */
-    public default PushBuilder newPushBuilder() {
+    default PushBuilder newPushBuilder() {
         return null;
     }
 
@@ -273,7 +273,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @return a <code>String</code> specifying the portion of the request URI
      *         that indicates the context of the request
      */
-    public String getContextPath();
+    String getContextPath();
 
     /**
      * Returns the query string that is contained in the request URL after the
@@ -284,7 +284,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         <code>null</code> if the URL contains no query string. The value
      *         is not decoded by the container.
      */
-    public String getQueryString();
+    String getQueryString();
 
     /**
      * Returns the login of the user making this request, if the user has been
@@ -296,7 +296,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @return a <code>String</code> specifying the login of the user making
      *         this request, or <code>null</code> if the user login is not known
      */
-    public String getRemoteUser();
+    String getRemoteUser();
 
     /**
      * Returns a boolean indicating whether the authenticated user is included
@@ -310,7 +310,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         request belongs to a given role; <code>false</code> if the user
      *         has not been authenticated
      */
-    public boolean isUserInRole(String role);
+    boolean isUserInRole(String role);
 
     /**
      * Returns a <code>java.security.Principal</code> object containing the name
@@ -321,7 +321,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         user making this request; <code>null</code> if the user has not
      *         been authenticated
      */
-    public java.security.Principal getUserPrincipal();
+    java.security.Principal getUserPrincipal();
 
     /**
      * Returns the session ID specified by the client. This may not be the same
@@ -332,7 +332,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         <code>null</code> if the request did not specify a session ID
      * @see #isRequestedSessionIdValid
      */
-    public String getRequestedSessionId();
+    String getRequestedSessionId();
 
     /**
      * Returns the part of this request's URL from the protocol name up to the
@@ -364,7 +364,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         protocol name up to the query string
      * @see #getRequestURL
      */
-    public String getRequestURI();
+    String getRequestURI();
 
     /**
      * Reconstructs the URL the client used to make the request. The returned
@@ -380,7 +380,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @return a <code>StringBuffer</code> object containing the reconstructed
      *         URL
      */
-    public StringBuffer getRequestURL();
+    StringBuffer getRequestURL();
 
     /**
      * Returns the part of this request's URL that calls the servlet. This path
@@ -396,7 +396,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         empty string if the servlet used to process the request is
      *         matched using the "/*" pattern.
      */
-    public String getServletPath();
+    String getServletPath();
 
     /**
      * Returns the current <code>HttpSession</code> associated with this request
@@ -421,7 +421,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         and the request has no valid session
      * @see #getSession()
      */
-    public HttpSession getSession(boolean create);
+    HttpSession getSession(boolean create);
 
     /**
      * Returns the current session associated with this request, or if the
@@ -430,7 +430,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @return the <code>HttpSession</code> associated with this request
      * @see #getSession(boolean)
      */
-    public HttpSession getSession();
+    HttpSession getSession();
 
     /**
      * Changes the session ID of the session associated with this request. This
@@ -441,7 +441,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @see HttpSessionIdListener
      * @since Servlet 3.1
      */
-    public String changeSessionId();
+    String changeSessionId();
 
     /**
      * Checks whether the requested session ID is still valid.
@@ -451,7 +451,7 @@ public interface HttpServletRequest extends ServletRequest {
      * @see #getRequestedSessionId
      * @see #getSession
      */
-    public boolean isRequestedSessionIdValid();
+    boolean isRequestedSessionIdValid();
 
     /**
      * Checks whether the requested session ID came in as a cookie.
@@ -460,7 +460,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         otherwise, <code>false</code>
      * @see #getSession
      */
-    public boolean isRequestedSessionIdFromCookie();
+    boolean isRequestedSessionIdFromCookie();
 
     /**
      * Checks whether the requested session ID came in as part of the request
@@ -470,7 +470,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         otherwise, <code>false</code>
      * @see #getSession
      */
-    public boolean isRequestedSessionIdFromURL();
+    boolean isRequestedSessionIdFromURL();
 
     /**
      * @return {@link #isRequestedSessionIdFromURL()}
@@ -478,7 +478,7 @@ public interface HttpServletRequest extends ServletRequest {
      *             {@link #isRequestedSessionIdFromURL} instead.
      */
     @Deprecated
-    public boolean isRequestedSessionIdFromUrl();
+    boolean isRequestedSessionIdFromUrl();
 
     /**
      * Triggers the same authentication process as would be triggered if the
@@ -497,7 +497,7 @@ public interface HttpServletRequest extends ServletRequest {
      *         expected to handle the failure
      * @since Servlet 3.0
      */
-    public boolean authenticate(HttpServletResponse response)
+    boolean authenticate(HttpServletResponse response)
             throws IOException, ServletException;
 
     /**
@@ -515,7 +515,7 @@ public interface HttpServletRequest extends ServletRequest {
      *             authentication fails
      * @since Servlet 3.0
      */
-    public void login(String username, String password) throws ServletException;
+    void login(String username, String password) throws ServletException;
 
     /**
      * Removes any authenticated user from the request.
@@ -524,7 +524,7 @@ public interface HttpServletRequest extends ServletRequest {
      *             If the logout fails
      * @since Servlet 3.0
      */
-    public void logout() throws ServletException;
+    void logout() throws ServletException;
 
     /**
      * Return a collection of all uploaded Parts.
@@ -539,7 +539,7 @@ public interface HttpServletRequest extends ServletRequest {
      *             if the request is not multipart/form-data
      * @since Servlet 3.0
      */
-    public Collection<Part> getParts() throws IOException,
+    Collection<Part> getParts() throws IOException,
             ServletException;
 
     /**
@@ -557,7 +557,7 @@ public interface HttpServletRequest extends ServletRequest {
      *             if the request is not multipart/form-data
      * @since Servlet 3.0
      */
-    public Part getPart(String name) throws IOException,
+    Part getPart(String name) throws IOException,
             ServletException;
 
     /**
@@ -579,8 +579,8 @@ public interface HttpServletRequest extends ServletRequest {
      *             if the given httpUpgradeHandlerClass fails to be instantiated
      * @since Servlet 3.1
      */
-    public <T extends HttpUpgradeHandler> T upgrade(
-            Class<T> httpUpgradeHandlerClass) throws java.io.IOException, ServletException;
+    <T extends HttpUpgradeHandler> T upgrade(
+        Class<T> httpUpgradeHandlerClass) throws java.io.IOException, ServletException;
 
     /**
      * Obtain a Map of the trailer fields that is not backed by the request
@@ -591,7 +591,7 @@ public interface HttpServletRequest extends ServletRequest {
      *
      * @since Servlet 4.0
      */
-    public default Map<String,String> getTrailerFields() {
+    default Map<String,String> getTrailerFields() {
         return Collections.emptyMap();
     }
 
@@ -610,7 +610,7 @@ public interface HttpServletRequest extends ServletRequest {
      *
      * @since Servlet 4.0
      */
-    public default boolean isTrailerFieldsReady() {
+    default boolean isTrailerFieldsReady() {
         return false;
     }
 }

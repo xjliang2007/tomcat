@@ -73,8 +73,8 @@ public class Cookie implements Cloneable, Serializable {
                     "org.apache.tomcat.util.http.ServerCookie.FWD_SLASH_IS_SEPARATOR");
         } else {
             strictServletCompliance = AccessController.doPrivileged(
-                    (PrivilegedAction<Boolean>) () -> Boolean.valueOf(System.getProperty(
-                            "org.apache.catalina.STRICT_SERVLET_COMPLIANCE"))).booleanValue();
+                (PrivilegedAction<Boolean>) () -> Boolean.valueOf(System.getProperty(
+                    "org.apache.catalina.STRICT_SERVLET_COMPLIANCE")));
             propStrictNaming = AccessController.doPrivileged(
                     (PrivilegedAction<String>) () -> System.getProperty(
                             "org.apache.tomcat.util.http.ServerCookie.STRICT_NAMING"));
@@ -448,7 +448,8 @@ class CookieNameValidator {
 
     protected CookieNameValidator(String separators) {
         allowed = new BitSet(128);
-        allowed.set(0x20, 0x7f); // any CHAR except CTLs or separators
+        // any CHAR except CTLs or separators
+        allowed.set(0x20, 0x7f);
         for (int i = 0; i < separators.length(); i++) {
             char ch = separators.charAt(i);
             allowed.clear(ch);

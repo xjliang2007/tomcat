@@ -39,7 +39,7 @@ public interface HttpSessionContext {
      *             this API.
      */
     @Deprecated
-    public HttpSession getSession(String sessionId);
+    HttpSession getSession(String sessionId);
 
     /**
      * Do not use.
@@ -49,5 +49,5 @@ public interface HttpSessionContext {
      *             removed in a future version of this API.
      */
     @Deprecated
-    public Enumeration<String> getIds();
+    Enumeration<String> getIds();
 }
