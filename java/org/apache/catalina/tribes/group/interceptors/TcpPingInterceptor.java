@@ -49,8 +49,10 @@ public class TcpPingInterceptor extends ChannelInterceptorBase implements TcpPin
         125, -39, 82, 91, -21, -33, 67, -102, -73, 126, -66, -113, -127, 103, 30, -74,
         55, 21, -66, -121, 69, 33, 76, -88, -65, 10, 77, 19, 83, 56, 21, 50,
         85, -10, -108, -73, 58, -33, 33, 120, -111, 4, 125, -41, 114, -124, -64, -43};
-
-    protected long interval = 1000; //1 second
+    /**
+     * 1 second
+     */
+    protected long interval = 1000;
 
     protected boolean useThread = false;
     protected boolean staticOnly = false;
@@ -156,7 +158,8 @@ public class TcpPingInterceptor extends ChannelInterceptorBase implements TcpPin
         if ( members == null || members.length == 0 ) {
             return;
         }
-        ChannelData data = new ChannelData(true);//generates a unique Id
+        //generates a unique Id
+        ChannelData data = new ChannelData(true);
         data.setAddress(getLocalMember(false));
         data.setTimestamp(System.currentTimeMillis());
         data.setOptions(getOptionFlag());

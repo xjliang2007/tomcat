@@ -615,9 +615,8 @@ public class FarmWarDeployer extends ClusterListener
     protected boolean isServiced(String name) throws Exception {
         String[] params = { name };
         String[] signature = { "java.lang.String" };
-        Boolean result = (Boolean) mBeanServer.invoke(oname, "isServiced",
+        return (Boolean) mBeanServer.invoke(oname, "isServiced",
                 params, signature);
-        return result.booleanValue();
     }
 
     /**
@@ -644,8 +643,7 @@ public class FarmWarDeployer extends ClusterListener
     protected boolean tryAddServiced(String name) throws Exception {
         String[] params = { name };
         String[] signature = { "java.lang.String" };
-        Boolean result = (Boolean) mBeanServer.invoke(oname, "tryAddServiced", params, signature);
-        return result.booleanValue();
+        return (Boolean) mBeanServer.invoke(oname, "tryAddServiced", params, signature);
     }
 
     /**

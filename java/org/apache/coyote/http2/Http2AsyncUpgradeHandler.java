@@ -202,7 +202,7 @@ public class Http2AsyncUpgradeHandler extends Http2UpgradeHandler {
     void writeBody(Stream stream, ByteBuffer data, int len, boolean finished) throws IOException {
         if (log.isDebugEnabled()) {
             log.debug(sm.getString("upgradeHandler.writeBody", connectionId, stream.getIdAsString(),
-                    Integer.toString(len), Boolean.valueOf(finished)));
+                    Integer.toString(len), finished));
         }
         // Need to check this now since sending end of stream will change this.
         boolean writeable = stream.canWrite();
@@ -234,7 +234,7 @@ public class Http2AsyncUpgradeHandler extends Http2UpgradeHandler {
             throws IOException {
         if (log.isDebugEnabled()) {
             log.debug(sm.getString("upgradeHandler.windowUpdateConnection",
-                    getConnectionId(), Integer.valueOf(increment)));
+                    getConnectionId(), increment));
         }
         // Build window update frame for stream 0
         byte[] frame = new byte[13];
@@ -248,7 +248,7 @@ public class Http2AsyncUpgradeHandler extends Http2UpgradeHandler {
             if (streamIncrement > 0) {
                 if (log.isDebugEnabled()) {
                     log.debug(sm.getString("upgradeHandler.windowUpdateStream",
-                            getConnectionId(), getIdAsString(), Integer.valueOf(streamIncrement)));
+                            getConnectionId(), getIdAsString(), streamIncrement));
                 }
                 byte[] frame2 = new byte[13];
                 ByteUtil.setThreeBytes(frame2, 0,  4);
@@ -319,7 +319,7 @@ public class Http2AsyncUpgradeHandler extends Http2UpgradeHandler {
 
             if (log.isDebugEnabled()) {
                 log.debug(sm.getString("upgradeHandler.sendfile.reservation", connectionId, sendfile.stream.getIdAsString(),
-                        Integer.valueOf(sendfile.connectionReservation), Integer.valueOf(sendfile.streamReservation)));
+                    sendfile.connectionReservation, sendfile.streamReservation));
             }
 
             // connectionReservation will always be smaller than or the same as
@@ -342,7 +342,7 @@ public class Http2AsyncUpgradeHandler extends Http2UpgradeHandler {
             if (writeable) {
                 if (log.isDebugEnabled()) {
                     log.debug(sm.getString("upgradeHandler.writeBody", connectionId, sendfile.stream.getIdAsString(),
-                            Integer.toString(frameSize), Boolean.valueOf(finished)));
+                            Integer.toString(frameSize), finished));
                 }
                 ByteUtil.set31Bits(header, 5, sendfile.stream.getIdAsInt());
                 sendfile.mappedBuffer.limit(sendfile.mappedBuffer.position() + frameSize);
@@ -365,7 +365,7 @@ public class Http2AsyncUpgradeHandler extends Http2UpgradeHandler {
         @Override
         public void completed(Long nBytes, SendfileData sendfile) {
             CompletionState completionState = null;
-            long bytesWritten = nBytes.longValue() - 9;
+            long bytesWritten = nBytes - 9;
 
             /*
              * Loop for in-line writes only. Avoids a possible stack-overflow of
@@ -399,7 +399,7 @@ public class Http2AsyncUpgradeHandler extends Http2UpgradeHandler {
 
                 if (log.isDebugEnabled()) {
                     log.debug(sm.getString("upgradeHandler.sendfile.reservation", connectionId, sendfile.stream.getIdAsString(),
-                            Integer.valueOf(sendfile.connectionReservation), Integer.valueOf(sendfile.streamReservation)));
+                        sendfile.connectionReservation, sendfile.streamReservation));
                 }
 
                 // connectionReservation will always be smaller than or the same as
@@ -422,7 +422,7 @@ public class Http2AsyncUpgradeHandler extends Http2UpgradeHandler {
                 if (writeable) {
                     if (log.isDebugEnabled()) {
                         log.debug(sm.getString("upgradeHandler.writeBody", connectionId, sendfile.stream.getIdAsString(),
-                                Integer.toString(frameSize), Boolean.valueOf(finished)));
+                                Integer.toString(frameSize), finished));
                     }
                     ByteUtil.set31Bits(header, 5, sendfile.stream.getIdAsInt());
                     sendfile.mappedBuffer.limit(sendfile.mappedBuffer.position() + frameSize);

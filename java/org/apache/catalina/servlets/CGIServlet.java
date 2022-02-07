@@ -489,7 +489,7 @@ public final class CGIServlet extends HttpServlet {
         log.trace("HttpServletRequest Properties");
         log.trace("Auth Type: [" + req.getAuthType() + "]");
         log.trace("Context Path: [" + req.getContextPath() + "]");
-        Cookie cookies[] = req.getCookies();
+        Cookie[] cookies = req.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 log.trace("Cookie: " + cookie.getName() + ": [" + cookie.getValue() + "]");
@@ -1610,12 +1610,12 @@ public final class CGIServlet extends HttpServlet {
              * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4216884
              * with major modifications by Martin Dengler
              */
-            Runtime rt = null;
+            Runtime rt;
             BufferedReader cgiHeaderReader = null;
             InputStream cgiOutput = null;
-            BufferedReader commandsStdErr = null;
+            BufferedReader commandsStdErr;
             Thread errReaderThread = null;
-            BufferedOutputStream commandsStdIn = null;
+            BufferedOutputStream commandsStdIn;
             Process proc = null;
             int bufRead = -1;
 
@@ -1671,7 +1671,7 @@ public final class CGIServlet extends HttpServlet {
                 while (isRunning) {
                     try {
                         //set headers
-                        String line = null;
+                        String line;
                         while (((line = cgiHeaderReader.readLine()) != null) && !line.isEmpty()) {
                             if (log.isTraceEnabled()) {
                                 log.trace("addHeader(\"" + line + "\")");
@@ -1824,7 +1824,7 @@ public final class CGIServlet extends HttpServlet {
         }
 
         private void sendToLog(BufferedReader rdr) {
-            String line = null;
+            String line;
             int lineCount = 0 ;
             try {
                 while ((line = rdr.readLine()) != null) {
@@ -1841,7 +1841,7 @@ public final class CGIServlet extends HttpServlet {
                 }
             }
             if (lineCount > 0) {
-                log.warn(sm.getString("cgiServlet.runStdErrCount", Integer.valueOf(lineCount)));
+                log.warn(sm.getString("cgiServlet.runStdErrCount", lineCount));
             }
         }
     } //class CGIRunner

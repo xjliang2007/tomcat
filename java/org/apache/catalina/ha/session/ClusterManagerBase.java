@@ -36,7 +36,10 @@ import org.apache.tomcat.util.collections.SynchronizedStack;
 
 public abstract class ClusterManagerBase extends ManagerBase implements ClusterManager {
 
-    private final Log log = LogFactory.getLog(ClusterManagerBase.class); // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(ClusterManagerBase.class);
 
     /**
      * A reference to the cluster

@@ -66,7 +66,7 @@ public class XByteBuffer implements Serializable {
     /**
      * Variable to hold the data
      */
-    protected byte[] buf = null;
+    protected byte[] buf;
 
     /**
      * Current length of data in the buffer
@@ -394,12 +394,6 @@ public class XByteBuffer implements Serializable {
     }
 
 
-//    public static void fillDataPackage(byte[] data, int doff, int dlength, XByteBuffer buf) {
-//        int pkglen = getDataPackageLength(dlength);
-//        if ( buf.getCapacity() <  pkglen ) buf.expand(pkglen);
-//        createDataPackage(data,doff,dlength,buf.getBytesDirect(),buf.getLength());
-//    }
-
     /**
      * Convert four bytes to an int
      * @param b - the byte array containing the four bytes
@@ -602,8 +596,7 @@ public class XByteBuffer implements Serializable {
         ObjectOutputStream out = new ObjectOutputStream(outs);
         out.writeObject(msg);
         out.flush();
-        byte[] data = outs.toByteArray();
-        return data;
+        return outs.toByteArray();
     }
 
     public void setDiscard(boolean discard) {

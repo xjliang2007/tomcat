@@ -32,11 +32,13 @@ import org.apache.tomcat.util.res.StringManager;
 public abstract class SessionIdGeneratorBase extends LifecycleBase
         implements SessionIdGenerator {
 
-    private final Log log = LogFactory.getLog(SessionIdGeneratorBase.class); // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(SessionIdGeneratorBase.class);
 
 
-    private static final StringManager sm =
-        StringManager.getManager("org.apache.catalina.util");
+    private static final StringManager sm = StringManager.getManager("org.apache.catalina.util");
 
 
     /**
@@ -196,7 +198,7 @@ public abstract class SessionIdGeneratorBase extends LifecycleBase
     }
 
 
-    protected void getRandomBytes(byte bytes[]) {
+    protected void getRandomBytes(byte[] bytes) {
 
         SecureRandom random = randoms.poll();
         if (random == null) {

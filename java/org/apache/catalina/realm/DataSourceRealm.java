@@ -367,7 +367,8 @@ public class DataSourceRealm extends RealmBase {
         try {
             dbConnection.close();
         } catch (SQLException e) {
-            containerLog.error(sm.getString("dataSourceRealm.close"), e); // Just log it here
+            // Just log it here
+            containerLog.error(sm.getString("dataSourceRealm.close"), e);
         }
 
     }

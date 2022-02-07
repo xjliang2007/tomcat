@@ -81,13 +81,10 @@ public class Introspection {
      *         method, else <code>false</code>
      */
     public static boolean isValidLifecycleCallback(Method method) {
-        if (method.getParameterTypes().length != 0
-                || Modifier.isStatic(method.getModifiers())
-                || method.getExceptionTypes().length > 0
-                || !method.getReturnType().getName().equals("void")) {
-            return false;
-        }
-        return true;
+        return method.getParameterTypes().length == 0
+            && !Modifier.isStatic(method.getModifiers())
+            && method.getExceptionTypes().length <= 0
+            && method.getReturnType().getName().equals("void");
     }
 
     /**

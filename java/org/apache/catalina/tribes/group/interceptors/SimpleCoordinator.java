@@ -111,8 +111,8 @@ public class SimpleCoordinator extends ChannelInterceptorBase {
     }
 
     public boolean isCoordinator() {
-        return view == null ? false : getLocalMember(false).equals(
-                getCoordinator());
+        return view != null && getLocalMember(false).equals(
+            getCoordinator());
     }
 
 }

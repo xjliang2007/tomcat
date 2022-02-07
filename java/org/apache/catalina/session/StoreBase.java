@@ -135,7 +135,7 @@ public abstract class StoreBase extends LifecycleBase implements Store {
      *
      */
     public void processExpires() {
-        String[] keys = null;
+        String[] keys;
 
         if(!getState().isAvailable()) {
             return;

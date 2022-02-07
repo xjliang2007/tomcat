@@ -27,8 +27,8 @@ import org.apache.tomcat.util.digester.RuleSet;
 public class RealmRuleSet implements RuleSet {
 
     private static final int MAX_NESTED_REALM_LEVELS = Integer.getInteger(
-            "org.apache.catalina.startup.RealmRuleSet.MAX_NESTED_REALM_LEVELS",
-            3).intValue();
+        "org.apache.catalina.startup.RealmRuleSet.MAX_NESTED_REALM_LEVELS",
+        3);
 
 
     // ----------------------------------------------------- Instance Variables

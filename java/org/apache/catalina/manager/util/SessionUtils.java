@@ -111,7 +111,8 @@ public class SessionUtils {
             final List<Object> tapestryArray = new ArrayList<>();
             for (Enumeration<String> enumeration = in_session.getAttributeNames(); enumeration.hasMoreElements();) {
                 String name = enumeration.nextElement();
-                if (name.contains("tapestry") && name.contains("engine") && null != in_session.getAttribute(name)) {//$NON-NLS-1$ //$NON-NLS-2$
+                if (name.contains("tapestry") && name.contains("engine") && null != in_session.getAttribute(name)) {
+                    //$NON-NLS-1$ //$NON-NLS-2$
                     tapestryArray.add(in_session.getAttribute(name));
                 }
             }
@@ -120,7 +121,8 @@ public class SessionUtils {
                 Object probableEngine = tapestryArray.get(0);
                 if (null != probableEngine) {
                     try {
-                        Method readMethod = probableEngine.getClass().getMethod("getLocale", (Class<?>[])null);//$NON-NLS-1$
+                        //$NON-NLS-1$
+                        Method readMethod = probableEngine.getClass().getMethod("getLocale", (Class<?>[])null);
                         // Call the property getter and return the value
                         Object possibleLocale = readMethod.invoke(probableEngine, (Object[]) null);
                         if (possibleLocale instanceof Locale) {
@@ -230,8 +232,7 @@ public class SessionUtils {
 
     public static long getUsedTimeForSession(Session in_session) {
         try {
-            long diffMilliSeconds = in_session.getThisAccessedTime() - in_session.getCreationTime();
-            return diffMilliSeconds;
+            return in_session.getThisAccessedTime() - in_session.getCreationTime();
         } catch (IllegalStateException ise) {
             //ignore: invalidated session
             return -1;
@@ -240,8 +241,8 @@ public class SessionUtils {
 
     public static long getTTLForSession(Session in_session) {
         try {
-            long diffMilliSeconds = (1000*in_session.getMaxInactiveInterval()) - (System.currentTimeMillis() - in_session.getThisAccessedTime());
-            return diffMilliSeconds;
+            return
+                (1000L * in_session.getMaxInactiveInterval()) - (System.currentTimeMillis() - in_session.getThisAccessedTime());
         } catch (IllegalStateException ise) {
             //ignore: invalidated session
             return -1;
@@ -250,8 +251,7 @@ public class SessionUtils {
 
     public static long getInactiveTimeForSession(Session in_session) {
         try {
-            long diffMilliSeconds =  System.currentTimeMillis() - in_session.getThisAccessedTime();
-            return diffMilliSeconds;
+            return System.currentTimeMillis() - in_session.getThisAccessedTime();
         } catch (IllegalStateException ise) {
             //ignore: invalidated session
             return -1;

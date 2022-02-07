@@ -279,9 +279,9 @@ public class JspC extends Task implements Options {
     protected boolean showSuccess = false;
     protected int argPos;
     protected boolean fullstop = false;
-    protected String args[];
+    protected String[] args;
 
-    public static void main(String arg[]) {
+    public static void main(String[] arg) {
         if (arg.length == 0) {
             System.out.println(Localizer.getMessage("jspc.usage"));
         } else {
@@ -1271,7 +1271,7 @@ public class JspC extends Task implements Options {
         try (FileInputStream fis = new FileInputStream(webXml2);
                 FileOutputStream fos = new FileOutputStream(webXml)) {
 
-            byte buf[] = new byte[512];
+            byte[] buf = new byte[512];
             while (true) {
                 int n = fis.read(buf);
                 if (n < 0) {
@@ -1794,7 +1794,7 @@ public class JspC extends Task implements Options {
             }
         }
 
-        URL urlsA[]=new URL[urls.size()];
+        URL[] urlsA =new URL[urls.size()];
         urls.toArray(urlsA);
         loader = new URLClassLoader(urlsA, this.getClass().getClassLoader());
         return loader;

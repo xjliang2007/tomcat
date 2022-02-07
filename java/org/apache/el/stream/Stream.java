@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.el.ELException;
@@ -49,7 +50,7 @@ public class Stream {
                 while (iterator.hasNext()) {
                     Object obj = iterator.next();
                     if (ELSupport.coerceToBoolean(null, le.invoke(obj),
-                            true).booleanValue()) {
+                        true)) {
                         next = obj;
                         foundNext = true;
                         break;
@@ -139,7 +140,7 @@ public class Stream {
             }
 
             @SuppressWarnings({ "rawtypes", "unchecked" })
-            private final void sort() {
+            private void sort() {
                 List list = new ArrayList<>();
                 while (iterator.hasNext()) {
                     list.add(iterator.next());
@@ -169,7 +170,7 @@ public class Stream {
             }
 
             @SuppressWarnings({ "rawtypes", "unchecked" })
-            private final void sort(LambdaExpression le) {
+            private void sort(LambdaExpression le) {
                 List list = new ArrayList<>();
                 Comparator<Object> c = new LambdaExpressionComparator(le);
                 while (iterator.hasNext()) {
@@ -213,12 +214,12 @@ public class Stream {
 
 
     public Stream limit(final Number count) {
-        return substream(Integer.valueOf(0), count);
+        return substream(0, count);
     }
 
 
     public Stream substream(final Number start) {
-        return substream(start, Integer.valueOf(Integer.MAX_VALUE));
+        return substream(start, Integer.MAX_VALUE);
     }
 
     public Stream substream(final Number start, final Number end) {
@@ -312,7 +313,7 @@ public class Stream {
 
     public Optional average() {
         long count = 0;
-        Number sum = Long.valueOf(0);
+        Number sum = 0L;
 
         while (iterator.hasNext()) {
             count++;
@@ -322,13 +323,13 @@ public class Stream {
         if (count == 0) {
             return Optional.EMPTY;
         } else {
-            return new Optional(ELArithmetic.divide(sum, Long.valueOf(count)));
+            return new Optional(ELArithmetic.divide(sum, count));
         }
     }
 
 
     public Number sum() {
-        Number sum = Long.valueOf(0);
+        Number sum = 0L;
 
         while (iterator.hasNext()) {
             sum = ELArithmetic.add(sum, iterator.next());
@@ -346,7 +347,7 @@ public class Stream {
             count ++;
         }
 
-        return Long.valueOf(count);
+        return count;
     }
 
 
@@ -357,7 +358,7 @@ public class Stream {
 
         Boolean match = Boolean.FALSE;
 
-        while (!match.booleanValue() && iterator.hasNext()) {
+        while (!match && iterator.hasNext()) {
             match = (Boolean) le.invoke(iterator.next());
         }
 
@@ -372,7 +373,7 @@ public class Stream {
 
         Boolean match = Boolean.TRUE;
 
-        while (match.booleanValue() && iterator.hasNext()) {
+        while (match && iterator.hasNext()) {
             match = (Boolean) le.invoke(iterator.next());
         }
 
@@ -387,11 +388,11 @@ public class Stream {
 
         Boolean match = Boolean.FALSE;
 
-        while (!match.booleanValue() && iterator.hasNext()) {
+        while (!match && iterator.hasNext()) {
             match = (Boolean) le.invoke(iterator.next());
         }
 
-        return new Optional(Boolean.valueOf(!match.booleanValue()));
+        return new Optional(!match);
     }
 
 
@@ -444,17 +445,16 @@ public class Stream {
         Object result = null;
 
         if (iterator.hasNext()) {
-            Object obj = iterator.next();
-            result = obj;
+            result = iterator.next();
         }
 
         while (iterator.hasNext()) {
             Object obj = iterator.next();
-            if (isMax && ELSupport.coerceToNumber(null, le.invoke(obj, result),
-                    Integer.class).intValue() > 0) {
+            if (isMax && Objects.requireNonNull(ELSupport.coerceToNumber(null, le.invoke(obj, result),
+                Integer.class)).intValue() > 0) {
                 result = obj;
-            } else if (!isMax && ELSupport.coerceToNumber(null, le.invoke(obj, result),
-                    Integer.class).intValue() < 0) {
+            } else if (!isMax && Objects.requireNonNull(ELSupport.coerceToNumber(null, le.invoke(obj, result),
+                Integer.class)).intValue() < 0) {
                 result = obj;
             }
         }
@@ -478,8 +478,8 @@ public class Stream {
 
         @Override
         public int compare(Object o1, Object o2) {
-            return ELSupport.coerceToNumber(
-                    null, le.invoke(o1, o2), Integer.class).intValue();
+            return Objects.requireNonNull(ELSupport.coerceToNumber(
+                null, le.invoke(o1, o2), Integer.class)).intValue();
         }
     }
 

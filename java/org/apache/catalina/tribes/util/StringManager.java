@@ -180,8 +180,7 @@ public class StringManager {
     // STATIC SUPPORT METHODS
     // --------------------------------------------------------------
 
-    private static final Map<String, Map<Locale,StringManager>> managers =
-            new Hashtable<>();
+    private static final Map<String, Map<Locale,StringManager>> managers = new Hashtable<>();
 
 
     /**
@@ -193,7 +192,7 @@ public class StringManager {
      *
      * @return The StringManager for the given class.
      */
-    public static final StringManager getManager(Class<?> clazz) {
+    public static StringManager getManager(Class<?> clazz) {
         return getManager(clazz.getPackage().getName());
     }
 
@@ -206,7 +205,7 @@ public class StringManager {
      *
      * @return The StringManager for the given package.
      */
-    public static final StringManager getManager(String packageName) {
+    public static StringManager getManager(String packageName) {
         return getManager(packageName, Locale.getDefault());
     }
 
@@ -220,7 +219,7 @@ public class StringManager {
      *
      * @return The StringManager for a particular package and Locale
      */
-    public static final synchronized StringManager getManager(
+    public static synchronized StringManager getManager(
             String packageName, Locale locale) {
 
         Map<Locale,StringManager> map = managers.get(packageName);
@@ -238,10 +237,7 @@ public class StringManager {
                 @Override
                 protected boolean removeEldestEntry(
                         Map.Entry<Locale,StringManager> eldest) {
-                    if (size() > (LOCALE_CACHE_SIZE - 1)) {
-                        return true;
-                    }
-                    return false;
+                    return size() > (LOCALE_CACHE_SIZE - 1);
                 }
             };
             managers.put(packageName, map);

@@ -46,7 +46,10 @@ public class ParallelNioSender extends AbstractSender implements MultiPointSende
 
     private static final Log log = LogFactory.getLog(ParallelNioSender.class);
     protected static final StringManager sm = StringManager.getManager(ParallelNioSender.class);
-    protected final long selectTimeout = 5000; //default 5 seconds, same as send timeout
+    /**
+     * default 5 seconds, same as send timeout
+     */
+    protected final long selectTimeout = 5000;
     protected final Selector selector;
     protected final HashMap<Member, NioSender> nioSenders = new HashMap<>();
 
@@ -180,8 +183,6 @@ public class ParallelNioSender extends AbstractSender implements MultiPointSende
                 int attempt = sender.getAttempt()+1;
                 boolean retry = (attempt <= maxAttempts && maxAttempts>0);
                 synchronized (state) {
-
-                    //sk.cancel();
                     if (state.isSuspect()) {
                         state.setFailing();
                     }

@@ -39,8 +39,10 @@ import org.apache.tomcat.util.codec.binary.Base64;
  * @author Craig R. McClanahan
  */
 public class BasicAuthenticator extends AuthenticatorBase {
-
-    private final Log log = LogFactory.getLog(BasicAuthenticator.class); // must not be static
+    /**
+     * must not be static
+     * */
+    private final Log log = LogFactory.getLog(BasicAuthenticator.class);
 
     private Charset charset = StandardCharsets.ISO_8859_1;
     private String charsetString = null;
@@ -92,7 +94,7 @@ public class BasicAuthenticator extends AuthenticatorBase {
         if (authorization != null) {
             authorization.toBytes();
             ByteChunk authorizationBC = authorization.getByteChunk();
-            BasicCredentials credentials = null;
+            BasicCredentials credentials;
             try {
                 credentials = new BasicCredentials(authorizationBC, charset, getTrimCredentials());
                 String username = credentials.getUsername();

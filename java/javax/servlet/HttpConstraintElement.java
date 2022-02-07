@@ -30,12 +30,11 @@ import javax.servlet.annotation.ServletSecurity.TransportGuarantee;
 public class HttpConstraintElement {
 
     private static final String LSTRING_FILE = "javax.servlet.LocalStrings";
-    private static final ResourceBundle lStrings =
-        ResourceBundle.getBundle(LSTRING_FILE);
+    private static final ResourceBundle lStrings = ResourceBundle.getBundle(LSTRING_FILE);
 
-    private final EmptyRoleSemantic emptyRoleSemantic;// = EmptyRoleSemantic.PERMIT;
-    private final TransportGuarantee transportGuarantee;// = TransportGuarantee.NONE;
-    private final String[] rolesAllowed;// = new String[0];
+    private final EmptyRoleSemantic emptyRoleSemantic;
+    private final TransportGuarantee transportGuarantee;
+    private final String[] rolesAllowed;
 
     /**
      * Default constraint is permit with no transport guarantee.

@@ -54,9 +54,11 @@ final class StandardHostValve extends ValveBase {
     private static final Log log = LogFactory.getLog(StandardHostValve.class);
     private static final StringManager sm = StringManager.getManager(StandardHostValve.class);
 
-    // Saves a call to getClassLoader() on very request. Under high load these
-    // calls took just long enough to appear as a hot spot (although a very
-    // minor one) in a profiler.
+    /**
+     * Saves a call to getClassLoader() on very request. Under high load these
+     * calls took just long enough to appear as a hot spot (although a very
+     * minor one) in a profiler.
+     */
     private static final ClassLoader MY_CLASSLOADER = StandardHostValve.class.getClassLoader();
 
     static final boolean STRICT_SERVLET_COMPLIANCE;
@@ -225,8 +227,7 @@ final class StandardHostValve extends ValveBase {
         }
         if (errorPage != null && response.isErrorReportRequired()) {
             response.setAppCommitted(false);
-            request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE,
-                              Integer.valueOf(statusCode));
+            request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, statusCode);
 
             String message = response.getMessage();
             if (message == null) {
@@ -310,7 +311,7 @@ final class StandardHostValve extends ValveBase {
                 request.setAttribute(Globals.DISPATCHER_TYPE_ATTR,
                         DispatcherType.ERROR);
                 request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE,
-                        Integer.valueOf(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 request.setAttribute(RequestDispatcher.ERROR_MESSAGE,
                                   throwable.getMessage());
                 request.setAttribute(RequestDispatcher.ERROR_EXCEPTION,

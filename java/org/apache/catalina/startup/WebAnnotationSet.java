@@ -177,7 +177,7 @@ public class WebAnnotationSet {
          * Ref JSR 250
          */
         Resources resourcesAnnotation = clazz.getAnnotation(Resources.class);
-        if (resourcesAnnotation != null && resourcesAnnotation.value() != null) {
+        if (resourcesAnnotation != null) {
             for (Resource resource : resourcesAnnotation.value()) {
                 addResource(context, resource);
             }
@@ -256,7 +256,7 @@ public class WebAnnotationSet {
          * the deployment descriptor
          */
         DeclareRoles declareRolesAnnotation = clazz.getAnnotation(DeclareRoles.class);
-        if (declareRolesAnnotation != null && declareRolesAnnotation.value() != null) {
+        if (declareRolesAnnotation != null) {
             for (String role : declareRolesAnnotation.value()) {
                 context.addSecurityRole(role);
             }
@@ -421,7 +421,7 @@ public class WebAnnotationSet {
 
     private static String getType(Resource annotation, Class<?> defaultType) {
         Class<?> type = annotation.type();
-        if (type == null || type.equals(Object.class)) {
+        if (type.equals(Object.class)) {
             if (defaultType != null) {
                 type = defaultType;
             }
@@ -432,7 +432,7 @@ public class WebAnnotationSet {
 
     private static String getName(Resource annotation, String defaultName) {
         String name = annotation.name();
-        if (name == null || name.equals("")) {
+        if (name.equals("")) {
             if (defaultName != null) {
                 name = defaultName;
             }

@@ -126,7 +126,7 @@ public class WebappLoader extends LifecycleMBeanBase
     /**
      * The parent class loader of the class loader we will create.
      */
-    private ClassLoader parentClassLoader = null;
+    private ClassLoader parentClassLoader;
 
 
     /**
@@ -138,8 +138,7 @@ public class WebappLoader extends LifecycleMBeanBase
     /**
      * The string manager for this package.
      */
-    protected static final StringManager sm =
-        StringManager.getManager(Constants.Package);
+    protected static final StringManager sm = StringManager.getManager(Constants.Package);
 
 
     /**
@@ -333,8 +332,8 @@ public class WebappLoader extends LifecycleMBeanBase
     }
 
     public String getLoaderRepositoriesString() {
-        String repositories[]=getLoaderRepositories();
-        StringBuilder sb=new StringBuilder();
+        String[] repositories = getLoaderRepositories();
+        StringBuilder sb = new StringBuilder();
         for (String repository : repositories) {
             sb.append(repository).append(':');
         }
@@ -359,7 +358,7 @@ public class WebappLoader extends LifecycleMBeanBase
      */
     @Override
     public boolean modified() {
-        return classLoader != null ? classLoader.modified() : false ;
+        return classLoader != null && classLoader.modified();
     }
 
 
@@ -504,8 +503,7 @@ public class WebappLoader extends LifecycleMBeanBase
         // Process a relevant property change
         if (event.getPropertyName().equals("reloadable")) {
             try {
-                setReloadable
-                    ( ((Boolean) event.getNewValue()).booleanValue() );
+                setReloadable((Boolean) event.getNewValue());
             } catch (NumberFormatException e) {
                 log.error(sm.getString("webappLoader.reloadable",
                                  event.getNewValue().toString()));
@@ -634,7 +632,7 @@ public class WebappLoader extends LifecycleMBeanBase
 
     private boolean buildClassPath(StringBuilder classpath, ClassLoader loader) {
         if (loader instanceof URLClassLoader) {
-            URL repositories[] = ((URLClassLoader) loader).getURLs();
+            URL[] repositories = ((URLClassLoader) loader).getURLs();
             for (URL url : repositories) {
                 String repository = url.toString();
                 if (repository.startsWith("file://")) {

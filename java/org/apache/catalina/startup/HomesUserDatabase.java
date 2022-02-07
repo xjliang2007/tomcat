@@ -121,7 +121,7 @@ public final class HomesUserDatabase
         if (!homeBaseDir.exists() || !homeBaseDir.isDirectory()) {
             return;
         }
-        String homeBaseFiles[] = homeBaseDir.list();
+        String[] homeBaseFiles = homeBaseDir.list();
         if (homeBaseFiles == null) {
             return;
         }

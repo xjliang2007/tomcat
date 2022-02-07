@@ -135,11 +135,11 @@ abstract class AbstractStream {
         if (windowSize > ConnectionSettingsBase.MAX_WINDOW_SIZE) {
             String msg = sm.getString("abstractStream.windowSizeTooBig", getConnectionId(), identifier,
                     Integer.toString(increment), Long.toString(windowSize));
-            if (identifier.intValue() == 0) {
+            if (identifier == 0) {
                 throw new ConnectionException(msg, Http2Error.FLOW_CONTROL_ERROR);
             } else {
                 throw new StreamException(
-                        msg, Http2Error.FLOW_CONTROL_ERROR, identifier.intValue());
+                        msg, Http2Error.FLOW_CONTROL_ERROR, identifier);
             }
         }
     }

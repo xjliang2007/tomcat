@@ -340,7 +340,6 @@ final class ApplicationDispatcher implements AsyncDispatcher, RequestDispatcher 
         wrapResponse(state);
         // Handle an HTTP named dispatcher forward
         if ((servletPath == null) && (pathInfo == null)) {
-
             ApplicationHttpRequest wrequest =
                 (ApplicationHttpRequest) wrapRequest(state);
             HttpServletRequest hrequest = state.hrequest;
@@ -352,10 +351,8 @@ final class ApplicationDispatcher implements AsyncDispatcher, RequestDispatcher 
 
             processRequest(request,response,state);
         }
-
         // Handle an HTTP path-based forward
         else {
-
             ApplicationHttpRequest wrequest = (ApplicationHttpRequest) wrapRequest(state);
             HttpServletRequest hrequest = state.hrequest;
             if (hrequest.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI) == null) {
@@ -534,7 +531,6 @@ final class ApplicationDispatcher implements AsyncDispatcher, RequestDispatcher 
 
         // Handle an HTTP named dispatcher include
         if (name != null) {
-
             ApplicationHttpRequest wrequest = (ApplicationHttpRequest) wrapRequest(state);
             wrequest.setAttribute(Globals.NAMED_DISPATCHER_ATTR, name);
             if (servletPath != null) {
@@ -544,10 +540,8 @@ final class ApplicationDispatcher implements AsyncDispatcher, RequestDispatcher 
             wrequest.setAttribute(Globals.DISPATCHER_REQUEST_PATH_ATTR, getCombinedPath());
             invoke(state.outerRequest, state.outerResponse, state);
         }
-
         // Handle an HTTP path based include
         else {
-
             ApplicationHttpRequest wrequest =
                 (ApplicationHttpRequest) wrapRequest(state);
             String contextPath = context.getPath();
@@ -897,16 +891,12 @@ final class ApplicationDispatcher implements AsyncDispatcher, RequestDispatcher 
         }
 
         // Instantiate a new wrapper at this point and insert it in the chain
-        ServletRequest wrapper = null;
-        if ((current instanceof ApplicationHttpRequest) ||
-            (current instanceof Request) ||
-            (current instanceof HttpServletRequest)) {
+        ServletRequest wrapper;
+        if ((current instanceof HttpServletRequest)) {
             // Compute a crossContext flag
             HttpServletRequest hcurrent = (HttpServletRequest) current;
             boolean crossContext = false;
-            if ((state.outerRequest instanceof ApplicationHttpRequest) ||
-                (state.outerRequest instanceof Request) ||
-                (state.outerRequest instanceof HttpServletRequest)) {
+            if ((state.outerRequest instanceof HttpServletRequest)) {
                 HttpServletRequest houterRequest =
                     (HttpServletRequest) state.outerRequest;
                 Object contextPath = houterRequest.getAttribute(
@@ -963,9 +953,8 @@ final class ApplicationDispatcher implements AsyncDispatcher, RequestDispatcher 
         }
 
         // Instantiate a new wrapper at this point and insert it in the chain
-        ServletResponse wrapper = null;
-        if ((current instanceof ApplicationHttpResponse) || (current instanceof Response) ||
-                (current instanceof HttpServletResponse)) {
+        ServletResponse wrapper;
+        if ((current instanceof HttpServletResponse)) {
             wrapper = new ApplicationHttpResponse((HttpServletResponse) current, state.including);
         } else {
             wrapper = new ApplicationResponse(current, state.including);

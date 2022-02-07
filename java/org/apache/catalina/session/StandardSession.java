@@ -138,7 +138,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
     /**
      * Type array.
      */
-    protected static final String EMPTY_ARRAY[] = new String[0];
+    protected static final String[] EMPTY_ARRAY = new String[0];
 
 
     /**
@@ -376,7 +376,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
 
         // Notify interested application event listeners
         Context context = manager.getContext();
-        Object listeners[] = context.getApplicationLifecycleListeners();
+        Object[] listeners = context.getApplicationLifecycleListeners();
         if (listeners != null && listeners.length > 0) {
             HttpSessionEvent event =
                 new HttpSessionEvent(getSession());
@@ -425,7 +425,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
 
         // notify HttpSessionIdListener
         if (notifySessionListeners) {
-            Object listeners[] = context.getApplicationEventListeners();
+            Object[] listeners = context.getApplicationEventListeners();
             if (listeners != null && listeners.length > 0) {
                 HttpSessionEvent event =
                     new HttpSessionEvent(getSession());
@@ -789,7 +789,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
                 ClassLoader oldContextClassLoader = null;
                 try {
                     oldContextClassLoader = context.bind(Globals.IS_SECURITY_ENABLED, null);
-                    Object listeners[] = context.getApplicationLifecycleListeners();
+                    Object[] listeners = context.getApplicationLifecycleListeners();
                     if (listeners != null && listeners.length > 0) {
                         HttpSessionEvent event =
                             new HttpSessionEvent(getSession());
@@ -853,7 +853,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
             expiring = false;
 
             // Unbind any objects associated with this session
-            String keys[] = keys();
+            String[] keys = keys();
             ClassLoader oldContextClassLoader = null;
             try {
                 oldContextClassLoader = context.bind(Globals.IS_SECURITY_ENABLED, null);
@@ -879,7 +879,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
 
         // Notify ActivationListeners
         HttpSessionEvent event = null;
-        String keys[] = keys();
+        String[] keys = keys();
         for (String key : keys) {
             Object attribute = attributes.get(key);
             if (attribute instanceof HttpSessionActivationListener) {
@@ -914,7 +914,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
 
         // Notify ActivationListeners
         HttpSessionEvent event = null;
-        String keys[] = keys();
+        String[] keys = keys();
         for (String key : keys) {
             Object attribute = attributes.get(key);
             if (attribute instanceof HttpSessionActivationListener) {
@@ -1473,7 +1473,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
         }
 
         // Notify interested application event listeners
-        Object listeners[] = context.getApplicationEventListeners();
+        Object[] listeners = context.getApplicationEventListeners();
         if (listeners == null) {
             return;
         }
@@ -1561,12 +1561,12 @@ public class StandardSession implements HttpSession, Session, Serializable {
 
         // Deserialize the scalar instance variables (except Manager)
         authType = null;        // Transient (may be set later)
-        creationTime = ((Long) stream.readObject()).longValue();
-        lastAccessedTime = ((Long) stream.readObject()).longValue();
-        maxInactiveInterval = ((Integer) stream.readObject()).intValue();
-        isNew = ((Boolean) stream.readObject()).booleanValue();
-        isValid = ((Boolean) stream.readObject()).booleanValue();
-        thisAccessedTime = ((Long) stream.readObject()).longValue();
+        creationTime = (Long) stream.readObject();
+        lastAccessedTime = (Long) stream.readObject();
+        maxInactiveInterval = (Integer) stream.readObject();
+        isNew = (Boolean) stream.readObject();
+        isValid = (Boolean) stream.readObject();
+        thisAccessedTime = (Long) stream.readObject();
         principal = null;        // Transient (may be set later)
         //        setId((String) stream.readObject());
         id = (String) stream.readObject();
@@ -1599,7 +1599,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
         if (attributes == null) {
             attributes = new ConcurrentHashMap<>();
         }
-        int n = ((Integer) nextObject).intValue();
+        int n = (Integer) nextObject;
         boolean isValidSave = isValid;
         isValid = true;
         for (int i = 0; i < n; i++) {
@@ -1668,12 +1668,12 @@ public class StandardSession implements HttpSession, Session, Serializable {
     protected void doWriteObject(ObjectOutputStream stream) throws IOException {
 
         // Write the scalar instance variables (except Manager)
-        stream.writeObject(Long.valueOf(creationTime));
-        stream.writeObject(Long.valueOf(lastAccessedTime));
-        stream.writeObject(Integer.valueOf(maxInactiveInterval));
-        stream.writeObject(Boolean.valueOf(isNew));
-        stream.writeObject(Boolean.valueOf(isValid));
-        stream.writeObject(Long.valueOf(thisAccessedTime));
+        stream.writeObject(creationTime);
+        stream.writeObject(lastAccessedTime);
+        stream.writeObject(maxInactiveInterval);
+        stream.writeObject(isNew);
+        stream.writeObject(isValid);
+        stream.writeObject(thisAccessedTime);
         stream.writeObject(id);
         if (manager.getContext().getLogger().isDebugEnabled()) {
             manager.getContext().getLogger().debug
@@ -1703,13 +1703,12 @@ public class StandardSession implements HttpSession, Session, Serializable {
         }
 
         // Accumulate the names of serializable and non-serializable attributes
-        String keys[] = keys();
+        String[] keys = keys();
         List<String> saveNames = new ArrayList<>();
         List<Object> saveValues = new ArrayList<>();
         for (String key : keys) {
             Object value = attributes.get(key);
             if (value == null) {
-                continue;
             } else if (isAttributeDistributable(key, value) && !exclude(key, value)) {
                 saveNames.add(key);
                 saveValues.add(value);
@@ -1720,7 +1719,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
 
         // Serialize the attribute count and the Serializable attributes
         int n = saveNames.size();
-        stream.writeObject(Integer.valueOf(n));
+        stream.writeObject(n);
         for (int i = 0; i < n; i++) {
             stream.writeObject(saveNames.get(i));
             try {
@@ -1801,7 +1800,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
             return;
         }
         SessionEvent event = new SessionEvent(this, type, data);
-        SessionListener list[] = new SessionListener[0];
+        SessionListener[] list = new SessionListener[0];
         synchronized (listeners) {
             list = listeners.toArray(list);
         }
@@ -1862,7 +1861,7 @@ public class StandardSession implements HttpSession, Session, Serializable {
 
         // Notify interested application event listeners
         Context context = manager.getContext();
-        Object listeners[] = context.getApplicationEventListeners();
+        Object[] listeners = context.getApplicationEventListeners();
         if (listeners == null) {
             return;
         }

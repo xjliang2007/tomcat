@@ -56,7 +56,7 @@ public class JspHelper {
     }
     private static String localeToString(Locale locale) {
         if (locale != null) {
-            return escapeXml(locale.toString());//locale.getDisplayName();
+            return escapeXml(locale.toString());
         } else {
             return "";
         }
@@ -170,8 +170,7 @@ public class JspHelper {
      */
 
     private static final int HIGHEST_SPECIAL = '>';
-    private static final char[][] specialCharactersRepresentation =
-            new char[HIGHEST_SPECIAL + 1][];
+    private static final char[][] specialCharactersRepresentation = new char[HIGHEST_SPECIAL + 1][];
     static {
         specialCharactersRepresentation['&'] = "&amp;".toCharArray();
         specialCharactersRepresentation['<'] = "&lt;".toCharArray();

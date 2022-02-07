@@ -49,10 +49,6 @@ public class RxTaskPool {
     protected void configureTask(AbstractRxTask task) {
         synchronized (task) {
             task.setTaskPool(this);
-//            task.setName(task.getClass().getName() + "[" + inc() + "]");
-//            task.setDaemon(true);
-//            task.setPriority(Thread.MAX_PRIORITY);
-//            task.start();
         }
     }
 
@@ -103,7 +99,6 @@ public class RxTaskPool {
         if ( running ) {
             synchronized (mutex) {
                 used.remove(worker);
-                //if ( idle.size() < minThreads && !idle.contains(worker)) idle.add(worker);
                 if ( idle.size() < maxTasks && !idle.contains(worker)) {
                     idle.add(worker); //let max be the upper limit
                 } else {

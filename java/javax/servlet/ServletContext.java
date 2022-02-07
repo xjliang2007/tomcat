@@ -791,8 +791,8 @@ public interface ServletContext {
 
     /**
      * TODO SERVLET3 - Add comments
-     * @param filterName TODO
-     * @return TODO
+     * @param filterName name of filter
+     * @return FilterRegistration object that can be used to further configure the filter
      * @throws UnsupportedOperationException    If called from a
      *    {@link ServletContextListener#contextInitialized(ServletContextEvent)}
      *    method of a {@link ServletContextListener} that was not defined in a
@@ -805,7 +805,8 @@ public interface ServletContext {
     FilterRegistration getFilterRegistration(String filterName);
 
     /**
-     * @return TODO
+     * @return A Map of filter names to filter registrations for all filters
+     * registered with this context
      * @throws UnsupportedOperationException    If called from a
      *    {@link ServletContextListener#contextInitialized(ServletContextEvent)}
      *    method of a {@link ServletContextListener} that was not defined in a
@@ -849,8 +850,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0
      */
-    void setSessionTrackingModes(
-        Set<SessionTrackingMode> sessionTrackingModes);
+    void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes);
 
     /**
      * Obtains the default session tracking modes for this web application.

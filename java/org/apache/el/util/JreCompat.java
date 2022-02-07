@@ -18,7 +18,7 @@ package org.apache.el.util;
 
 import java.lang.reflect.AccessibleObject;
 
-/*
+/**
  * This is a cut down version of org.apache.tomcat.util.JreCompat that provides
  * only the methods required by the EL implementation.
  *

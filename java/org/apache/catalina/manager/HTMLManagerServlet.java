@@ -400,8 +400,8 @@ public final class HTMLManagerServlet extends ManagerServlet {
 
         // Apps Row Section
         // Create sorted map of deployed applications by context name.
-        Container children[] = host.findChildren();
-        String contextNames[] = new String[children.length];
+        Container[] children = host.findChildren();
+        String[] contextNames = new String[children.length];
         for (int i = 0; i < children.length; i++) {
             contextNames[i] = children[i].getName();
         }
@@ -473,17 +473,16 @@ public final class HTMLManagerServlet extends ManagerServlet {
                 } else {
                     args[2] = Escape.htmlElementContent(ctxt.getDisplayName());
                 }
-                args[3] = Boolean.valueOf(ctxt.getState().isAvailable());
+                args[3] = ctxt.getState().isAvailable();
                 args[4] = Escape.htmlElementContent(response.encodeURL(request.getContextPath() +
                      "/html/sessions?" + pathVersion));
                 Manager manager = ctxt.getManager();
                 if (manager instanceof DistributedManager && showProxySessions) {
-                    args[5] = Integer.valueOf(
-                            ((DistributedManager)manager).getActiveSessionsFull());
+                    args[5] = ((DistributedManager) manager).getActiveSessionsFull();
                 } else if (manager != null){
-                    args[5] = Integer.valueOf(manager.getActiveSessions());
+                    args[5] = manager.getActiveSessions();
                 } else {
-                    args[5] = Integer.valueOf(0);
+                    args[5] = 0;
                 }
 
                 args[6] = highlightColor;
@@ -511,7 +510,7 @@ public final class HTMLManagerServlet extends ManagerServlet {
                 if (manager == null) {
                     args[11] = smClient.getString("htmlManagerServlet.noManager");
                 } else {
-                    args[11] = Integer.valueOf(ctxt.getSessionTimeout());
+                    args[11] = ctxt.getSessionTimeout();
                 }
                 args[12] = smClient.getString("htmlManagerServlet.expire.unit");
                 args[13] = highlightColor;
@@ -1103,14 +1102,14 @@ public final class HTMLManagerServlet extends ManagerServlet {
             comparator = new BaseSessionComparator<Integer>() {
                 @Override
                 public Comparable<Integer> getComparableObject(Session session) {
-                    return Integer.valueOf(session.getMaxInactiveInterval());
+                    return session.getMaxInactiveInterval();
                 }
             };
         } else if ("new".equalsIgnoreCase(sortBy)) {
             comparator = new BaseSessionComparator<Boolean>() {
                 @Override
                 public Comparable<Boolean> getComparableObject(Session session) {
-                    return Boolean.valueOf(session.getSession().isNew());
+                    return session.getSession().isNew();
                 }
             };
         } else if ("locale".equalsIgnoreCase(sortBy)) {

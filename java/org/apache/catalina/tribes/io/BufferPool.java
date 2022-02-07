@@ -28,8 +28,10 @@ import org.apache.juli.logging.LogFactory;
  */
 public class BufferPool {
     private static final Log log = LogFactory.getLog(BufferPool.class);
-
-    public static final int DEFAULT_POOL_SIZE = 100*1024*1024; //100MB
+    /**
+     * 100MB
+     */
+    public static final int DEFAULT_POOL_SIZE = 100 * 1024 * 1024;
 
     protected static final StringManager sm = StringManager.getManager(BufferPool.class);
 
@@ -79,13 +81,13 @@ public class BufferPool {
     }
 
 
-    public static interface BufferPoolAPI {
-        public void setMaxSize(int bytes);
+    public interface BufferPoolAPI {
+        void setMaxSize(int bytes);
 
-        public XByteBuffer getBuffer(int minSize, boolean discard);
+        XByteBuffer getBuffer(int minSize, boolean discard);
 
-        public void returnBuffer(XByteBuffer buffer);
+        void returnBuffer(XByteBuffer buffer);
 
-        public void clear();
+        void clear();
     }
 }

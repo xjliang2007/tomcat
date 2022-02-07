@@ -75,7 +75,7 @@ public class DataSourceStore extends JDBCStore {
      * @exception IOException if an input/output error occurred
      */
     private String[] keys(boolean expiredOnly) throws IOException {
-        String keys[] = null;
+        String[] keys = null;
         int numberOfTries = 2;
         while (numberOfTries > 0) {
 
@@ -448,7 +448,8 @@ public class DataSourceStore extends JDBCStore {
         try {
             dbConnection.close();
         } catch (SQLException e) {
-            manager.getContext().getLogger().error(sm.getString(getStoreName() + ".close", e.toString())); // Just log it here
+            // Just log it here
+            manager.getContext().getLogger().error(sm.getString(getStoreName() + ".close", e.toString()));
         }
     }
 

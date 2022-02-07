@@ -29,7 +29,11 @@ import java.io.Writer;
  * @author Dan Sandberg
  */
 public class IOTools {
-    protected static final int DEFAULT_BUFFER_SIZE=4*1024; //4k
+
+    /**
+     * 4k
+     */
+    protected static final int DEFAULT_BUFFER_SIZE=4*1024;
 
     private IOTools() {
       //Ensure non-instantiability

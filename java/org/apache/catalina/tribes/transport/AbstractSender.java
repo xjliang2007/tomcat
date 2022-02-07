@@ -114,7 +114,7 @@ public abstract class AbstractSender implements DataSender {
             disconnect = true; //always disconnect UDP, TODO optimize the keepalive handling
         } else if ( keepAliveCount >= 0 && requestCount>keepAliveCount ) {
             disconnect = true;
-        } else if ( keepAliveTime >= 0 && (System.currentTimeMillis()-connectTime)>keepAliveTime ) {
+        } else if ( keepAliveTime >= 0 && (System.currentTimeMillis() - connectTime) > keepAliveTime ) {
             disconnect = true;
         }
         if ( disconnect ) {

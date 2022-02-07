@@ -44,9 +44,9 @@ public final class RemoteCIDRFilter extends FilterBase {
     private static final String PLAIN_TEXT_MIME_TYPE = "text/plain";
 
     /**
-     * Our logger
+     * Our logger, must not be static
      */
-    private final Log log = LogFactory.getLog(RemoteCIDRFilter.class); // must not be static
+    private final Log log = LogFactory.getLog(RemoteCIDRFilter.class);
 
     /**
      * The list of allowed {@link NetMask}s

@@ -69,8 +69,7 @@ import java.util.Set;
  *                             mechanism as all the other additional
  *                             resources.</li>
  * </ul>
- */
-/*
+
  * A potential future enhancement is to allow writing to any ResourceSet,
  * not just the main ResourceSet although that adds all sorts complications
  * including:

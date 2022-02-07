@@ -50,8 +50,7 @@ import org.apache.tomcat.util.ExceptionUtils;
 *             instead.
 */
 @Deprecated
-public class JDBCRealm
-    extends RealmBase {
+public class JDBCRealm extends RealmBase {
 
 
     // ----------------------------------------------------- Instance Variables

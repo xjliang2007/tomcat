@@ -466,7 +466,7 @@ public class ReflectionUtil {
     }
 
 
-    private static final String paramString(Class<?>[] types) {
+    private static String paramString(Class<?>[] types) {
         if (types != null) {
             StringBuilder sb = new StringBuilder();
             for (Class<?> type : types) {

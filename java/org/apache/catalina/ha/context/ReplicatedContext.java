@@ -44,7 +44,10 @@ import org.apache.tomcat.util.res.StringManager;
 public class ReplicatedContext extends StandardContext implements MapOwner {
     private int mapSendOptions = Channel.SEND_OPTIONS_DEFAULT;
     private static final Log log = LogFactory.getLog(ReplicatedContext.class);
-    protected static final long DEFAULT_REPL_TIMEOUT = 15000;//15 seconds
+    /**
+     * 15 seconds
+     */
+    protected static final long DEFAULT_REPL_TIMEOUT = 15000;
     private static final StringManager sm = StringManager.getManager(ReplicatedContext.class);
 
     /**
@@ -103,7 +106,7 @@ public class ReplicatedContext extends StandardContext implements MapOwner {
     }
 
     public ClassLoader[] getClassLoaders() {
-        Loader loader = null;
+        Loader loader;
         ClassLoader classLoader = null;
         loader = this.getLoader();
         if (loader != null) {

@@ -46,7 +46,10 @@ import org.apache.tomcat.util.security.MD5Encoder;
  */
 public class DigestAuthenticator extends AuthenticatorBase {
 
-    private final Log log = LogFactory.getLog(DigestAuthenticator.class); // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(DigestAuthenticator.class);
 
 
     // -------------------------------------------------------------- Constants
@@ -627,7 +630,7 @@ public class DigestAuthenticator extends AuthenticatorBase {
 
     public static class NonceInfo {
         private final long timestamp;
-        private final boolean seen[];
+        private final boolean[] seen;
         private final int offset;
         private int count = 0;
 

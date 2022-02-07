@@ -283,7 +283,7 @@ public class DirResourceSet extends AbstractFileResourceSet {
 
     @Override
     protected void checkType(File file) {
-        if (file.isDirectory() == false) {
+        if (!file.isDirectory()) {
             throw new IllegalArgumentException(sm.getString("dirResourceSet.notDirectory",
                     getBase(), File.separator, getInternalPath()));
         }

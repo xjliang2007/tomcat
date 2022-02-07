@@ -927,7 +927,7 @@ public abstract class AuthenticatorBase extends ValveBase
                  */
                 if (register != null) {
                     register(request, response, principal, authType, null, null,
-                            alwaysUseSession || register.booleanValue(), register.booleanValue());
+                            alwaysUseSession || register, register);
                 } else {
                     register(request, response, principal, authType, null, null);
                 }

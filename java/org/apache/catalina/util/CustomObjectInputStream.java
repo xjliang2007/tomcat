@@ -43,8 +43,7 @@ public final class CustomObjectInputStream extends ObjectInputStream {
 
     private static final StringManager sm = StringManager.getManager(CustomObjectInputStream.class);
 
-    private static final WeakHashMap<ClassLoader, Set<String>> reportedClassCache =
-            new WeakHashMap<>();
+    private static final WeakHashMap<ClassLoader, Set<String>> reportedClassCache = new WeakHashMap<>();
 
     /**
      * The class loader we will use to resolve classes.
@@ -177,7 +176,7 @@ public final class CustomObjectInputStream extends ObjectInputStream {
      */
     @Override
     protected Class<?> resolveProxyClass(String[] interfaces)
-            throws IOException, ClassNotFoundException {
+            throws ClassNotFoundException {
 
         Class<?>[] cinterfaces = new Class[interfaces.length];
         for (int i = 0; i < interfaces.length; i++) {
@@ -185,9 +184,7 @@ public final class CustomObjectInputStream extends ObjectInputStream {
         }
 
         try {
-            // @SuppressWarnings("deprecation") Java 9
-            Class<?> proxyClass = Proxy.getProxyClass(classLoader, cinterfaces);
-            return proxyClass;
+            return Proxy.getProxyClass(classLoader, cinterfaces);
         } catch (IllegalArgumentException e) {
             throw new ClassNotFoundException(null, e);
         }

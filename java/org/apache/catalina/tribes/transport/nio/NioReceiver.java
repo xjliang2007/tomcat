@@ -218,15 +218,6 @@ public class NioReceiver extends ReceiverBase implements Runnable, NioReceiverMB
         }
         for (SelectionKey key : keys) {
             try {
-//                if (key.interestOps() == SelectionKey.OP_READ) {
-//                    //only timeout sockets that we are waiting for a read from
-//                    ObjectReader ka = (ObjectReader) key.attachment();
-//                    long delta = now - ka.getLastAccess();
-//                    if (delta > (long) getTimeout()) {
-//                        cancelledKey(key);
-//                    }
-//                }
-//                else
                 if ( key.interestOps() == 0 ) {
                     //check for keys that didn't make it in.
                     ObjectReader ka = (ObjectReader) key.attachment();
@@ -236,8 +227,8 @@ public class NioReceiver extends ReceiverBase implements Runnable, NioReceiverMB
                             if (log.isWarnEnabled()) {
                                 log.warn(sm.getString(
                                         "nioReceiver.threadsExhausted",
-                                        Integer.valueOf(getTimeout()),
-                                        Boolean.valueOf(ka.isCancelled()),
+                                    getTimeout(),
+                                    ka.isCancelled(),
                                         key,
                                         new java.sql.Timestamp(ka.getLastAccess())));
                             }
@@ -285,16 +276,6 @@ public class NioReceiver extends ReceiverBase implements Runnable, NioReceiverMB
                 socketTimeouts();
                 int n = selector.select(getSelectorTimeout());
                 if (n == 0) {
-                    //there is a good chance that we got here
-                    //because the TcpReplicationThread called
-                    //selector wakeup().
-                    //if that happens, we must ensure that that
-                    //thread has enough time to call interestOps
-//                    synchronized (interestOpsMutex) {
-                        //if we got the lock, means there are no
-                        //keys trying to register for the
-                        //interestOps method
-//                    }
                     continue; // nothing to do
                 }
                 // get an iterator over the set of selected keys

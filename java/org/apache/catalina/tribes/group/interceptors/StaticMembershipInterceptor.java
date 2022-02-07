@@ -122,9 +122,7 @@ public class StaticMembershipInterceptor extends ChannelInterceptorBase
             synchronized (members) {
                 Member[] others = super.getMembers();
                 Member[] result = new Member[members.size() + others.length];
-                for (int i = 0; i < others.length; i++) {
-                    result[i] = others[i];
-                }
+                System.arraycopy(others, 0, result, 0, others.length);
                 for (int i = 0; i < members.size(); i++) {
                     result[i + others.length] = members.get(i);
                 }

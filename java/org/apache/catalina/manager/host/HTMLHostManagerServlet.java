@@ -315,7 +315,7 @@ public final class HTMLHostManagerServlet extends HostManagerServlet {
         // Hosts Row Section
         // Create sorted set of host names.
         Container[] children = engine.findChildren();
-        String hostNames[] = new String[children.length];
+        String[] hostNames = new String[children.length];
         for (int i = 0; i < children.length; i++) {
             hostNames[i] = children[i].getName();
         }

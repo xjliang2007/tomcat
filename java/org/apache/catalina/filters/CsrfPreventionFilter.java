@@ -66,7 +66,7 @@ public class CsrfPreventionFilter extends CsrfPreventionFilterBase {
      *                      entry points.
      */
     public void setEntryPoints(String entryPoints) {
-        String values[] = entryPoints.split(",");
+        String[] values = entryPoints.split(",");
         for (String value : values) {
             this.entryPoints.add(value.trim());
         }
@@ -110,7 +110,7 @@ public class CsrfPreventionFilter extends CsrfPreventionFilterBase {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
 
-        ServletResponse wResponse = null;
+        ServletResponse wResponse;
 
         if (request instanceof HttpServletRequest &&
                 response instanceof HttpServletResponse) {
@@ -298,10 +298,7 @@ public class CsrfPreventionFilter extends CsrfPreventionFilterBase {
                 private static final long serialVersionUID = 1L;
                 @Override
                 protected boolean removeEldestEntry(Map.Entry<T,T> eldest) {
-                    if (size() > cacheSize) {
-                        return true;
-                    }
-                    return false;
+                    return size() > cacheSize;
                 }
             };
         }

@@ -561,7 +561,7 @@ public interface HttpServletRequest extends ServletRequest {
             ServletException;
 
     /**
-     * Start the HTTP upgrade process and create and instance of the provided
+     * Start the HTTP upgrade process and create an instance of the provided
      * protocol handler class. The connection will be passed this instance once
      * the current request/response pair has completed processing. Calling this
      * method sets the response status to

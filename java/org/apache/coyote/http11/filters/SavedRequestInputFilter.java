@@ -33,7 +33,7 @@ public class SavedRequestInputFilter implements InputFilter {
     /**
      * The original request body.
      */
-    protected ByteChunk input = null;
+    protected ByteChunk input;
 
     /**
      * Create a new SavedRequestInputFilter.

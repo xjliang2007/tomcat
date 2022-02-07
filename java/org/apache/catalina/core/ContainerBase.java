@@ -777,7 +777,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
     @Override
     public Container[] findChildren() {
         synchronized (children) {
-            Container results[] = new Container[children.size()];
+            Container[] results = new Container[children.size()];
             return children.values().toArray(results);
         }
     }
@@ -913,7 +913,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
         }
 
         // Start our child containers, if any
-        Container children[] = findChildren();
+        Container[] children = findChildren();
         List<Future<Void>> results = new ArrayList<>();
         for (Container child : children) {
             results.add(startStopExecutor.submit(new StartChild(child)));
@@ -980,7 +980,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
         }
 
         // Stop our child containers, if any
-        Container children[] = findChildren();
+        Container[] children = findChildren();
         List<Future<Void>> results = new ArrayList<>();
         for (Container child : children) {
             results.add(startStopExecutor.submit(new StopChild(child)));
@@ -1078,7 +1078,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
         }
 
         AccessLogAdapter adapter = null;
-        Valve valves[] = getPipeline().getValves();
+        Valve[] valves = getPipeline().getValves();
         for (Valve valve : valves) {
             if (valve instanceof AccessLog) {
                 if (adapter == null) {

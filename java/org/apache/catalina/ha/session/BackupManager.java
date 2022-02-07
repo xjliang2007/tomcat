@@ -38,14 +38,19 @@ import org.apache.tomcat.util.res.StringManager;
 public class BackupManager extends ClusterManagerBase
         implements MapOwner, DistributedManager {
 
-    private final Log log = LogFactory.getLog(BackupManager.class); // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(BackupManager.class);
 
     /**
      * The string manager for this package.
      */
     protected static final StringManager sm = StringManager.getManager(BackupManager.class);
-
-    protected static final long DEFAULT_REPL_TIMEOUT = 15000;//15 seconds
+    /**
+     * 15 seconds
+     */
+    protected static final long DEFAULT_REPL_TIMEOUT = 15000;
 
     /**
      * The name of this manager
@@ -277,8 +282,7 @@ public class BackupManager extends ClusterManagerBase
     @Override
     public Set<String> getSessionIdsFull() {
         LazyReplicatedMap<String,Session> map = (LazyReplicatedMap<String,Session>)sessions;
-        Set<String> sessionIds = new HashSet<>(map.keySetFull());
-        return sessionIds;
+        return new HashSet<>(map.keySetFull());
     }
 
 }

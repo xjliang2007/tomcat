@@ -598,7 +598,7 @@ public abstract class ManagerBase extends LifecycleMBeanBase implements Manager 
     public void processExpires() {
 
         long timeNow = System.currentTimeMillis();
-        Session sessions[] = findSessions();
+        Session[] sessions = findSessions();
         int expireHere = 0 ;
 
         if(log.isDebugEnabled()) {

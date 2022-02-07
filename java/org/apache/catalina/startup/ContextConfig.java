@@ -1001,7 +1001,7 @@ public class ContextConfig implements LifecycleListener {
         if (log.isDebugEnabled()) {
             log.debug("Pipeline Configuration:");
             Pipeline pipeline = context.getPipeline();
-            Valve valves[] = null;
+            Valve[] valves = null;
             if (pipeline != null) {
                 valves = pipeline.getValves();
             }
@@ -1186,9 +1186,9 @@ public class ContextConfig implements LifecycleListener {
     protected void validateSecurityRoles() {
 
         // Check role names used in <security-constraint> elements
-        SecurityConstraint constraints[] = context.findConstraints();
+        SecurityConstraint[] constraints = context.findConstraints();
         for (SecurityConstraint constraint : constraints) {
-            String roles[] = constraint.findAuthRoles();
+            String[] roles = constraint.findAuthRoles();
             for (String role : roles) {
                 if (!"*".equals(role) &&
                         !context.findSecurityRole(role)) {
@@ -1199,7 +1199,7 @@ public class ContextConfig implements LifecycleListener {
         }
 
         // Check role names used in <servlet> elements
-        Container wrappers[] = context.findChildren();
+        Container[] wrappers = context.findChildren();
         for (Container container : wrappers) {
             Wrapper wrapper = (Wrapper) container;
             String runAs = wrapper.getRunAs();
@@ -1207,7 +1207,7 @@ public class ContextConfig implements LifecycleListener {
                 log.warn(sm.getString("contextConfig.role.runas", runAs));
                 context.addSecurityRole(runAs);
             }
-            String names[] = wrapper.findSecurityReferences();
+            String[] names = wrapper.findSecurityReferences();
             for (String name : names) {
                 String link = wrapper.findSecurityReference(name);
                 if ((link != null) && !context.findSecurityRole(link)) {

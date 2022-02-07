@@ -27,8 +27,8 @@ import javax.management.ObjectName;
 import org.apache.tomcat.util.modeler.Registry;
 import org.apache.tomcat.util.res.StringManager;
 
-/*
- * Listener to provider informations to mod_heartbeat.c
+/**
+ * Listener to provider information to mod_heartbeat.c
  * *msg_format = "v=%u&ready=%u&busy=%u"; (message to send).
  * send the multicast message using the format...
  * what about the bind(IP. port) only IP makes sense (for the moment).
@@ -95,8 +95,7 @@ public class CollectedInfo {
             shost = null;
         }
         if (objName == null) {
-            throw new Exception(sm.getString("collectedInfo.noConnector",
-                    host, Integer.valueOf(port)));
+            throw new Exception(sm.getString("collectedInfo.noConnector", host, port));
         }
         this.port = iport;
         this.host = shost;
@@ -108,13 +107,9 @@ public class CollectedInfo {
             throw new Exception(sm.getString("collectedInfo.notInitialized"));
         }
         Integer imax = (Integer) mBeanServer.getAttribute(objName, "maxThreads");
-
-        // the currentThreadCount could be 0 before the threads are created...
-        // Integer iready = (Integer) mBeanServer.getAttribute(objName, "currentThreadCount");
-
         Integer ibusy  = (Integer) mBeanServer.getAttribute(objName, "currentThreadsBusy");
 
-        busy = ibusy.intValue();
-        ready = imax.intValue() - ibusy.intValue();
+        busy = ibusy;
+        ready = imax - ibusy;
     }
 }

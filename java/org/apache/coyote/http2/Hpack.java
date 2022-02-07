@@ -26,7 +26,10 @@ final class Hpack {
 
     private static final byte LOWER_DIFF = 'a' - 'A';
     static final int DEFAULT_TABLE_SIZE = 4096;
-    private static final int MAX_INTEGER_OCTETS = 8; //not sure what a good value for this is, but the spec says we need to provide an upper bound
+    /**
+     * not sure what a good value for this is, but the spec says we need to provide an upper bound
+     */
+    private static final int MAX_INTEGER_OCTETS = 8;
 
     /**
      * table that contains powers of two,
@@ -160,7 +163,7 @@ final class Hpack {
             do {
                 if(count++ > MAX_INTEGER_OCTETS) {
                     throw new HpackException(sm.getString("hpack.integerEncodedOverTooManyOctets",
-                            Integer.valueOf(MAX_INTEGER_OCTETS)));
+                        MAX_INTEGER_OCTETS));
                 }
                 if (source.remaining() == 0) {
                     //we have run out of data

@@ -249,8 +249,7 @@ public abstract class AbstractAjpProtocol<S> extends AbstractProtocol<S> {
 
     @Override
     protected Processor createProcessor() {
-        AjpProcessor processor = new AjpProcessor(this, getAdapter());
-        return processor;
+        return new AjpProcessor(this, getAdapter());
     }
 
 

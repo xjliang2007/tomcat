@@ -72,14 +72,22 @@ class HpackEncoder {
     private MimeHeaders currentHeaders;
 
     private int entryPositionCounter;
-
-    private int newMaxHeaderSize = -1; //if the max header size has been changed
-    private int minNewMaxHeaderSize = -1; //records the smallest value of newMaxHeaderSize, as per section 4.1
+    /**
+     * if the max header size has been changed
+     */
+    private int newMaxHeaderSize = -1;
+    /**
+     * records the smallest value of newMaxHeaderSize, as per section 4.1
+     */
+    private int minNewMaxHeaderSize = -1;
 
     private static final Map<String, TableEntry[]> ENCODING_STATIC_TABLE;
 
     private final Deque<TableEntry> evictionQueue = new ArrayDeque<>();
-    private final Map<String, List<TableEntry>> dynamicTable = new HashMap<>(); //TODO: use a custom data structure to reduce allocations
+    /**
+     * TODO: use a custom data structure to reduce allocations
+     */
+    private final Map<String, List<TableEntry>> dynamicTable = new HashMap<>();
 
     static {
         Map<String, TableEntry[]> map = new HashMap<>();
@@ -245,10 +253,7 @@ class HpackEncoder {
     private void addToDynamicTable(String headerName, String val) {
         int pos = entryPositionCounter++;
         DynamicTableEntry d = new DynamicTableEntry(headerName, val, -pos);
-        List<TableEntry> existing = dynamicTable.get(headerName);
-        if (existing == null) {
-            dynamicTable.put(headerName, existing = new ArrayList<>(1));
-        }
+        List<TableEntry> existing = dynamicTable.computeIfAbsent(headerName, k -> new ArrayList<>(1));
         existing.add(d);
         evictionQueue.add(d);
         currentTableSize += d.getSize();

@@ -58,7 +58,10 @@ import org.apache.tomcat.util.ExceptionUtils;
  */
 public class StandardManager extends ManagerBase {
 
-    private final Log log = LogFactory.getLog(StandardManager.class); // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(StandardManager.class);
 
     // ---------------------------------------------------- Security Classes
 
@@ -309,7 +312,7 @@ public class StandardManager extends ManagerBase {
                     log.debug("Unloading " + sessions.size() + " sessions");
                 }
                 // Write the number of active sessions, followed by the details
-                oos.writeObject(Integer.valueOf(sessions.size()));
+                oos.writeObject(sessions.size());
                 for (Session s : sessions.values()) {
                     StandardSession session = (StandardSession) s;
                     list.add(session);
@@ -388,7 +391,7 @@ public class StandardManager extends ManagerBase {
         }
 
         // Expire all active sessions
-        Session sessions[] = findSessions();
+        Session[] sessions = findSessions();
         for (Session session : sessions) {
             try {
                 if (session.isValid()) {

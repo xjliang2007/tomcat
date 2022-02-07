@@ -67,8 +67,7 @@ public class MapperListener extends LifecycleMBeanBase
     /**
      * The string manager for this package.
      */
-    private static final StringManager sm =
-        StringManager.getManager(Constants.Package);
+    private static final StringManager sm = StringManager.getManager(Constants.Package);
 
     /**
      * The domain (effectively the engine) this mapper is associated with

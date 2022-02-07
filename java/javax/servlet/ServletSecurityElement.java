@@ -28,7 +28,7 @@ import javax.servlet.annotation.ServletSecurity;
 
 /**
  * The programmatic equivalent of
- * {@link javax.servlet.annotation.ServletSecurity} used to configre
+ * {@link javax.servlet.annotation.ServletSecurity} used to configure
  * security constraints for a Servlet.
  *
  * @since Servlet 3.0

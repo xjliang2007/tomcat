@@ -39,7 +39,10 @@ public class TwoPhaseCommitInterceptor extends ChannelInterceptorBase {
     protected static final StringManager sm = StringManager.getManager(TwoPhaseCommitInterceptor.class);
 
     protected final HashMap<UniqueId, MapEntry> messages = new HashMap<>();
-    protected long expire = 1000 * 60; //one minute expiration
+    /**
+     * one minute expiration
+     */
+    protected long expire = 1000 * 60;
     protected boolean deepclone = true;
 
     @Override

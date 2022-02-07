@@ -507,8 +507,8 @@ public class Catalina {
      * Cluster support is optional. The JARs may have been removed.
      */
     private void addClusterRuleSet(Digester digester, String prefix) {
-        Class<?> clazz = null;
-        Constructor<?> constructor = null;
+        Class<?> clazz;
+        Constructor<?> constructor;
         try {
             clazz = Class.forName("org.apache.catalina.ha.ClusterRuleSet");
             constructor = clazz.getConstructor(String.class);
@@ -977,7 +977,7 @@ public class Catalina {
 
 
     public interface ServerXml {
-        public void load(Catalina catalina);
+        void load(Catalina catalina);
     }
 
 

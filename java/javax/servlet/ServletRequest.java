@@ -457,6 +457,8 @@ public interface ServletRequest {
     ServletContext getServletContext();
 
     /**
+     * 开启异步处理
+     *
      * @return TODO
      * @throws IllegalStateException If async is not supported for this request
      * @since Servlet 3.0 TODO SERVLET3 - Add comments

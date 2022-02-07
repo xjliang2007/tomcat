@@ -47,7 +47,7 @@ public class UUIDGenerator {
         long time = System.currentTimeMillis() - start;
         if (time > 100) {
             log.info(sm.getString("uuidGenerator.createRandom",
-                    secrand.getAlgorithm(), Long.valueOf(time)));
+                    secrand.getAlgorithm(), time));
         }
     }
 
@@ -79,11 +79,10 @@ public class UUIDGenerator {
      * @param r Random
      */
     public static void nextBytes(byte[] into, int offset, int length, Random r) {
-        int numRequested = length;
         int numGot = 0, rnd = 0;
         while (true) {
             for (int i = 0; i < BYTES_PER_INT; i++) {
-                if (numGot == numRequested) {
+                if (numGot == length) {
                     return;
                 }
                 rnd = (i == 0 ? r.nextInt() : rnd >> BITS_PER_BYTE);

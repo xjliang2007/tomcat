@@ -140,7 +140,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
     /**
      * The set of Services associated with this Server.
      */
-    private Service services[] = new Service[0];
+    private Service[] services = new Service[0];
     private final Object servicesLock = new Object();
 
 
@@ -502,7 +502,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
         service.setServer(this);
 
         synchronized (servicesLock) {
-            Service results[] = new Service[services.length + 1];
+            Service[] results = new Service[services.length + 1];
             System.arraycopy(services, 0, results, 0, services.length);
             results[services.length] = service;
             services = results;
@@ -606,7 +606,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
                         // This should never happen but bug 56684 suggests that
                         // it does.
                         log.warn(sm.getString("standardServer.accept.timeout",
-                                Long.valueOf(System.currentTimeMillis() - acceptStartTime)), ste);
+                            System.currentTimeMillis() - acceptStartTime), ste);
                         continue;
                     } catch (AccessControlException ace) {
                         log.warn(sm.getString("standardServer.accept.security"), ace);
@@ -714,7 +714,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
      * @return the JMX service names.
      */
     public ObjectName[] getServiceNames() {
-        ObjectName onames[]=new ObjectName[ services.length ];
+        ObjectName[] onames =new ObjectName[ services.length ];
         for( int i=0; i<services.length; i++ ) {
             onames[i]=((StandardService)services[i]).getObjectName();
         }
@@ -748,7 +748,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
                 // Ignore
             }
             int k = 0;
-            Service results[] = new Service[services.length - 1];
+            Service[] results = new Service[services.length - 1];
             for (int i = 0; i < services.length; i++) {
                 if (i != j) {
                     results[k++] = services[i];
@@ -898,8 +898,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
         boolean useNaming = true;
         // Reading the "catalina.useNaming" environment variable
         String useNamingProperty = System.getProperty("catalina.useNaming");
-        if ((useNamingProperty != null)
-            && (useNamingProperty.equals("false"))) {
+        if (("false".equals(useNamingProperty))) {
             useNaming = false;
         }
         return useNaming;

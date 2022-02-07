@@ -571,7 +571,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
 
 
     protected void sslReload(PrintWriter writer, String tlsHostName, StringManager smClient) {
-        Connector connectors[] = getConnectors();
+        Connector[] connectors = getConnectors();
         boolean found = false;
         for (Connector connector : connectors) {
             if (Boolean.TRUE.equals(connector.getProperty("SSLEnabled"))) {
@@ -721,7 +721,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
                 Boolean result = (Boolean) mBeanServer.invoke(storeConfigOname, "store",
                         new Object[] {context},
                         new String [] { "org.apache.catalina.Context"});
-                if (result.booleanValue()) {
+                if (result) {
                     writer.println(smClient.getString("managerServlet.savedContext", path));
                 } else {
                     writer.println(smClient.getString("managerServlet.savedContextFail", path));
@@ -824,8 +824,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
                                     "managerServlet.mkdirFail",configBase));
                             return;
                         }
-                        if (ExpandWar.copy(new File(config),
-                                new File(configBase, baseName + ".xml")) == false) {
+                        if (!ExpandWar.copy(new File(config), new File(configBase, baseName + ".xml"))) {
                             throw new Exception(sm.getString("managerServlet.copyError", config));
                         }
                     }
@@ -1597,7 +1596,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
         String[] signature = { "java.lang.String" };
         Boolean result =
             (Boolean) mBeanServer.invoke(oname, "isDeployed", params, signature);
-        return result.booleanValue();
+        return result;
     }
 
 
@@ -1628,9 +1627,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
         throws Exception {
         String[] params = { name };
         String[] signature = { "java.lang.String" };
-        Boolean result =
-            (Boolean) mBeanServer.invoke(oname, "isServiced", params, signature);
-        return result.booleanValue();
+        return (Boolean) mBeanServer.invoke(oname, "isServiced", params, signature);
     }
 
 
@@ -1661,8 +1658,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
     protected boolean tryAddServiced(String name) throws Exception {
         String[] params = { name };
         String[] signature = { "java.lang.String" };
-        Boolean result = (Boolean) mBeanServer.invoke(oname, "tryAddServiced", params, signature);
-        return result.booleanValue();
+        return (Boolean) mBeanServer.invoke(oname, "tryAddServiced", params, signature);
     }
 
 
@@ -1734,7 +1730,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
     protected Map<String,List<String>> getConnectorCiphers(StringManager smClient) {
         Map<String,List<String>> result = new HashMap<>();
 
-        Connector connectors[] = getConnectors();
+        Connector[] connectors = getConnectors();
         for (Connector connector : connectors) {
             if (Boolean.TRUE.equals(connector.getProperty("SSLEnabled"))) {
                 SSLHostConfig[] sslHostConfigs = connector.getProtocolHandler().findSslHostConfigs();
@@ -1757,12 +1753,12 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
     protected Map<String,List<String>> getConnectorCerts(StringManager smClient) {
         Map<String,List<String>> result = new HashMap<>();
 
-        Connector connectors[] = getConnectors();
+        Connector[] connectors = getConnectors();
         for (Connector connector : connectors) {
             if (Boolean.TRUE.equals(connector.getProperty("SSLEnabled"))) {
                 SSLHostConfig[] sslHostConfigs = connector.getProtocolHandler().findSslHostConfigs();
                 for (SSLHostConfig sslHostConfig : sslHostConfigs) {
-                    if (sslHostConfig.getOpenSslContext().longValue() == 0) {
+                    if (sslHostConfig.getOpenSslContext() == 0) {
                         // Not set. Must be JSSE based.
                         Set<SSLHostConfigCertificate> sslHostConfigCerts =
                                 sslHostConfig.getCertificates();
@@ -1806,14 +1802,14 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
     protected Map<String,List<String>> getConnectorTrustedCerts(StringManager smClient) {
         Map<String,List<String>> result = new HashMap<>();
 
-        Connector connectors[] = getConnectors();
+        Connector[] connectors = getConnectors();
         for (Connector connector : connectors) {
             if (Boolean.TRUE.equals(connector.getProperty("SSLEnabled"))) {
                 SSLHostConfig[] sslHostConfigs = connector.getProtocolHandler().findSslHostConfigs();
                 for (SSLHostConfig sslHostConfig : sslHostConfigs) {
                     String name = connector.toString() + "-" + sslHostConfig.getHostName();
                     List<String> certList = new ArrayList<>();
-                    if (sslHostConfig.getOpenSslContext().longValue() == 0) {
+                    if (sslHostConfig.getOpenSslContext() == 0) {
                         // Not set. Must be JSSE based.
                         SSLContext sslContext =
                                 sslHostConfig.getCertificates().iterator().next().getSslContext();

@@ -58,7 +58,10 @@ public final class ApplicationFilterConfig implements FilterConfig, Serializable
 
     static final StringManager sm = StringManager.getManager(ApplicationFilterConfig.class);
 
-    private transient Log log = LogFactory.getLog(ApplicationFilterConfig.class); // must not be static
+    /**
+     * must not be static
+     */
+    private transient Log log = LogFactory.getLog(ApplicationFilterConfig.class);
 
     /**
      * Empty String collection to serve as the basis for empty enumerations.
@@ -382,7 +385,7 @@ public final class ApplicationFilterConfig implements FilterConfig, Serializable
     }
 
 
-    /*
+    /**
      * Log objects are not Serializable.
      */
     private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException {

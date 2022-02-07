@@ -132,12 +132,10 @@ public class ThreadLocalLeakPreventionListener extends FrameworkListener {
                 }
 
                 if (executor instanceof ThreadPoolExecutor) {
-                    ThreadPoolExecutor threadPoolExecutor =
-                        (ThreadPoolExecutor) executor;
+                    ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;
                     threadPoolExecutor.contextStopping();
                 } else if (executor instanceof StandardThreadExecutor) {
-                    StandardThreadExecutor stdThreadExecutor =
-                        (StandardThreadExecutor) executor;
+                    StandardThreadExecutor stdThreadExecutor = (StandardThreadExecutor) executor;
                     stdThreadExecutor.contextStopping();
                 }
 

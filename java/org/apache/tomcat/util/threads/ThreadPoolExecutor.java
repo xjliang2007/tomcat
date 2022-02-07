@@ -27,7 +27,6 @@ package org.apache.tomcat.util.threads;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.BlockingQueue;
@@ -41,7 +40,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-
 import org.apache.tomcat.util.res.StringManager;
 
 /**
@@ -1909,13 +1907,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
     public void purge() {
         final BlockingQueue<Runnable> q = workQueue;
         try {
-            Iterator<Runnable> it = q.iterator();
-            while (it.hasNext()) {
-                Runnable r = it.next();
-                if (r instanceof Future<?> && ((Future<?>)r).isCancelled()) {
-                    it.remove();
-                }
-            }
+            q.removeIf(r -> r instanceof Future<?> && ((Future<?>) r).isCancelled());
         } catch (ConcurrentModificationException fallThrough) {
             // Take slow path if we encounter interference during traversal.
             // Make copy for traversal and call remove for cancelled entries.

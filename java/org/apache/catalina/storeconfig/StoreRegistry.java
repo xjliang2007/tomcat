@@ -61,7 +61,7 @@ public class StoreRegistry {
     private String version;
 
     // Access Information
-    private static Class<?> interfaces[] = { CatalinaCluster.class,
+    private static Class<?>[] interfaces = { CatalinaCluster.class,
             ChannelSender.class, ChannelReceiver.class, Channel.class,
             MembershipService.class, ClusterDeployer.class, Realm.class,
             Manager.class, DirContext.class, LifecycleListener.class,

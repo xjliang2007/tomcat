@@ -46,13 +46,15 @@ public class Membership implements Cloneable {
 
     /**
      * A map of all the members in the cluster.
+     * Guarded by membersLock
      */
-    protected HashMap<Member, MbrEntry> map = new HashMap<>(); // Guarded by membersLock
+    protected HashMap<Member, MbrEntry> map = new HashMap<>();
 
     /**
      * A list of all the members in the cluster.
+     * Guarded by membersLock
      */
-    protected volatile Member[] members = EMPTY_MEMBERS; // Guarded by membersLock
+    protected volatile Member[] members = EMPTY_MEMBERS;
 
     /**
      * Comparator for sorting members by alive time.
@@ -174,7 +176,7 @@ public class Membership implements Cloneable {
         synchronized (membersLock) {
             if (!map.containsKey(member) ) {
                 map.put(member, entry);
-                Member results[] = new Member[members.length + 1];
+                Member[] results = new Member[members.length + 1];
                 System.arraycopy(members, 0, results, 0, members.length);
                 results[members.length] = member;
                 Arrays.sort(results, memberComparator);
@@ -202,7 +204,7 @@ public class Membership implements Cloneable {
             if (n < 0) {
                 return;
             }
-            Member results[] = new Member[members.length - 1];
+            Member[] results = new Member[members.length - 1];
             int j = 0;
             for (int i = 0; i < members.length; i++) {
                 if (i != n) {

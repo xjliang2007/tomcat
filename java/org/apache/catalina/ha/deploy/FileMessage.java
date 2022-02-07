@@ -39,9 +39,9 @@ public class FileMessage extends ClusterMessageBase {
     public FileMessage(Member source,
                        String fileName,
                        String contextName) {
-        this.address=source;
-        this.fileName=fileName;
-        this.contextName=contextName;
+        this.address = source;
+        this.fileName = fileName;
+        this.contextName = contextName;
     }
 
     public int getMessageNumber() {

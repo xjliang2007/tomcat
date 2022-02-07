@@ -21,7 +21,7 @@ public class StandardSessionIdGenerator extends SessionIdGeneratorBase {
     @Override
     public String generateSessionId(String route) {
 
-        byte random[] = new byte[16];
+        byte[] random = new byte[16];
         int sessionIdLength = getSessionIdLength();
 
         // Render the result as a String of hexadecimal digits

@@ -26,6 +26,8 @@ import org.apache.catalina.connector.Request;
 import org.apache.tomcat.util.descriptor.web.FilterMap;
 
 /**
+ * TODO 需要重点关注
+ *
  * Factory for the creation and caching of Filters and creation
  * of Filter Chains.
  *
@@ -59,7 +61,7 @@ public final class ApplicationFilterFactory {
         }
 
         // Create and initialize a filter chain object
-        ApplicationFilterChain filterChain = null;
+        ApplicationFilterChain filterChain;
         if (request instanceof Request) {
             Request req = (Request) request;
             if (Globals.IS_SECURITY_ENABLED) {
@@ -82,7 +84,7 @@ public final class ApplicationFilterFactory {
 
         // Acquire the filter mappings for this Context
         StandardContext context = (StandardContext) wrapper.getParent();
-        FilterMap filterMaps[] = context.findFilterMaps();
+        FilterMap[] filterMaps = context.findFilterMaps();
 
         // If there are no filter mappings, we are done
         if ((filterMaps == null) || (filterMaps.length == 0)) {

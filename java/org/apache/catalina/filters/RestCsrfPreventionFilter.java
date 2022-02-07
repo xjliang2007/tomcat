@@ -127,14 +127,14 @@ public class RestCsrfPreventionFilter extends CsrfPreventionFilterBase {
         chain.doFilter(request, response);
     }
 
-    private static interface RestCsrfPreventionStrategy {
-        static final NonceSupplier<HttpServletRequest, String> nonceFromRequestHeader = HttpServletRequest::getHeader;
-        static final NonceSupplier<HttpServletRequest, String[]> nonceFromRequestParams = ServletRequest::getParameterValues;
-        static final NonceSupplier<HttpSession, String> nonceFromSession = (s, k) -> Objects
+    private interface RestCsrfPreventionStrategy {
+        NonceSupplier<HttpServletRequest, String> nonceFromRequestHeader = HttpServletRequest::getHeader;
+        NonceSupplier<HttpServletRequest, String[]> nonceFromRequestParams = ServletRequest::getParameterValues;
+        NonceSupplier<HttpSession, String> nonceFromSession = (s, k) -> Objects
                 .isNull(s) ? null : (String) s.getAttribute(k);
 
-        static final NonceConsumer<HttpServletResponse> nonceToResponse = HttpServletResponse::setHeader;
-        static final NonceConsumer<HttpSession> nonceToSession = HttpSession::setAttribute;
+        NonceConsumer<HttpServletResponse> nonceToResponse = HttpServletResponse::setHeader;
+        NonceConsumer<HttpSession> nonceToSession = HttpSession::setAttribute;
 
         boolean apply(HttpServletRequest request, HttpServletResponse response) throws IOException;
     }
@@ -212,12 +212,12 @@ public class RestCsrfPreventionFilter extends CsrfPreventionFilterBase {
     }
 
     @FunctionalInterface
-    private static interface NonceSupplier<T, R> {
+    private interface NonceSupplier<T, R> {
         R getNonce(T supplier, String key);
     }
 
     @FunctionalInterface
-    private static interface NonceConsumer<T> {
+    private interface NonceConsumer<T> {
         void setNonce(T consumer, String key, String value);
     }
 

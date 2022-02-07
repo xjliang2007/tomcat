@@ -48,7 +48,10 @@ public class FragmentationInterceptor extends ChannelInterceptorBase implements 
 
     protected final HashMap<FragKey, FragCollection> fragpieces = new HashMap<>();
     private int maxSize = 1024*100;
-    private long expire = 1000 * 60; //one minute expiration
+    /**
+     * one minute expiration
+     */
+    private long expire = 1000 * 60;
     protected final boolean deepclone = true;
 
 

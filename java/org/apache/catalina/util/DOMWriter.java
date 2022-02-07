@@ -62,7 +62,7 @@ public class DOMWriter {
             case Node.ELEMENT_NODE:
                 out.print('<');
                 out.print(node.getLocalName());
-                Attr attrs[] = sortAttributes(node.getAttributes());
+                Attr[] attrs = sortAttributes(node.getAttributes());
                 for (Attr attr : attrs) {
                     out.print(' ');
                     out.print(attr.getLocalName());
@@ -137,7 +137,7 @@ public class DOMWriter {
         }
 
         int len = attrs.getLength();
-        Attr array[] = new Attr[len];
+        Attr[] array = new Attr[len];
         for (int i = 0; i < len; i++) {
             array[i] = (Attr) attrs.item(i);
         }

@@ -302,7 +302,7 @@ public class ResolverImpl extends Resolver {
                 List<String> elements = new ArrayList<>();
                 for (List<?> alternateName : alternateNames) {
                     Integer alternateNameType = (Integer) alternateName.get(0);
-                    if (alternateNameType.intValue() == type) {
+                    if (alternateNameType == type) {
                         elements.add(String.valueOf(alternateName.get(1)));
                     }
                 }
@@ -347,7 +347,7 @@ public class ResolverImpl extends Resolver {
         }
     }
 
-    private static final String emptyStringIfNull(String value) {
+    private static String emptyStringIfNull(String value) {
         if (value == null) {
             return "";
         } else {

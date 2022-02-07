@@ -75,15 +75,13 @@ public final class SecurityUtil{
 
     private static final Log log = LogFactory.getLog(SecurityUtil.class);
 
-    private static final boolean packageDefinitionEnabled =
-         (System.getProperty("package.definition") == null &&
-           System.getProperty("package.access")  == null) ? false : true;
+    private static final boolean packageDefinitionEnabled = (System.getProperty("package.definition") != null
+                                                                || System.getProperty("package.access") != null);
 
     /**
      * The string resources for this package.
      */
-    private static final StringManager sm =
-        StringManager.getManager(Constants.PACKAGE);
+    private static final StringManager sm = StringManager.getManager(Constants.PACKAGE);
 
 
     /**
@@ -150,7 +148,7 @@ public final class SecurityUtil{
                                      Principal principal)
         throws Exception {
 
-        Method method = null;
+        Method method;
         Method[] methodsCache = classCache.get(Servlet.class);
         if(methodsCache == null) {
             method = createMethodAndCacheIt(null,
@@ -233,7 +231,7 @@ public final class SecurityUtil{
                                      Principal principal)
         throws Exception {
 
-        Method method = null;
+        Method method;
         Method[] methodsCache = classCache.get(Filter.class);
         if(methodsCache == null) {
             method = createMethodAndCacheIt(null,
@@ -345,18 +343,19 @@ public final class SecurityUtil{
      */
     private static Method findMethod(Method[] methodsCache,
                                      String methodName){
-        if (methodName.equals(INIT_METHOD)){
-            return methodsCache[INIT];
-        } else if (methodName.equals(DESTROY_METHOD)){
-            return methodsCache[DESTROY];
-        } else if (methodName.equals(SERVICE_METHOD)){
-            return methodsCache[SERVICE];
-        } else if (methodName.equals(DOFILTER_METHOD)){
-            return methodsCache[DOFILTER];
-        } else if (methodName.equals(EVENT_METHOD)){
-            return methodsCache[EVENT];
-        } else if (methodName.equals(DOFILTEREVENT_METHOD)){
-            return methodsCache[DOFILTEREVENT];
+        switch (methodName) {
+            case INIT_METHOD:
+                return methodsCache[INIT];
+            case DESTROY_METHOD:
+                return methodsCache[DESTROY];
+            case SERVICE_METHOD:
+                return methodsCache[SERVICE];
+            case DOFILTER_METHOD:
+                return methodsCache[DOFILTER];
+            case EVENT_METHOD:
+                return methodsCache[EVENT];
+            case DOFILTEREVENT_METHOD:
+                return methodsCache[DOFILTEREVENT];
         }
         return null;
     }
@@ -384,18 +383,25 @@ public final class SecurityUtil{
 
         Method method = targetType.getMethod(methodName, parameterTypes);
 
-        if (methodName.equals(INIT_METHOD)){
-            methodsCache[INIT] = method;
-        } else if (methodName.equals(DESTROY_METHOD)){
-            methodsCache[DESTROY] = method;
-        } else if (methodName.equals(SERVICE_METHOD)){
-            methodsCache[SERVICE] = method;
-        } else if (methodName.equals(DOFILTER_METHOD)){
-            methodsCache[DOFILTER] = method;
-        } else if (methodName.equals(EVENT_METHOD)){
-            methodsCache[EVENT] = method;
-        } else if (methodName.equals(DOFILTEREVENT_METHOD)){
-            methodsCache[DOFILTEREVENT] = method;
+        switch (methodName) {
+            case INIT_METHOD:
+                methodsCache[INIT] = method;
+                break;
+            case DESTROY_METHOD:
+                methodsCache[DESTROY] = method;
+                break;
+            case SERVICE_METHOD:
+                methodsCache[SERVICE] = method;
+                break;
+            case DOFILTER_METHOD:
+                methodsCache[DOFILTER] = method;
+                break;
+            case EVENT_METHOD:
+                methodsCache[EVENT] = method;
+                break;
+            case DOFILTEREVENT_METHOD:
+                methodsCache[DOFILTEREVENT] = method;
+                break;
         }
 
         classCache.put(targetType, methodsCache);
@@ -420,10 +426,7 @@ public final class SecurityUtil{
      * @return <code>true</code> if package level protection is enabled
      */
     public static boolean isPackageProtectionEnabled(){
-        if (packageDefinitionEnabled && Globals.IS_SECURITY_ENABLED){
-            return true;
-        }
-        return false;
+        return packageDefinitionEnabled && Globals.IS_SECURITY_ENABLED;
     }
 
 

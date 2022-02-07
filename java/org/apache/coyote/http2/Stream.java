@@ -57,7 +57,7 @@ class Stream extends AbstractNonZeroStream implements HeaderEmitter {
 
     private static final MimeHeaders ACK_HEADERS;
 
-    private static final Integer HTTP_UPGRADE_STREAM = Integer.valueOf(1);
+    private static final Integer HTTP_UPGRADE_STREAM = 1;
 
     static {
         Response response =  new Response();

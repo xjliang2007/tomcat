@@ -77,15 +77,15 @@ public class UpgradeServletInputStream extends ServletInputStream {
 
         // If we already know the current state, return it.
         if (ready != null) {
-            return ready.booleanValue();
+            return ready;
         }
 
         try {
-            ready = Boolean.valueOf(socketWrapper.isReadyForRead());
+            ready = socketWrapper.isReadyForRead();
         } catch (IOException e) {
             onError(e);
         }
-        return ready.booleanValue();
+        return ready;
     }
 
 
@@ -179,7 +179,7 @@ public class UpgradeServletInputStream extends ServletInputStream {
 
 
     private void preReadChecks() {
-        if (listener != null && (ready == null || !ready.booleanValue())) {
+        if (listener != null && (ready == null || !ready)) {
             throw new IllegalStateException(sm.getString("upgrade.sis.read.ise"));
         }
         if (closed) {
@@ -239,7 +239,7 @@ public class UpgradeServletInputStream extends ServletInputStream {
     }
 
 
-    private final void onError(Throwable t) {
+    private void onError(Throwable t) {
         if (listener == null) {
             return;
         }

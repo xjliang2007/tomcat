@@ -44,9 +44,11 @@ import org.apache.tomcat.util.http.Parameters.FailReason;
  */
 public class FailedRequestFilter extends FilterBase {
 
-    // Log must be non-static as loggers are created per class-loader and this
-    // Filter may be used in multiple class loaders
-    private final Log log = LogFactory.getLog(FailedRequestFilter.class); // must not be static
+    /**
+     * Log must be non-static as loggers are created per class-loader and this
+     * Filter may be used in multiple class loaders
+     */
+    private final Log log = LogFactory.getLog(FailedRequestFilter.class);
 
     @Override
     protected Log getLogger() {
@@ -74,7 +76,8 @@ public class FailedRequestFilter extends FilterBase {
                     // 413/414 aren't really correct here since the request body
                     // and/or URI could be well below any limits set. Use the
                     // default.
-                case UNKNOWN: // Assume the client is at fault
+                case UNKNOWN:
+                    // Assume the client is at fault
                 // Various things that the client can get wrong that don't have
                 // a specific status code so use the default.
                 case INVALID_CONTENT_TYPE:
@@ -101,10 +104,7 @@ public class FailedRequestFilter extends FilterBase {
         // Trigger parsing of parameters
         request.getParameter("none");
         // Detect failure
-        if (request.getAttribute(Globals.PARAMETER_PARSE_FAILED_ATTR) != null) {
-            return false;
-        }
-        return true;
+        return request.getAttribute(Globals.PARAMETER_PARSE_FAILED_ATTR) == null;
     }
 
     @Override

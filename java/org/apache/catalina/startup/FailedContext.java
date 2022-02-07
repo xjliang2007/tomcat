@@ -72,8 +72,7 @@ import org.apache.tomcat.util.res.StringManager;
  */
 public class FailedContext extends LifecycleMBeanBase implements Context {
 
-    protected static final StringManager sm =
-            StringManager.getManager(Constants.Package);
+    protected static final StringManager sm = StringManager.getManager(Constants.Package);
 
 
     // --------------------- Methods that need to work even for a failed context

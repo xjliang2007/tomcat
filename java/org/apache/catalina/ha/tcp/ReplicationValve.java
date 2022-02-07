@@ -18,13 +18,10 @@ package org.apache.catalina.ha.tcp;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
 import javax.servlet.ServletException;
-
 import org.apache.catalina.Cluster;
 import org.apache.catalina.Context;
 import org.apache.catalina.LifecycleException;
@@ -71,8 +68,7 @@ public class ReplicationValve
     /**
      * The StringManager for this package.
      */
-    protected static final StringManager sm =
-        StringManager.getManager(Constants.Package);
+    protected static final StringManager sm = StringManager.getManager(Constants.Package);
 
     private CatalinaCluster cluster = null ;
 
@@ -315,9 +311,7 @@ public class ReplicationValve
             createPrimaryIndicator(request) ;
         }
         Context context = request.getContext();
-        boolean isCrossContext = context != null
-                && context instanceof StandardContext
-                && context.getCrossContext();
+        boolean isCrossContext = (context instanceof StandardContext && context.getCrossContext());
         try {
             if(isCrossContext) {
                 if(log.isDebugEnabled()) {
@@ -454,12 +448,10 @@ public class ReplicationValve
         if(isCrossContext) {
             List<DeltaSession> sessions = crossContextSessions.get();
             if(sessions != null && sessions.size() >0) {
-                Iterator<DeltaSession> iter = sessions.iterator();
-                for(; iter.hasNext() ;) {
-                    Session session = iter.next();
+                for (Session session : sessions) {
                     resetDeltaRequest(session);
-                    if(session instanceof DeltaSession) {
-                        ((DeltaSession)contextSession).setPrimarySession(true);
+                    if (session instanceof DeltaSession) {
+                        ((DeltaSession) contextSession).setPrimarySession(true);
                     }
 
                 }
@@ -577,14 +569,14 @@ public class ReplicationValve
             if ( (nrOfRequests % 100) == 0 ) {
                  log.info(sm.getString("ReplicationValve.stats",
                      new Object[]{
-                         Long.valueOf(totalRequestTime/nrOfRequests),
-                         Long.valueOf(totalSendTime/nrOfRequests),
-                         Long.valueOf(nrOfRequests),
-                         Long.valueOf(nrOfSendRequests),
-                         Long.valueOf(nrOfCrossContextSendRequests),
-                         Long.valueOf(nrOfFilterRequests),
-                         Long.valueOf(totalRequestTime),
-                         Long.valueOf(totalSendTime)}));
+                         totalRequestTime / nrOfRequests,
+                         totalSendTime / nrOfRequests,
+                         nrOfRequests,
+                         nrOfSendRequests,
+                         nrOfCrossContextSendRequests,
+                         nrOfFilterRequests,
+                         totalRequestTime,
+                         totalSendTime}));
              }
         }
     }
@@ -608,7 +600,7 @@ public class ReplicationValve
                     log.debug(sm.getString(
                             "ReplicationValve.session.indicator", request.getContext().getName(),id,
                             primaryIndicatorName,
-                            Boolean.valueOf(cses.isPrimarySession())));
+                        cses.isPrimarySession()));
                 }
                 request.setAttribute(primaryIndicatorName, cses.isPrimarySession()?Boolean.TRUE:Boolean.FALSE);
             } else {

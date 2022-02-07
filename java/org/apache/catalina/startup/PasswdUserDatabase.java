@@ -102,7 +102,7 @@ public final class PasswdUserDatabase implements UserDatabase {
         try (BufferedReader reader = new BufferedReader(new FileReader(PASSWORD_FILE))) {
             String line = reader.readLine();
             while (line != null) {
-                String tokens[] = line.split(":");
+                String[] tokens = line.split(":");
                 // Need non-zero 1st and 6th tokens
                 if (tokens.length > 5 && tokens[0].length() > 0 && tokens[5].length() > 0) {
                     // Add this user and corresponding directory

@@ -147,7 +147,7 @@ public class GenericPrincipal implements TomcatPrincipal, Serializable {
     /**
      * The set of roles associated with this user.
      */
-    protected final String roles[];
+    protected final String[] roles;
 
     public String[] getRoles() {
         return this.roles;
@@ -201,7 +201,8 @@ public class GenericPrincipal implements TomcatPrincipal, Serializable {
      *         role, otherwise <code>false</code>
      */
     public boolean hasRole(String role) {
-        if ("*".equals(role)) { // Special 2.4 role meaning everyone
+        if ("*".equals(role)) {
+            // Special 2.4 role meaning everyone
             return true;
         }
         if (role == null) {

@@ -68,16 +68,16 @@ public final class IntrospectionUtils {
         String setter = "set" + capitalize(name);
 
         try {
-            Method methods[] = findMethods(o.getClass());
+            Method[] methods = findMethods(o.getClass());
             Method setPropertyMethodVoid = null;
             Method setPropertyMethodBool = null;
 
             // First, the ideal case - a setFoo( String ) method
             for (Method item : methods) {
-                Class<?> paramT[] = item.getParameterTypes();
+                Class<?>[] paramT = item.getParameterTypes();
                 if (setter.equals(item.getName()) && paramT.length == 1
                         && "java.lang.String".equals(paramT[0].getName())) {
-                    item.invoke(o, new Object[]{value});
+                    item.invoke(o, value);
                     if (actualMethod != null) {
                         actualMethod.append(item.getName()).append("(\"").append(escape(value)).append("\")");
                     }
@@ -93,7 +93,7 @@ public final class IntrospectionUtils {
 
                     // match - find the type and invoke it
                     Class<?> paramType = method.getParameterTypes()[0];
-                    Object params[] = new Object[1];
+                    Object[] params = new Object[1];
 
                     // Try a setFoo ( int )
                     if ("java.lang.Integer".equals(paramType.getName())
@@ -169,13 +169,12 @@ public final class IntrospectionUtils {
                 if (actualMethod != null) {
                     actualMethod.append("setProperty(\"").append(name).append("\", \"").append(escape(value)).append("\")");
                 }
-                Object params[] = new Object[2];
+                Object[] params = new Object[2];
                 params[0] = name;
                 params[1] = value;
                 if (setPropertyMethodBool != null) {
                     try {
-                        return ((Boolean) setPropertyMethodBool.invoke(o,
-                                params)).booleanValue();
+                        return (Boolean) setPropertyMethodBool.invoke(o, params);
                     }catch (IllegalArgumentException biae) {
                         //the boolean method had the wrong
                         //parameter types. lets try the other
@@ -238,12 +237,12 @@ public final class IntrospectionUtils {
         String isGetter = "is" + capitalize(name);
 
         try {
-            Method methods[] = findMethods(o.getClass());
+            Method[] methods = findMethods(o.getClass());
             Method getPropertyMethod = null;
 
             // First, the ideal case - a getFoo() method
             for (Method method : methods) {
-                Class<?> paramT[] = method.getParameterTypes();
+                Class<?>[] paramT = method.getParameterTypes();
                 if (getter.equals(method.getName()) && paramT.length == 0) {
                     return method.invoke(o, (Object[]) null);
                 }
@@ -258,7 +257,7 @@ public final class IntrospectionUtils {
 
             // Ok, no setXXX found, try a getProperty("name")
             if (getPropertyMethod != null) {
-                Object params[] = new Object[1];
+                Object[] params = new Object[1];
                 params[0] = name;
                 return getPropertyMethod.invoke(o, params);
             }
@@ -294,7 +293,7 @@ public final class IntrospectionUtils {
      */
     @Deprecated
     public static String replaceProperties(String value,
-            Hashtable<Object,Object> staticProp, PropertySource dynamicProp[]) {
+            Hashtable<Object,Object> staticProp, PropertySource[] dynamicProp) {
         return replaceProperties(value, staticProp, dynamicProp, null);
     }
 
@@ -309,7 +308,7 @@ public final class IntrospectionUtils {
      * @return the replacement value
      */
     public static String replaceProperties(String value,
-            Hashtable<Object,Object> staticProp, PropertySource dynamicProp[],
+            Hashtable<Object,Object> staticProp, PropertySource[] dynamicProp,
             ClassLoader classLoader) {
 
         if (value.indexOf('$') < 0) {
@@ -392,7 +391,7 @@ public final class IntrospectionUtils {
         if (name == null || name.length() == 0) {
             return name;
         }
-        char chars[] = name.toCharArray();
+        char[] chars = name.toCharArray();
         chars[0] = Character.toUpperCase(chars[0]);
         return new String(chars);
     }
@@ -405,7 +404,7 @@ public final class IntrospectionUtils {
     private static final Hashtable<Class<?>,Method[]> objectMethods = new Hashtable<>();
 
     public static Method[] findMethods(Class<?> c) {
-        Method methods[] = objectMethods.get(c);
+        Method[] methods = objectMethods.get(c);
         if (methods != null) {
             return methods;
         }
@@ -417,11 +416,11 @@ public final class IntrospectionUtils {
 
     @SuppressWarnings("null") // params cannot be null when comparing lengths
     public static Method findMethod(Class<?> c, String name,
-            Class<?> params[]) {
-        Method methods[] = findMethods(c);
+            Class<?>[] params) {
+        Method[] methods = findMethods(c);
         for (Method method : methods) {
             if (method.getName().equals(name)) {
-                Class<?> methodParams[] = method.getParameterTypes();
+                Class<?>[] methodParams = method.getParameterTypes();
                 if (params == null && methodParams.length == 0) {
                     return method;
                 }
@@ -454,7 +453,7 @@ public final class IntrospectionUtils {
                     param1.getClass().getName() + " " + typeParam1);
         }
 
-        Class<?> params[] = new Class[1];
+        Class<?>[] params = new Class[1];
         if (typeParam1 == null) {
             params[0] = param1.getClass();
         } else {
@@ -474,7 +473,7 @@ public final class IntrospectionUtils {
     }
 
     public static Object callMethodN(Object target, String methodN,
-            Object params[], Class<?> typeParams[]) throws Exception {
+            Object[] params, Class<?>[] typeParams) throws Exception {
         Method m = null;
         m = findMethod(target.getClass(), methodN, typeParams);
         if (m == null) {

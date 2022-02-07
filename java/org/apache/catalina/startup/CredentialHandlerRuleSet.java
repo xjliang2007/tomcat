@@ -29,8 +29,8 @@ public class CredentialHandlerRuleSet implements RuleSet {
 
 
     private static final int MAX_NESTED_LEVELS = Integer.getInteger(
-            "org.apache.catalina.startup.CredentialHandlerRuleSet.MAX_NESTED_LEVELS",
-            3).intValue();
+        "org.apache.catalina.startup.CredentialHandlerRuleSet.MAX_NESTED_LEVELS",
+        3);
 
     // ----------------------------------------------------- Instance Variables
 

@@ -366,8 +366,8 @@ public class HostManagerServlet
         }
 
         // Validate and create appBase
-        File appBaseFile = null;
-        File file = null;
+        File appBaseFile;
+        File file;
         String applicationBase = appBase;
         if (applicationBase == null || applicationBase.length() == 0) {
             applicationBase = name;

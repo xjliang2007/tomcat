@@ -244,13 +244,8 @@ public class ApplicationPushBuilder implements PushBuilder {
 
     @Override
     public PushBuilder addHeader(String name, String value) {
-        List<String> values = headers.get(name);
-        if (values == null) {
-            values = new ArrayList<>();
-            headers.put(name, values);
-        }
+        List<String> values = headers.computeIfAbsent(name, k -> new ArrayList<>());
         values.add(value);
-
         return this;
     }
 

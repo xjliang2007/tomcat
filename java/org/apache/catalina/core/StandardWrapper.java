@@ -326,8 +326,7 @@ public class StandardWrapper extends ContainerBase
         } else {
             this.available = 0L;
         }
-        support.firePropertyChange("available", Long.valueOf(oldAvailable),
-                                   Long.valueOf(this.available));
+        support.firePropertyChange("available", oldAvailable, this.available);
     }
 
 
@@ -542,7 +541,7 @@ public class StandardWrapper extends ContainerBase
         // If the servlet has been loaded either singleThreadModel will be true
         // or instance will be non-null
         if (singleThreadModel || instance != null) {
-            return Boolean.valueOf(singleThreadModel);
+            return singleThreadModel;
         }
         return null;
     }
@@ -658,7 +657,7 @@ public class StandardWrapper extends ContainerBase
      */
     public static Throwable getRootCause(ServletException e) {
         Throwable rootCause = e;
-        Throwable rootCauseCheck = null;
+        Throwable rootCauseCheck;
         // Extra aggressive rootCause finding
         int loops = 0;
         do {
@@ -914,7 +913,7 @@ public class StandardWrapper extends ContainerBase
 
         parametersLock.readLock().lock();
         try {
-            String results[] = new String[parameters.size()];
+            String[] results = new String[parameters.size()];
             return parameters.keySet().toArray(results);
         } finally {
             parametersLock.readLock().unlock();
@@ -979,7 +978,7 @@ public class StandardWrapper extends ContainerBase
 
         referencesLock.readLock().lock();
         try {
-            String results[] = new String[references.size()];
+            String[] results = new String[references.size()];
             return references.keySet().toArray(results);
         } finally {
             referencesLock.readLock().unlock();
@@ -1057,7 +1056,7 @@ public class StandardWrapper extends ContainerBase
 
         Servlet servlet;
         try {
-            long t1=System.currentTimeMillis();
+            long t1 = System.currentTimeMillis();
             // Complain if no servlet class has been specified
             if (servletClass == null) {
                 unavailable(null);
@@ -1105,7 +1104,7 @@ public class StandardWrapper extends ContainerBase
                 ((ContainerServlet) servlet).setWrapper(this);
             }
 
-            classLoadTime=(int) (System.currentTimeMillis() -t1);
+            classLoadTime = (int) (System.currentTimeMillis() -t1);
 
             if (servlet instanceof SingleThreadModel) {
                 if (instancePool == null) {
@@ -1118,7 +1117,7 @@ public class StandardWrapper extends ContainerBase
 
             fireContainerEvent("load", this);
 
-            loadTime=System.currentTimeMillis() -t1;
+            loadTime = System.currentTimeMillis() -t1;
         } finally {
             if (swallowOutput) {
                 String log = SystemLogHandler.stopCapture();

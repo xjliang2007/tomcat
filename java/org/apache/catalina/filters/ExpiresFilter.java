@@ -1073,7 +1073,7 @@ public class ExpiresFilter extends FilterBase {
                 ints[i] = Integer.parseInt(intAsString);
             } catch (NumberFormatException e) {
                 throw new RuntimeException(sm.getString("expiresFilter.numberError",
-                        Integer.valueOf(i), commaDelimitedInts));
+                    i, commaDelimitedInts));
             }
         }
         return ints;

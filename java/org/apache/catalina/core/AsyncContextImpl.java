@@ -55,7 +55,7 @@ public class AsyncContextImpl implements AsyncContext, AsyncContextCallback {
 
     protected static final StringManager sm = StringManager.getManager(AsyncContextImpl.class);
 
-    /* When a request uses a sequence of multiple start(); dispatch() with
+    /** When a request uses a sequence of multiple start(); dispatch() with
      * non-container threads it is possible for a previous dispatch() to
      * interfere with a following start(). This lock prevents that from
      * happening. It is a dedicated object as user code may lock on the
@@ -188,7 +188,7 @@ public class AsyncContextImpl implements AsyncContext, AsyncContextCallback {
                 throw new IllegalStateException(
                         sm.getString("asyncContextImpl.dispatchingStarted"));
             }
-            if (request.getAttribute(ASYNC_REQUEST_URI)==null) {
+            if (request.getAttribute(ASYNC_REQUEST_URI) == null) {
                 request.setAttribute(ASYNC_REQUEST_URI, request.getRequestURI());
                 request.setAttribute(ASYNC_CONTEXT_PATH, request.getContextPath());
                 request.setAttribute(ASYNC_SERVLET_PATH, request.getServletPath());
@@ -265,17 +265,15 @@ public class AsyncContextImpl implements AsyncContext, AsyncContextCallback {
     public <T extends AsyncListener> T createListener(Class<T> clazz)
             throws ServletException {
         check();
-        T listener = null;
+        T listener;
         try {
              listener = (T) context.getInstanceManager().newInstance(
                      clazz.getName(), clazz.getClassLoader());
         } catch (ReflectiveOperationException | NamingException e) {
-            ServletException se = new ServletException(e);
-            throw se;
+            throw new ServletException(e);
         } catch (Exception e) {
             ExceptionUtils.handleThrowable(e.getCause());
-            ServletException se = new ServletException(e);
-            throw se;
+            throw new ServletException(e);
         }
         return listener;
     }
@@ -378,8 +376,7 @@ public class AsyncContextImpl implements AsyncContext, AsyncContextCallback {
     public void setTimeout(long timeout) {
         check();
         this.timeout = timeout;
-        request.getCoyoteRequest().action(ActionCode.ASYNC_SETTIMEOUT,
-                Long.valueOf(timeout));
+        request.getCoyoteRequest().action(ActionCode.ASYNC_SETTIMEOUT, timeout);
     }
 
 

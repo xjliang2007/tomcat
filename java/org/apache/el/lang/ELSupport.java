@@ -40,7 +40,7 @@ import org.apache.el.util.MessageFactory;
  */
 public class ELSupport {
 
-    private static final Long ZERO = Long.valueOf(0L);
+    private static final Long ZERO = 0L;
 
     protected static final boolean COERCE_TO_ZERO;
 

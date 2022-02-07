@@ -104,7 +104,7 @@ public class LockOutRealm extends CombinedRealm {
 
                     if (timeInCache < cacheRemovalWarningTime) {
                         log.warn(sm.getString("lockOutRealm.removeWarning",
-                                eldest.getKey(), Long.valueOf(timeInCache)));
+                                eldest.getKey(), timeInCache));
                     }
                     return true;
                 }

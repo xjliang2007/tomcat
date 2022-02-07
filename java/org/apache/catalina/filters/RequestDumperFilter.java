@@ -59,8 +59,10 @@ public class RequestDumperFilter extends GenericFilter {
 
     private static final ThreadLocal<Timestamp> timestamp = ThreadLocal.withInitial(Timestamp::new);
 
-    // Log must be non-static as loggers are created per class-loader and this
-    // Filter may be used in multiple class loaders
+    /**
+     * Log must be non-static as loggers are created per class-loader and this
+     * Filter may be used in multiple class loaders
+     */
     private transient Log log = LogFactory.getLog(RequestDumperFilter.class);
 
 
@@ -112,7 +114,7 @@ public class RequestDumperFilter extends GenericFilter {
             doLog("            header", NON_HTTP_REQ_MSG);
         } else {
             doLog("       contextPath", hRequest.getContextPath());
-            Cookie cookies[] = hRequest.getCookies();
+            Cookie[] cookies = hRequest.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     doLog("            cookie", cookie.getName() +
@@ -141,7 +143,7 @@ public class RequestDumperFilter extends GenericFilter {
         Enumeration<String> pnames = request.getParameterNames();
         while (pnames.hasMoreElements()) {
             String pname = pnames.nextElement();
-            String pvalues[] = request.getParameterValues(pname);
+            String[] pvalues = request.getParameterValues(pname);
             StringBuilder result = new StringBuilder(pname);
             result.append('=');
             for (int i = 0; i < pvalues.length; i++) {
@@ -260,7 +262,7 @@ public class RequestDumperFilter extends GenericFilter {
     }
 
 
-    /*
+    /**
      * Log objects are not Serializable but this Filter is because it extends
      * GenericFilter. Tomcat won't serialize a Filter but in case something else
      * does...

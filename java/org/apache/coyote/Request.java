@@ -597,7 +597,7 @@ public final class Request {
     }
 
     public boolean getSupportsRelativeRedirects() {
-        if (protocol().equals("") || protocol().equals("HTTP/1.0")) {
+        if ("".equals(protocol()) || "HTTP/1.0".equals(protocol())) {
             return false;
         }
         return true;

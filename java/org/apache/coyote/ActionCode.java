@@ -26,8 +26,17 @@ package org.apache.coyote;
  * @author Remy Maucherat
  */
 public enum ActionCode {
+    /**
+     *
+     */
     ACK,
+    /**
+     *
+     */
     CLOSE,
+    /**
+     *
+     */
     COMMIT,
 
     /**

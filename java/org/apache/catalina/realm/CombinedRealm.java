@@ -348,7 +348,7 @@ public class CombinedRealm extends RealmBase {
     public Principal authenticate(GSSContext gssContext, boolean storeCred) {
         if (gssContext.isEstablished()) {
             Principal authenticatedUser = null;
-            GSSName gssName = null;
+            GSSName gssName;
             try {
                 gssName = gssContext.getSrcName();
             } catch (GSSException e) {

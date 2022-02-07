@@ -141,7 +141,7 @@ public class TcpFailureDetector extends ChannelInterceptorBase implements TcpFai
                     notify = true;
                 } else {
                     if (member instanceof StaticMember) {
-                        addSuspects.put(member, Long.valueOf(System.currentTimeMillis()));
+                        addSuspects.put(member, System.currentTimeMillis());
                     }
                 }
             }
@@ -165,7 +165,7 @@ public class TcpFailureDetector extends ChannelInterceptorBase implements TcpFai
                 membership.removeMember(member);
                 removeSuspects.remove(member);
                 if (member instanceof StaticMember) {
-                    addSuspects.put(member, Long.valueOf(System.currentTimeMillis()));
+                    addSuspects.put(member, System.currentTimeMillis());
                 }
             }
             super.memberDisappeared(member);
@@ -187,12 +187,12 @@ public class TcpFailureDetector extends ChannelInterceptorBase implements TcpFai
                     membership.removeMember(member);
                     removeSuspects.remove(member);
                     if (member instanceof StaticMember) {
-                        addSuspects.put(member, Long.valueOf(System.currentTimeMillis()));
+                        addSuspects.put(member, System.currentTimeMillis());
                     }
                     notify = true;
                 } else {
                     //add the member as suspect
-                    removeSuspects.put(member, Long.valueOf(System.currentTimeMillis()));
+                    removeSuspects.put(member, System.currentTimeMillis());
                 }
             }
             if ( notify ) {
@@ -275,7 +275,7 @@ public class TcpFailureDetector extends ChannelInterceptorBase implements TcpFai
                     membership.removeMember(members[i]);
                     removeSuspects.remove(members[i]);
                     if (members[i] instanceof StaticMember) {
-                        addSuspects.put(members[i], Long.valueOf(System.currentTimeMillis()));
+                        addSuspects.put(members[i], System.currentTimeMillis());
                     }
                     super.memberDisappeared(members[i]);
                 }
@@ -310,7 +310,7 @@ public class TcpFailureDetector extends ChannelInterceptorBase implements TcpFai
             if (membership.getMember(m) != null && (!memberAlive(m))) {
                 membership.removeMember(m);
                 if (m instanceof StaticMember) {
-                    addSuspects.put(m, Long.valueOf(System.currentTimeMillis()));
+                    addSuspects.put(m, System.currentTimeMillis());
                 }
                 super.memberDisappeared(m);
                 removeSuspects.remove(m);
@@ -320,9 +320,10 @@ public class TcpFailureDetector extends ChannelInterceptorBase implements TcpFai
             } else {
                 if (removeSuspectsTimeout > 0) {
                     long timeNow = System.currentTimeMillis();
-                    int timeIdle = (int) ((timeNow - removeSuspects.get(m).longValue()) / 1000L);
+                    int timeIdle = (int) ((timeNow - removeSuspects.get(m)) / 1000L);
                     if (timeIdle > removeSuspectsTimeout) {
-                        removeSuspects.remove(m); // remove suspect member
+                        // remove suspect member
+                        removeSuspects.remove(m);
                     }
                 }
             }

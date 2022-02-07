@@ -276,8 +276,8 @@ public final class Extension {
 
         StringTokenizer fTok = new StringTokenizer(first, ".", true);
         StringTokenizer sTok = new StringTokenizer(second, ".", true);
-        int fVersion = 0;
-        int sVersion = 0;
+        int fVersion;
+        int sVersion;
         while (fTok.hasMoreTokens() || sTok.hasMoreTokens()) {
             if (fTok.hasMoreTokens()) {
                 fVersion = Integer.parseInt(fTok.nextToken());
@@ -301,8 +301,8 @@ public final class Extension {
                 sTok.nextToken();
             }
         }
-
-        return true;  // Exact match
+        // Exact match
+        return true;
 
     }
 

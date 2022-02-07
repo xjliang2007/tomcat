@@ -130,11 +130,11 @@ public interface SessionCookieConfig {
     /**
      * Sets the maximum age.
      *
-     * @param MaxAge the maximum age to set
+     * @param maxAge the maximum age to set
      * @throws IllegalStateException if the associated ServletContext has
      *         already been initialised
      */
-    void setMaxAge(int MaxAge);
+    void setMaxAge(int maxAge);
 
     /**
      * Obtain the maximum age to set for a session cookie.

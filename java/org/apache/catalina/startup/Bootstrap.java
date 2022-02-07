@@ -267,9 +267,9 @@ public final class Bootstrap {
             log.debug("Setting startup class properties");
         }
         String methodName = "setParentClassLoader";
-        Class<?> paramTypes[] = new Class[1];
+        Class<?>[] paramTypes = new Class[1];
         paramTypes[0] = Class.forName("java.lang.ClassLoader");
-        Object paramValues[] = new Object[1];
+        Object[] paramValues = new Object[1];
         paramValues[0] = sharedLoader;
         Method method =
             startupInstance.getClass().getMethod(methodName, paramTypes);
@@ -286,8 +286,8 @@ public final class Bootstrap {
 
         // Call the load() method
         String methodName = "load";
-        Object param[];
-        Class<?> paramTypes[];
+        Object[] param;
+        Class<?>[] paramTypes;
         if (arguments==null || arguments.length==0) {
             paramTypes = null;
             param = null;
@@ -375,8 +375,8 @@ public final class Bootstrap {
      */
     public void stopServer(String[] arguments) throws Exception {
 
-        Object param[];
-        Class<?> paramTypes[];
+        Object[] param;
+        Class<?>[] paramTypes;
         if (arguments == null || arguments.length == 0) {
             paramTypes = null;
             param = null;
@@ -400,22 +400,22 @@ public final class Bootstrap {
     public void setAwait(boolean await)
         throws Exception {
 
-        Class<?> paramTypes[] = new Class[1];
+        Class<?>[] paramTypes = new Class[1];
         paramTypes[0] = Boolean.TYPE;
-        Object paramValues[] = new Object[1];
-        paramValues[0] = Boolean.valueOf(await);
+        Object[] paramValues = new Object[1];
+        paramValues[0] = await;
         Method method =
             catalinaDaemon.getClass().getMethod("setAwait", paramTypes);
         method.invoke(catalinaDaemon, paramValues);
     }
 
     public boolean getAwait() throws Exception {
-        Class<?> paramTypes[] = new Class[0];
-        Object paramValues[] = new Object[0];
+        Class<?>[] paramTypes = new Class[0];
+        Object[] paramValues = new Object[0];
         Method method =
             catalinaDaemon.getClass().getMethod("getAwait", paramTypes);
         Boolean b=(Boolean)method.invoke(catalinaDaemon, paramValues);
-        return b.booleanValue();
+        return b;
     }
 
 
@@ -435,7 +435,7 @@ public final class Bootstrap {
      *
      * @param args Command line arguments to be processed
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         synchronized (daemonLock) {
             if (daemon == null) {

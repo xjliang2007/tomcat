@@ -93,7 +93,7 @@ public class StaticMembershipService extends MembershipServiceBase
                 channel = null;
             }
         } catch (Exception e) {
-            log.error(sm.getString("staticMembershipService.stopFail", Integer.valueOf(level)), e);
+            log.error(sm.getString("staticMembershipService.stopFail", level), e);
         }
     }
 

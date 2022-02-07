@@ -385,7 +385,7 @@ public class McastService
             }
         } catch ( Exception x)  {
             log.error(sm.getString(
-                    "McastService.stopFail", Integer.valueOf(svc)), x);
+                    "McastService.stopFail", svc), x);
         }
     }
 
@@ -536,7 +536,7 @@ public class McastService
      * @param args Command-line arguments
      * @throws Exception If an error occurs
      */
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         McastService service = new McastService();
         java.util.Properties p = new java.util.Properties();
         p.setProperty("mcastPort","5555");

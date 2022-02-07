@@ -712,7 +712,7 @@ public abstract class HttpServlet extends GenericServlet {
     }
 
 
-    /*
+    /**
      * Sets the Last-Modified entity header field, if it has not
      * already been set and if the value is meaningful.  Called before
      * doGet, to ensure that headers are set before response data is
@@ -769,7 +769,7 @@ public abstract class HttpServlet extends GenericServlet {
     }
 
 
-    /*
+    /**
      * A response wrapper for use in (dumb) "HEAD" support.
      * This just swallows that body, counting the bytes in order to set
      * the content length appropriately.  All other methods delegate to the
@@ -1118,7 +1118,7 @@ public abstract class HttpServlet extends GenericServlet {
     }
 
 
-    /*
+    /**
      * Calls NoBodyResponse.setContentLength() once the async request is
      * complete.
      */

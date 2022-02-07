@@ -27,10 +27,10 @@ import javax.servlet.annotation.MultipartConfig;
  */
 public class MultipartConfigElement {
 
-    private final String location;// = "";
-    private final long maxFileSize;// = -1;
-    private final long maxRequestSize;// = -1;
-    private final int fileSizeThreshold;// = 0;
+    private final String location;
+    private final long maxFileSize;
+    private final long maxRequestSize;
+    private final int fileSizeThreshold;
 
     /**
      * Create a programmatic multi-part configuration with a specific location
@@ -73,11 +73,7 @@ public class MultipartConfigElement {
         this.maxRequestSize = maxRequestSize;
         // Avoid threshold values of less than zero as they cause trigger NPEs
         // in the Commons FileUpload port for fields that have no data.
-        if (fileSizeThreshold > 0) {
-            this.fileSizeThreshold = fileSizeThreshold;
-        } else {
-            this.fileSizeThreshold = 0;
-        }
+        this.fileSizeThreshold = Math.max(fileSizeThreshold, 0);
     }
 
     /**

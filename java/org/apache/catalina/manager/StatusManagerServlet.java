@@ -370,28 +370,38 @@ public class StatusManagerServlet
                 (MBeanServerNotification.REGISTRATION_NOTIFICATION)) {
                 String type = objectName.getKeyProperty("type");
                 if (type != null) {
-                    if (type.equals("ProtocolHandler")) {
-                        protocolHandlers.addElement(objectName);
-                    } else if (type.equals("ThreadPool")) {
-                        threadPools.addElement(objectName);
-                    } else if (type.equals("GlobalRequestProcessor")) {
-                        globalRequestProcessors.addElement(objectName);
-                    } else if (type.equals("RequestProcessor")) {
-                        requestProcessors.addElement(objectName);
+                    switch (type) {
+                        case "ProtocolHandler":
+                            protocolHandlers.addElement(objectName);
+                            break;
+                        case "ThreadPool":
+                            threadPools.addElement(objectName);
+                            break;
+                        case "GlobalRequestProcessor":
+                            globalRequestProcessors.addElement(objectName);
+                            break;
+                        case "RequestProcessor":
+                            requestProcessors.addElement(objectName);
+                            break;
                     }
                 }
             } else if (notification.getType().equals
                        (MBeanServerNotification.UNREGISTRATION_NOTIFICATION)) {
                 String type = objectName.getKeyProperty("type");
                 if (type != null) {
-                    if (type.equals("ProtocolHandler")) {
-                        protocolHandlers.removeElement(objectName);
-                    } else if (type.equals("ThreadPool")) {
-                        threadPools.removeElement(objectName);
-                    } else if (type.equals("GlobalRequestProcessor")) {
-                        globalRequestProcessors.removeElement(objectName);
-                    } else if (type.equals("RequestProcessor")) {
-                        requestProcessors.removeElement(objectName);
+                    switch (type) {
+                        case "ProtocolHandler":
+                            protocolHandlers.removeElement(objectName);
+                            break;
+                        case "ThreadPool":
+                            threadPools.removeElement(objectName);
+                            break;
+                        case "GlobalRequestProcessor":
+                            globalRequestProcessors.removeElement(objectName);
+                            break;
+                        case "RequestProcessor":
+                            requestProcessors.removeElement(objectName);
+                            break;
                     }
                 }
             }

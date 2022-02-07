@@ -140,7 +140,7 @@ public final class Constants {
      * @param code the coded value
      * @return the string value of the method
      */
-    public static final String getMethodForCode(final int code) {
+    public static String getMethodForCode(final int code) {
         return methodTransArray[code];
     }
 
@@ -185,7 +185,7 @@ public final class Constants {
      * @param code the coded value
      * @return the string value of the header name
      */
-    public static final String getHeaderForCode(final int code) {
+    public static String getHeaderForCode(final int code) {
         return headerTransArray[code];
     }
 
@@ -209,19 +209,18 @@ public final class Constants {
      * @param code the coded value
      * @return the string value of the header
      */
-    public static final String getResponseHeaderForCode(final int code) {
+    public static String getResponseHeaderForCode(final int code) {
         return responseTransArray[code];
     }
 
-    private static final Hashtable<String,Integer>  responseTransHash =
-            new Hashtable<>(20);
+    private static final Hashtable<String,Integer>  responseTransHash = new Hashtable<>(20);
 
     static {
         try {
             int i;
             for (i = 0; i < SC_RESP_AJP13_MAX; i++) {
                 responseTransHash.put(getResponseHeaderForCode(i),
-                        Integer.valueOf(0xA001 + i));
+                    0xA001 + i);
             }
         }
         catch (Exception e) {
@@ -229,13 +228,13 @@ public final class Constants {
         }
     }
 
-    public static final int getResponseAjpIndex(String header)
+    public static int getResponseAjpIndex(String header)
     {
         Integer i = responseTransHash.get(header);
         if (i == null) {
             return 0;
         } else {
-            return i.intValue();
+            return i;
         }
     }
 }

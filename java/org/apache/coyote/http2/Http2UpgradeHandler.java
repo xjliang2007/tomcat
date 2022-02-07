@@ -78,7 +78,7 @@ class Http2UpgradeHandler extends AbstractStream implements InternalHttpUpgradeH
     protected static final StringManager sm = StringManager.getManager(Http2UpgradeHandler.class);
 
     private static final AtomicInteger connectionIdGenerator = new AtomicInteger(0);
-    private static final Integer STREAM_ID_ZERO = Integer.valueOf(0);
+    private static final Integer STREAM_ID_ZERO = 0;
 
     protected static final int FLAG_END_OF_STREAM = 1;
     protected static final int FLAG_END_OF_HEADERS = 4;

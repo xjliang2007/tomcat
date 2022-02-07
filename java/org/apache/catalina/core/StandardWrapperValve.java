@@ -42,6 +42,8 @@ import org.apache.tomcat.util.log.SystemLogHandler;
 import org.apache.tomcat.util.res.StringManager;
 
 /**
+ * TODO 重点关注
+ *
  * Valve that implements the default basic behavior for the
  * <code>StandardWrapper</code> container implementation.
  *
@@ -61,9 +63,11 @@ final class StandardWrapperValve extends ValveBase {
 
     // ----------------------------------------------------- Instance Variables
 
-    // Some JMX statistics. This valve is associated with a StandardWrapper.
-    // We expose the StandardWrapper as JMX ( j2eeType=Servlet ). The fields
-    // are here for performance.
+    /**
+     * Some JMX statistics. This valve is associated with a StandardWrapper.
+     * We expose the StandardWrapper as JMX ( j2eeType=Servlet ). The fields
+     * are here for performance.
+     */
     private volatile long processingTime;
     private volatile long maxTime;
     private volatile long minTime = Long.MAX_VALUE;
@@ -91,7 +95,7 @@ final class StandardWrapperValve extends ValveBase {
         boolean unavailable = false;
         Throwable throwable = null;
         // This should be a Request attribute...
-        long t1=System.currentTimeMillis();
+        long t1 = System.currentTimeMillis();
         requestCount.incrementAndGet();
         StandardWrapper wrapper = (StandardWrapper) getContainer();
         Servlet servlet = null;
@@ -158,7 +162,7 @@ final class StandardWrapperValve extends ValveBase {
 
         MessageBytes requestPathMB = request.getRequestPathMB();
         DispatcherType dispatcherType = DispatcherType.REQUEST;
-        if (request.getDispatcherType()==DispatcherType.ASYNC) {
+        if (request.getDispatcherType() == DispatcherType.ASYNC) {
             dispatcherType = DispatcherType.ASYNC;
         }
         request.setAttribute(Globals.DISPATCHER_TYPE_ATTR,dispatcherType);
@@ -286,15 +290,15 @@ final class StandardWrapperValve extends ValveBase {
                     exception(request, response, e);
                 }
             }
-            long t2=System.currentTimeMillis();
+            long t2 = System.currentTimeMillis();
 
-            long time=t2-t1;
+            long time = t2-t1;
             processingTime += time;
             if( time > maxTime) {
-                maxTime=time;
+                maxTime = time;
             }
             if( time < minTime) {
-                minTime=time;
+                minTime = time;
             }
         }
     }

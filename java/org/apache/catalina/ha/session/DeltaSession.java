@@ -55,6 +55,7 @@ import org.apache.tomcat.util.res.StringManager;
  * track of deltas during a request.
  */
 public class DeltaSession extends StandardSession implements Externalizable,ClusterSession,ReplicatedMapEntry {
+    private static final long serialVersionUID = 2752609111726365693L;
 
     public static final Log log = LogFactory.getLog(DeltaSession.class);
 
@@ -281,10 +282,7 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
     @Override
     public boolean isAccessReplicate() {
         long replDelta = System.currentTimeMillis() - getLastTimeReplicated();
-        if (maxInactiveInterval >=0 && replDelta > (maxInactiveInterval * 1000L)) {
-            return true;
-        }
-        return false;
+        return maxInactiveInterval >= 0 && replDelta > (maxInactiveInterval * 1000L);
     }
 
     /**
@@ -533,9 +531,9 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
             if (notifyCluster) {
                 if (log.isDebugEnabled()) {
                     log.debug(sm.getString("deltaSession.notifying",
-                                           ((ClusterManager)manager).getName(),
-                                           Boolean.valueOf(isPrimarySession()),
-                                           expiredId));
+                        ((ClusterManager) manager).getName(),
+                        isPrimarySession(),
+                        expiredId));
                 }
                 if ( manager instanceof DeltaManager ) {
                     ( (DeltaManager) manager).sessionExpired(expiredId);
@@ -834,13 +832,13 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
 
         // Deserialize the scalar instance variables (except Manager)
         authType = null; // Transient only
-        creationTime = ( (Long) stream.readObject()).longValue();
-        lastAccessedTime = ( (Long) stream.readObject()).longValue();
-        maxInactiveInterval = ( (Integer) stream.readObject()).intValue();
-        isNew = ( (Boolean) stream.readObject()).booleanValue();
-        isValid = ( (Boolean) stream.readObject()).booleanValue();
-        thisAccessedTime = ( (Long) stream.readObject()).longValue();
-        version = ( (Long) stream.readObject()).longValue();
+        creationTime = (Long) stream.readObject();
+        lastAccessedTime = (Long) stream.readObject();
+        maxInactiveInterval = (Integer) stream.readObject();
+        isNew = (Boolean) stream.readObject();
+        isValid = (Boolean) stream.readObject();
+        thisAccessedTime = (Long) stream.readObject();
+        version = (Long) stream.readObject();
         boolean hasPrincipal = stream.readBoolean();
         principal = null;
         if (hasPrincipal) {
@@ -857,7 +855,7 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
         if (attributes == null) {
             attributes = new ConcurrentHashMap<>();
         }
-        int n = ( (Integer) stream.readObject()).intValue();
+        int n = (Integer) stream.readObject();
         boolean isValidSave = isValid;
         isValid = true;
         for (int i = 0; i < n; i++) {
@@ -885,7 +883,7 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
         isValid = isValidSave;
 
         // Session listeners
-        n = ((Integer) stream.readObject()).intValue();
+        n = (Integer) stream.readObject();
         if (listeners == null || n > 0) {
             listeners = new ArrayList<>();
         }
@@ -939,13 +937,13 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
 
     private void doWriteObject(ObjectOutput stream) throws IOException {
         // Write the scalar instance variables (except Manager)
-        stream.writeObject(Long.valueOf(creationTime));
-        stream.writeObject(Long.valueOf(lastAccessedTime));
-        stream.writeObject(Integer.valueOf(maxInactiveInterval));
-        stream.writeObject(Boolean.valueOf(isNew));
-        stream.writeObject(Boolean.valueOf(isValid));
-        stream.writeObject(Long.valueOf(thisAccessedTime));
-        stream.writeObject(Long.valueOf(version));
+        stream.writeObject(creationTime);
+        stream.writeObject(lastAccessedTime);
+        stream.writeObject(maxInactiveInterval);
+        stream.writeObject(isNew);
+        stream.writeObject(isValid);
+        stream.writeObject(thisAccessedTime);
+        stream.writeObject(version);
         stream.writeBoolean(getPrincipal() instanceof Serializable);
         if (getPrincipal() instanceof Serializable) {
             stream.writeObject(getPrincipal());
@@ -957,7 +955,7 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
         }
 
         // Accumulate the names of serializable and non-serializable attributes
-        String keys[] = keys();
+        String[] keys = keys();
         List<String> saveNames = new ArrayList<>();
         List<Object> saveValues = new ArrayList<>();
         for (String key : keys) {
@@ -972,7 +970,7 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
 
         // Serialize the attribute count and the Serializable attributes
         int n = saveNames.size();
-        stream.writeObject(Integer.valueOf(n));
+        stream.writeObject(n);
         for (int i = 0; i < n; i++) {
             stream.writeObject( saveNames.get(i));
             try {
@@ -989,7 +987,7 @@ public class DeltaSession extends StandardSession implements Externalizable,Clus
                 saveListeners.add(listener);
             }
         }
-        stream.writeObject(Integer.valueOf(saveListeners.size()));
+        stream.writeObject(saveListeners.size());
         for (SessionListener listener : saveListeners) {
             stream.writeObject(listener);
         }

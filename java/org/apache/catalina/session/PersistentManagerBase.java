@@ -50,7 +50,10 @@ import org.apache.juli.logging.LogFactory;
 public abstract class PersistentManagerBase extends ManagerBase
         implements StoreManager {
 
-    private final Log log = LogFactory.getLog(PersistentManagerBase.class); // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(PersistentManagerBase.class);
 
     // ---------------------------------------------------- Security Classes
 

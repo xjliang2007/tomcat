@@ -31,8 +31,7 @@ import org.apache.tomcat.util.res.StringManager;
  */
 public class ClusterSessionListener extends ClusterListener {
 
-    private static final Log log =
-        LogFactory.getLog(ClusterSessionListener.class);
+    private static final Log log = LogFactory.getLog(ClusterSessionListener.class);
     private static final StringManager sm = StringManager.getManager(ClusterSessionListener.class);
 
     //--Constructor---------------------------------------------

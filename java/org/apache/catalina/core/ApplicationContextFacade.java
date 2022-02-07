@@ -137,15 +137,14 @@ public class ApplicationContextFacade implements ServletContext {
 
     @Override
     public ServletContext getContext(String uripath) {
-        ServletContext theContext = null;
+        ServletContext theContext;
         if (SecurityUtil.isPackageProtectionEnabled()) {
             theContext = (ServletContext)
                 doPrivileged("getContext", new Object[]{uripath});
         } else {
             theContext = context.getContext(uripath);
         }
-        if ((theContext != null) &&
-            (theContext instanceof ApplicationContext)){
+        if ((theContext instanceof ApplicationContext)){
             theContext = ((ApplicationContext)theContext).getFacade();
         }
         return theContext;

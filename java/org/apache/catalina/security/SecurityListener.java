@@ -36,8 +36,7 @@ public class SecurityListener implements LifecycleListener {
 
     private static final Log log = LogFactory.getLog(SecurityListener.class);
 
-    private static final StringManager sm =
-        StringManager.getManager(Constants.PACKAGE);
+    private static final StringManager sm = StringManager.getManager(Constants.PACKAGE);
 
     private static final String UMASK_PROPERTY_NAME =
         Constants.PACKAGE + ".SecurityListener.UMASK";
@@ -53,7 +52,7 @@ public class SecurityListener implements LifecycleListener {
      * The minimum umask that must be configured for the operating system user
      * running Tomcat. The umask is handled as an octal.
      */
-    private Integer minimumUmask = Integer.valueOf(7);
+    private Integer minimumUmask = 7;
 
 
     public SecurityListener() {
@@ -116,7 +115,7 @@ public class SecurityListener implements LifecycleListener {
      */
     public void setMinimumUmask(String umask) {
         if (umask == null || umask.length() == 0) {
-            minimumUmask = Integer.valueOf(0);
+            minimumUmask = 0;
         } else {
             minimumUmask = Integer.valueOf(umask, 8);
         }
@@ -175,7 +174,7 @@ public class SecurityListener implements LifecycleListener {
                 }
                 return;
             } else {
-                if (minimumUmask.intValue() > 0) {
+                if (minimumUmask > 0) {
                     log.warn(sm.getString(
                             "SecurityListener.checkUmaskNone",
                             UMASK_PROPERTY_NAME, getMinimumUmask()));
@@ -184,8 +183,7 @@ public class SecurityListener implements LifecycleListener {
             }
         }
 
-        if ((umask.intValue() & minimumUmask.intValue()) !=
-                minimumUmask.intValue()) {
+        if ((umask & minimumUmask) != minimumUmask) {
             throw new Error(sm.getString("SecurityListener.checkUmaskFail",
                     String.format(UMASK_FORMAT, umask), getMinimumUmask()));
         }

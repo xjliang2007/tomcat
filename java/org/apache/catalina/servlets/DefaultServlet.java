@@ -77,6 +77,7 @@ import org.apache.catalina.util.IOTools;
 import org.apache.catalina.util.ServerInfo;
 import org.apache.catalina.util.URLEncoder;
 import org.apache.catalina.webresources.CachedResource;
+import org.apache.coyote.Constants;
 import org.apache.tomcat.util.buf.B2CConverter;
 import org.apache.tomcat.util.http.ResponseUtil;
 import org.apache.tomcat.util.http.parser.ContentRange;
@@ -853,13 +854,12 @@ public class DefaultServlet extends HttpServlet {
         }
 
         WebResource resource = resources.getResource(path);
-        boolean isError = DispatcherType.ERROR == request.getDispatcherType();
+        boolean isError = (DispatcherType.ERROR == request.getDispatcherType());
 
         if (!resource.exists()) {
             // Check if we're included so we can return the appropriate
             // missing resource name in the error
-            String requestUri = (String) request.getAttribute(
-                    RequestDispatcher.INCLUDE_REQUEST_URI);
+            String requestUri = (String) request.getAttribute(RequestDispatcher.INCLUDE_REQUEST_URI);
             if (requestUri == null) {
                 requestUri = request.getRequestURI();
             } else {
@@ -870,8 +870,7 @@ public class DefaultServlet extends HttpServlet {
             }
 
             if (isError) {
-                response.sendError(((Integer) request.getAttribute(
-                        RequestDispatcher.ERROR_STATUS_CODE)).intValue());
+                response.sendError((Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND,
                         sm.getString("defaultServlet.missingResource", requestUri));
@@ -895,8 +894,7 @@ public class DefaultServlet extends HttpServlet {
             }
 
             if (isError) {
-                response.sendError(((Integer) request.getAttribute(
-                        RequestDispatcher.ERROR_STATUS_CODE)).intValue());
+                response.sendError((Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
             } else {
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, requestUri);
             }
@@ -908,8 +906,7 @@ public class DefaultServlet extends HttpServlet {
         // satisfied.
         if (resource.isFile()) {
             // Checking If headers
-            included = (request.getAttribute(
-                    RequestDispatcher.INCLUDE_CONTEXT_PATH) != null);
+            included = (request.getAttribute(RequestDispatcher.INCLUDE_CONTEXT_PATH) != null);
             if (!included && !isError && !checkIfHeaders(request, response, resource)) {
                 return;
             }
@@ -1046,8 +1043,8 @@ public class DefaultServlet extends HttpServlet {
          * doing this.
          */
         boolean outputEncodingSpecified =
-                outputEncoding != org.apache.coyote.Constants.DEFAULT_BODY_CHARSET.name() &&
-                outputEncoding != resources.getContext().getResponseCharacterEncoding();
+            !outputEncoding.equals(Constants.DEFAULT_BODY_CHARSET.name()) &&
+                !outputEncoding.equals(resources.getContext().getResponseCharacterEncoding());
         if (!usingPrecompressedVersion && isText(contentType) && outputEncodingSpecified &&
                 !charset.equals(fileEncodingCharset)) {
             conversionRequired = true;
@@ -1172,8 +1169,7 @@ public class DefaultServlet extends HttpServlet {
             }
 
         } else {
-
-            if ((ranges == null) || (ranges.isEmpty())) {
+            if (ranges.isEmpty()) {
                 return;
             }
 
@@ -2135,7 +2131,7 @@ public class DefaultServlet extends HttpServlet {
                     log("globalXsltFile [" + f.getAbsolutePath() + "] is too big to buffer");
                 } else {
                     try (FileInputStream fis = new FileInputStream(f)){
-                        byte b[] = new byte[(int)f.length()];
+                        byte[] b = new byte[(int)f.length()];
                         IOTools.readFully(fis, b);
                         return new StreamSource(new ByteArrayInputStream(b));
                     }
@@ -2245,11 +2241,11 @@ public class DefaultServlet extends HttpServlet {
             ) {
             request.setAttribute(Globals.SENDFILE_FILENAME_ATTR, canonicalPath);
             if (range == null) {
-                request.setAttribute(Globals.SENDFILE_FILE_START_ATTR, Long.valueOf(0L));
-                request.setAttribute(Globals.SENDFILE_FILE_END_ATTR, Long.valueOf(length));
+                request.setAttribute(Globals.SENDFILE_FILE_START_ATTR, 0L);
+                request.setAttribute(Globals.SENDFILE_FILE_END_ATTR, length);
             } else {
-                request.setAttribute(Globals.SENDFILE_FILE_START_ATTR, Long.valueOf(range.start));
-                request.setAttribute(Globals.SENDFILE_FILE_END_ATTR, Long.valueOf(range.end + 1));
+                request.setAttribute(Globals.SENDFILE_FILE_START_ATTR, range.start);
+                request.setAttribute(Globals.SENDFILE_FILE_END_ATTR, range.end + 1);
             }
             return true;
         }
@@ -2290,7 +2286,7 @@ public class DefaultServlet extends HttpServlet {
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                         return false;
                     }
-                    conditionSatisfied = matched.booleanValue();
+                    conditionSatisfied = matched;
                 }
             } else {
                 conditionSatisfied = true;
@@ -2374,7 +2370,7 @@ public class DefaultServlet extends HttpServlet {
                         response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                         return false;
                     }
-                    conditionSatisfied = matched.booleanValue();
+                    conditionSatisfied = matched;
                 }
             } else {
                 conditionSatisfied = true;
@@ -2457,7 +2453,7 @@ public class DefaultServlet extends HttpServlet {
      */
     protected void copy(InputStream is, ServletOutputStream ostream) throws IOException {
 
-        IOException exception = null;
+        IOException exception;
         InputStream istream = new BufferedInputStream(is, input);
 
         // Copy the input stream to the output stream
@@ -2521,7 +2517,7 @@ public class DefaultServlet extends HttpServlet {
                       Range range)
         throws IOException {
 
-        IOException exception = null;
+        IOException exception;
 
         InputStream resourceInputStream = resource.getInputStream();
         InputStream istream =
@@ -2606,8 +2602,8 @@ public class DefaultServlet extends HttpServlet {
 
         // Copy the input stream to the output stream
         IOException exception = null;
-        byte buffer[] = new byte[input];
-        int len = buffer.length;
+        byte[] buffer = new byte[input];
+        int len;
         while (true) {
             try {
                 len = istream.read(buffer);
@@ -2639,8 +2635,8 @@ public class DefaultServlet extends HttpServlet {
 
         // Copy the input stream to the output stream
         IOException exception = null;
-        char buffer[] = new char[input];
-        int len = buffer.length;
+        char[] buffer = new char[input];
+        int len;
         while (true) {
             try {
                 len = reader.read(buffer);
@@ -2686,13 +2682,13 @@ public class DefaultServlet extends HttpServlet {
         }
         if (skipped < start) {
             return new IOException(sm.getString("defaultServlet.skipfail",
-                    Long.valueOf(skipped), Long.valueOf(start)));
+                skipped, start));
         }
 
         IOException exception = null;
         long bytesToRead = end - start + 1;
 
-        byte buffer[] = new byte[input];
+        byte[] buffer = new byte[input];
         int len = buffer.length;
         while ( (bytesToRead > 0) && (len >= buffer.length)) {
             try {
@@ -3078,7 +3074,7 @@ public class DefaultServlet extends HttpServlet {
         }
     }
 
-    static enum BomConfig {
+    enum BomConfig {
         /**
          * BoM is stripped if present and any BoM found used to determine the
          * encoding used to read the resource.

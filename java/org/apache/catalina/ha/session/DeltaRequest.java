@@ -16,14 +16,6 @@
  */
 package org.apache.catalina.ha.session;
 
-/**
- * This class is used to track the series of actions that happens when
- * a request is executed. These actions will then translate into invocations of methods
- * on the actual session.
- * This class is NOT thread safe. One DeltaRequest per session
- * @version 1.0
- */
-
 import java.io.ByteArrayOutputStream;
 import java.io.Externalizable;
 import java.io.IOException;
@@ -37,8 +29,15 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.res.StringManager;
 
-
+/**
+ * This class is used to track the series of actions that happens when
+ * a request is executed. These actions will then translate into invocations of methods
+ * on the actual session.
+ * This class is NOT thread safe. One DeltaRequest per session
+ * @version 1.0
+ */
 public class DeltaRequest implements Externalizable {
+    private static final long serialVersionUID = -4026534449045832987L;
 
     public static final Log log = LogFactory.getLog(DeltaRequest.class);
 
@@ -91,7 +90,7 @@ public class DeltaRequest implements Externalizable {
     }
 
     public void setMaxInactiveInterval(int interval) {
-        addAction(TYPE_MAXINTERVAL, ACTION_SET, NAME_MAXINTERVAL, Integer.valueOf(interval));
+        addAction(TYPE_MAXINTERVAL, ACTION_SET, NAME_MAXINTERVAL, interval);
     }
 
     /**
@@ -116,8 +115,7 @@ public class DeltaRequest implements Externalizable {
     }
 
     public void setNew(boolean n) {
-        int action = ACTION_SET;
-        addAction(TYPE_ISNEW,action,NAME_ISNEW,Boolean.valueOf(n));
+        addAction(TYPE_ISNEW, ACTION_SET,NAME_ISNEW, n);
     }
 
     public void setAuthType(String authType) {
@@ -187,13 +185,13 @@ public class DeltaRequest implements Externalizable {
                     if (log.isTraceEnabled()) {
                         log.trace("Session.setNew('" + info.getValue() + "')");
                     }
-                    session.setNew(((Boolean) info.getValue()).booleanValue(), false);
+                    session.setNew((Boolean) info.getValue(), false);
                     break;
                 case TYPE_MAXINTERVAL:
                     if (log.isTraceEnabled()) {
                         log.trace("Session.setMaxInactiveInterval('" + info.getValue() + "')");
                     }
-                    session.setMaxInactiveInterval(((Integer) info.getValue()).intValue(), false);
+                    session.setMaxInactiveInterval((Integer) info.getValue(), false);
                     break;
                 case TYPE_PRINCIPAL:
                     Principal p = null;
@@ -321,6 +319,8 @@ public class DeltaRequest implements Externalizable {
     }
 
     private static class AttributeInfo implements java.io.Externalizable {
+
+        private static final long serialVersionUID = -7116129240820211640L;
         private String name = null;
         private Object value = null;
         private int action;

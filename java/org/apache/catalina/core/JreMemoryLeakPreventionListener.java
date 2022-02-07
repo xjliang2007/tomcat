@@ -285,9 +285,8 @@ public class JreMemoryLeakPreventionListener implements LifecycleListener {
                     try {
                         Class<?> clazz = Class.forName("sun.misc.GC");
                         Method method = clazz.getDeclaredMethod(
-                                "requestLatency",
-                                new Class[] {long.class});
-                        method.invoke(null, Long.valueOf(Long.MAX_VALUE - 1));
+                                "requestLatency", long.class);
+                        method.invoke(null, Long.MAX_VALUE - 1);
                     } catch (ClassNotFoundException e) {
                         if (JreVendor.IS_ORACLE_JVM) {
                             log.error(sm.getString(

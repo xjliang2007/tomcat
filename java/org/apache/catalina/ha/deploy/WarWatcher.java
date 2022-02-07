@@ -73,9 +73,7 @@ public class WarWatcher {
         }
         File[] list = watchDir.listFiles(new WarFilter());
         if (list == null) {
-            log.warn(sm.getString("warWatcher.cantListWatchDir",
-                                  watchDir));
-
+            log.warn(sm.getString("warWatcher.cantListWatchDir", watchDir));
             list = new File[0];
         }
         //first make sure all the files are listed in our current status
@@ -107,7 +105,7 @@ public class WarWatcher {
             }
             if(log.isTraceEnabled()) {
                 log.trace(sm.getString("warWatcher.checkWarResult",
-                                       Integer.valueOf(check),
+                    check,
                                        info.getWar()));
             }
         }
@@ -122,7 +120,8 @@ public class WarWatcher {
         WarInfo info = currentStatus.get(warfile.getAbsolutePath());
         if (info == null) {
             info = new WarInfo(warfile);
-            info.setLastState(-1); //assume file is non existent
+            //assume file is non existent
+            info.setLastState(-1);
             currentStatus.put(warfile.getAbsolutePath(), info);
         }
     }

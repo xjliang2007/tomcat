@@ -151,8 +151,8 @@ class AsyncStateMachine {
         private final boolean isCompleting;
         private final boolean isDispatching;
 
-        private AsyncState(boolean isAsync, boolean isStarted, boolean isCompleting,
-                boolean isDispatching) {
+        AsyncState(boolean isAsync, boolean isStarted, boolean isCompleting,
+            boolean isDispatching) {
             this.isAsync = isAsync;
             this.isStarted = isStarted;
             this.isCompleting = isCompleting;
@@ -179,7 +179,7 @@ class AsyncStateMachine {
 
     private volatile AsyncState state = AsyncState.DISPATCHED;
     private volatile long lastAsyncStart = 0;
-    /*
+    /**
      * Tracks the current generation of async processing for this state machine.
      * The generation is incremented every time async processing is started. The
      * primary purpose of this is to enable Tomcat to detect and prevent

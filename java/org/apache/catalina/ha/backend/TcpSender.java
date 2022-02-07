@@ -30,11 +30,10 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.res.StringManager;
 
-/*
- * Sender to proxies using multicast socket.
+/**
+ * Sender to proxies using tcp socket.
  */
-public class TcpSender
-    implements Sender {
+public class TcpSender implements Sender {
 
     private static final Log log = LogFactory.getLog(HeartbeatListener.class);
     private static final StringManager sm = StringManager.getManager(TcpSender.class);
@@ -141,12 +140,11 @@ public class TcpSender
             if (responseStatus == null) {
                 log.error(sm.getString("tcpSender.responseError"));
                 close(i);
-                continue;
             } else {
                 responseStatus = responseStatus.substring(responseStatus.indexOf(' ') + 1, responseStatus.indexOf(' ', responseStatus.indexOf(' ') + 1));
                 int status = Integer.parseInt(responseStatus);
                 if (status != 200) {
-                    log.error(sm.getString("tcpSender.responseErrorCode", Integer.valueOf(status)));
+                    log.error(sm.getString("tcpSender.responseErrorCode", status));
                     close(i);
                     continue;
                 }
@@ -166,7 +164,7 @@ public class TcpSender
                 if (contentLength > 0) {
                     char[] buf = new char[512];
                     while (contentLength > 0) {
-                        int thisTime = (contentLength > buf.length) ? buf.length : contentLength;
+                        int thisTime = Math.min(contentLength, buf.length);
                         int n = connectionReaders[i].read(buf, 0, thisTime);
                         if (n <= 0) {
                             log.error(sm.getString("tcpSender.readError"));

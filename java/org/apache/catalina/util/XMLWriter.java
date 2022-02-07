@@ -139,38 +139,36 @@ public class XMLWriter {
             switch (type) {
             case OPENING:
                 if (namespaceInfo != null) {
-                    buffer.append("<" + namespace + ":" + name + " xmlns:"
-                                  + namespace + "=\""
-                                  + namespaceInfo + "\">");
+                    buffer.append("<").append(namespace).append(":").append(name).append(" xmlns:").append(namespace)
+                        .append("=\"").append(namespaceInfo).append("\">");
                 } else {
-                    buffer.append("<" + namespace + ":" + name + ">");
+                    buffer.append("<").append(namespace).append(":").append(name).append(">");
                 }
                 break;
             case CLOSING:
-                buffer.append("</" + namespace + ":" + name + ">\n");
+                buffer.append("</").append(namespace).append(":").append(name).append(">\n");
                 break;
             case NO_CONTENT:
             default:
                 if (namespaceInfo != null) {
-                    buffer.append("<" + namespace + ":" + name + " xmlns:"
-                                  + namespace + "=\""
-                                  + namespaceInfo + "\"/>");
+                    buffer.append("<").append(namespace).append(":").append(name).append(" xmlns:").append(namespace)
+                        .append("=\"").append(namespaceInfo).append("\"/>");
                 } else {
-                    buffer.append("<" + namespace + ":" + name + "/>");
+                    buffer.append("<").append(namespace).append(":").append(name).append("/>");
                 }
                 break;
             }
         } else {
             switch (type) {
             case OPENING:
-                buffer.append("<" + name + ">");
+                buffer.append("<").append(name).append(">");
                 break;
             case CLOSING:
-                buffer.append("</" + name + ">\n");
+                buffer.append("</").append(name).append(">\n");
                 break;
             case NO_CONTENT:
             default:
-                buffer.append("<" + name + "/>");
+                buffer.append("<").append(name).append("/>");
                 break;
             }
         }
@@ -193,7 +191,7 @@ public class XMLWriter {
      * @param data Data to append
      */
     public void writeData(String data) {
-        buffer.append("<![CDATA[" + data + "]]>");
+        buffer.append("<![CDATA[").append(data).append("]]>");
     }
 
 

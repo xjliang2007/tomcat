@@ -72,8 +72,8 @@ public final class ClassLoaderFactory {
      *
      * @exception Exception if an error occurs constructing the class loader
      */
-    public static ClassLoader createClassLoader(File unpacked[],
-                                                File packed[],
+    public static ClassLoader createClassLoader(File[] unpacked,
+                                                File[] packed,
                                                 final ClassLoader parent)
         throws Exception {
 
@@ -105,7 +105,7 @@ public final class ClassLoaderFactory {
                 if (!directory.isDirectory() || !directory.canRead()) {
                     continue;
                 }
-                String filenames[] = directory.list();
+                String[] filenames = directory.list();
                 if (filenames == null) {
                     continue;
                 }
@@ -201,7 +201,7 @@ public final class ClassLoaderFactory {
                         log.debug("  Including directory glob "
                             + directory.getAbsolutePath());
                     }
-                    String filenames[] = directory.list();
+                    String[] filenames = directory.list();
                     if (filenames == null) {
                         continue;
                     }

@@ -1255,7 +1255,7 @@ public class NamingContextListener
         StringTokenizer tokenizer = new StringTokenizer(name, "/");
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
-            if ((!token.equals("")) && (tokenizer.hasMoreTokens())) {
+            if ((!"".equals(token)) && (tokenizer.hasMoreTokens())) {
                 try {
                     currentContext = currentContext.createSubcontext(token);
                 } catch (NamingException e) {
@@ -1277,7 +1277,7 @@ public class NamingContextListener
      */
     private LookupRef lookForLookupRef(ResourceBase resourceBase) {
         String lookupName = resourceBase.getLookupName();
-        if ((lookupName != null && !lookupName.equals(""))) {
+        if ((lookupName != null && !"".equals(lookupName))) {
             return new LookupRef(resourceBase.getType(), lookupName);
         }
         return null;

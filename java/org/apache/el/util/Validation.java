@@ -79,7 +79,8 @@ public class Validation {
         int i = 0;
         int j = invalidIdentifiers.length;
         while (i < j) {
-            int k = (i + j) >>> 1; // Avoid overflow
+            // Avoid overflow
+            int k = (i + j) >>> 1;
             int result = invalidIdentifiers[k].compareTo(key);
             if (result == 0) {
                 return false;

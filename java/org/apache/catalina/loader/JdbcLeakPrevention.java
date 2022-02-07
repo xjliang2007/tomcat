@@ -60,8 +60,7 @@ public class JdbcLeakPrevention {
         while (drivers.hasMoreElements()) {
             Driver driver = drivers.nextElement();
             // Only unload the drivers this web app loaded
-            if (driver.getClass().getClassLoader() !=
-                this.getClass().getClassLoader()) {
+            if (driver.getClass().getClassLoader() != this.getClass().getClassLoader()) {
                 continue;
             }
             // Only report drivers that were originally registered. Skip any

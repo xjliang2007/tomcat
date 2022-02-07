@@ -765,7 +765,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
                             resources.getContext().getName()));
                     return true;
                 }
-                if (recordedLastModified.longValue() != jar.getLastModified()) {
+                if (recordedLastModified != jar.getLastModified()) {
                     // Jar has been changed
                     log.info(sm.getString("webappClassLoader.jarsModified",
                             resources.getContext().getName()));
@@ -856,7 +856,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
 
         // Ask our superclass to locate this class, if possible
         // (throws ClassNotFoundException if it is not found)
-        Class<?> clazz = null;
+        Class<?> clazz;
         try {
             if (log.isTraceEnabled()) {
                 log.trace("      findClassInternal(" + name + ")");
@@ -1248,7 +1248,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
             if (log.isDebugEnabled()) {
                 log.debug("loadClass(" + name + ", " + resolve + ")");
             }
-            Class<?> clazz = null;
+            Class<?> clazz;
 
             // Log access to stopped class loader
             checkStateForClassLoading(name);
@@ -1465,9 +1465,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
             URL contextRootUrl = resources.getResource("/").getCodeBase();
             CodeSource cs = new CodeSource(contextRootUrl, (Certificate[]) null);
             PermissionCollection pc = currentPolicy.getPermissions(cs);
-            if (pc.implies(permission)) {
-                return true;
-            }
+            return pc.implies(permission);
         }
         return false;
     }
@@ -1573,8 +1571,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
         for (WebResource jar : jars) {
             if (jar.getName().endsWith(".jar") && jar.isFile() && jar.canRead()) {
                 localRepositories.add(jar.getURL());
-                jarModificationTimes.put(
-                        jar.getName(), Long.valueOf(jar.getLastModified()));
+                jarModificationTimes.put(jar.getName(), jar.getLastModified());
             }
         }
 
@@ -1713,7 +1710,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
      *
      * If only apps cleaned up after themselves...
      */
-    private final void clearReferencesJdbc() {
+    private void clearReferencesJdbc() {
         // We know roughly how big the class will be (~ 1K) so allow 2k as a
         // starting point
         byte[] classBytes = new byte[2048];
@@ -1828,7 +1825,6 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
                                 target = targetField.get(thread);
                                 break;
                             } catch (NoSuchFieldException nfe) {
-                                continue;
                             }
                         }
 
@@ -1903,7 +1899,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
 
         StackTraceElement[] elements = thread.getStackTrace();
 
-        if (elements == null || elements.length == 0) {
+        if (elements.length == 0) {
             // Must have stopped already. Too late to ignore it. Assume not a
             // request processing thread.
             return false;
@@ -2309,7 +2305,6 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
                 // options.
                 String currentModule = JreCompat.getInstance().getModuleName(this.getClass());
                 log.warn(sm.getString("webappClassLoader.addExportsJavaIo", currentModule));
-                return;
             } else {
                 // Re-throw all other exceptions
                 throw e;
@@ -2713,7 +2708,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
     public boolean hasLoggingConfig() {
         if (Globals.IS_SECURITY_ENABLED) {
             Boolean result = AccessController.doPrivileged(new PrivilegedHasLoggingConfig());
-            return result.booleanValue();
+            return result;
         } else {
             return findResource("logging.properties") != null;
         }
@@ -2724,7 +2719,7 @@ public abstract class WebappClassLoaderBase extends URLClassLoader
 
         @Override
         public Boolean run() {
-            return Boolean.valueOf(findResource("logging.properties") != null);
+            return findResource("logging.properties") != null;
         }
     }
 

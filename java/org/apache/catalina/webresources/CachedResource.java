@@ -187,10 +187,10 @@ public class CachedResource implements WebResource {
         Long cachedLastModified = this.cachedLastModified;
         if (cachedLastModified == null) {
             cachedLastModified =
-                    Long.valueOf(webResource.getLastModified());
+                webResource.getLastModified();
             this.cachedLastModified = cachedLastModified;
         }
-        return cachedLastModified.longValue();
+        return cachedLastModified;
     }
 
     @Override
@@ -207,40 +207,40 @@ public class CachedResource implements WebResource {
     public boolean exists() {
         Boolean cachedExists = this.cachedExists;
         if (cachedExists == null) {
-            cachedExists = Boolean.valueOf(webResource.exists());
+            cachedExists = webResource.exists();
             this.cachedExists = cachedExists;
         }
-        return cachedExists.booleanValue();
+        return cachedExists;
     }
 
     @Override
     public boolean isVirtual() {
         Boolean cachedIsVirtual = this.cachedIsVirtual;
         if (cachedIsVirtual == null) {
-            cachedIsVirtual = Boolean.valueOf(webResource.isVirtual());
+            cachedIsVirtual = webResource.isVirtual();
             this.cachedIsVirtual = cachedIsVirtual;
         }
-        return cachedIsVirtual.booleanValue();
+        return cachedIsVirtual;
     }
 
     @Override
     public boolean isDirectory() {
         Boolean cachedIsDirectory = this.cachedIsDirectory;
         if (cachedIsDirectory == null) {
-            cachedIsDirectory = Boolean.valueOf(webResource.isDirectory());
+            cachedIsDirectory = webResource.isDirectory();
             this.cachedIsDirectory = cachedIsDirectory;
         }
-        return cachedIsDirectory.booleanValue();
+        return cachedIsDirectory;
     }
 
     @Override
     public boolean isFile() {
         Boolean cachedIsFile = this.cachedIsFile;
         if (cachedIsFile == null) {
-            cachedIsFile = Boolean.valueOf(webResource.isFile());
+            cachedIsFile = webResource.isFile();
             this.cachedIsFile = cachedIsFile;
         }
-        return cachedIsFile.booleanValue();
+        return cachedIsFile;
     }
 
     @Override
@@ -264,12 +264,12 @@ public class CachedResource implements WebResource {
             long result = 0;
             if (webResource != null) {
                 result = webResource.getContentLength();
-                cachedContentLength = Long.valueOf(result);
+                cachedContentLength = result;
                 this.cachedContentLength = cachedContentLength;
             }
             return result;
         }
-        return cachedContentLength.longValue();
+        return cachedContentLength;
     }
 
     @Override
@@ -417,7 +417,7 @@ public class CachedResource implements WebResource {
         // Longer paths use a noticeable amount of memory so account for this in
         // the cache size. The fixed component of a String instance's memory
         // usage is accounted for in the 500 bytes above.
-        result += getWebappPath().length() * 2;
+        result += getWebappPath().length() * 2L;
         if (getContentLength() <= objectMaxSizeBytes) {
             result += getContentLength();
         }

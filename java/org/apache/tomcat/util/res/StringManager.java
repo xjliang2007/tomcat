@@ -51,7 +51,7 @@ import java.util.ResourceBundle;
  */
 public class StringManager {
 
-    private static int LOCALE_CACHE_SIZE = 10;
+    private static final int LOCALE_CACHE_SIZE = 10;
 
     /**
      * The ResourceBundle for this StringManager.
@@ -187,8 +187,7 @@ public class StringManager {
     // STATIC SUPPORT METHODS
     // --------------------------------------------------------------
 
-    private static final Map<String, Map<Locale,StringManager>> managers =
-            new Hashtable<>();
+    private static final Map<String, Map<Locale,StringManager>> managers = new Hashtable<>();
 
 
     /**
@@ -201,7 +200,7 @@ public class StringManager {
      *
      * @return The instance associated with the package of the provide class
      */
-    public static final StringManager getManager(Class<?> clazz) {
+    public static StringManager getManager(Class<?> clazz) {
         return getManager(clazz.getPackage().getName());
     }
 
@@ -216,7 +215,7 @@ public class StringManager {
      * @return The instance associated with the given package and the default
      *         Locale
      */
-    public static final StringManager getManager(String packageName) {
+    public static StringManager getManager(String packageName) {
         return getManager(packageName, Locale.getDefault());
     }
 
@@ -231,7 +230,7 @@ public class StringManager {
      *
      * @return The instance associated with the given package and Locale
      */
-    public static final synchronized StringManager getManager(
+    public static synchronized StringManager getManager(
             String packageName, Locale locale) {
 
         Map<Locale,StringManager> map = managers.get(packageName);

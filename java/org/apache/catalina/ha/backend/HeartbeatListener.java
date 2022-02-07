@@ -23,8 +23,8 @@ import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.apache.tomcat.util.res.StringManager;
 
-/*
- * Listener to provider informations to mod_heartbeat.c
+/**
+ * Listener to provider information to mod_heartbeat.c
  * *msg_format = "v=%u&ready=%u&busy=%u"; (message to send).
  * send the multicast message using the format...
  * what about the bind(IP. port) only IP makes sense (for the moment).
@@ -73,8 +73,10 @@ public class HeartbeatListener implements LifecycleListener {
     }
 
     /* for multicasting stuff */
-    protected String ip = "224.0.1.105"; /* Multicast IP */
-    protected int multiport = 23364;     /* Multicast Port */
+    /** Multicast IP */
+    protected String ip = "224.0.1.105";
+    /** Multicast Port */
+    protected int multiport = 23364;
     protected int ttl = 16;
 
     /* corresponding setters and getters */

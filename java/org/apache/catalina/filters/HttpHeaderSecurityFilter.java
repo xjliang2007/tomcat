@@ -36,11 +36,15 @@ import org.apache.juli.logging.LogFactory;
  */
 public class HttpHeaderSecurityFilter extends FilterBase {
 
-    // Log must be non-static as loggers are created per class-loader and this
-    // Filter may be used in multiple class loaders
-    private final Log log = LogFactory.getLog(HttpHeaderSecurityFilter.class); // must not be static
+    /**
+     * Log must be non-static as loggers are created per class-loader and this
+     * Filter may be used in multiple class loaders
+     */
+    private final Log log = LogFactory.getLog(HttpHeaderSecurityFilter.class);
 
-    // HSTS
+    /**
+     * for HSTS
+     */
     private static final String HSTS_HEADER_NAME = "Strict-Transport-Security";
     private boolean hstsEnabled = true;
     private int hstsMaxAgeSeconds = 0;
@@ -48,19 +52,25 @@ public class HttpHeaderSecurityFilter extends FilterBase {
     private boolean hstsPreload = false;
     private String hstsHeaderValue;
 
-    // Click-jacking protection
+    /**
+     * Click-jacking protection
+     */
     private static final String ANTI_CLICK_JACKING_HEADER_NAME = "X-Frame-Options";
     private boolean antiClickJackingEnabled = true;
     private XFrameOption antiClickJackingOption = XFrameOption.DENY;
     private URI antiClickJackingUri;
     private String antiClickJackingHeaderValue;
 
-    // Block content sniffing
+    /**
+     * Block content sniffing
+     */
     private static final String BLOCK_CONTENT_TYPE_SNIFFING_HEADER_NAME = "X-Content-Type-Options";
     private static final String BLOCK_CONTENT_TYPE_SNIFFING_HEADER_VALUE = "nosniff";
     private boolean blockContentTypeSniffingEnabled = true;
 
-    // Cross-site scripting filter protection
+    /**
+     * Cross-site scripting filter protection
+     */
     private static final String XSS_PROTECTION_HEADER_NAME = "X-XSS-Protection";
     private static final String XSS_PROTECTION_HEADER_VALUE = "1; mode=block";
     private boolean xssProtectionEnabled = true;
@@ -157,11 +167,7 @@ public class HttpHeaderSecurityFilter extends FilterBase {
 
 
     public void setHstsMaxAgeSeconds(int hstsMaxAgeSeconds) {
-        if (hstsMaxAgeSeconds < 0) {
-            this.hstsMaxAgeSeconds = 0;
-        } else {
-            this.hstsMaxAgeSeconds = hstsMaxAgeSeconds;
-        }
+        this.hstsMaxAgeSeconds = Math.max(hstsMaxAgeSeconds, 0);
     }
 
 

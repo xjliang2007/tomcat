@@ -154,8 +154,8 @@ public abstract class AbstractReplicatedMap<K,V>
 //              map owner interface
 //------------------------------------------------------------------------------
 
-    public static interface MapOwner {
-        public void objectMadePrimary(Object key, Object value);
+    public interface MapOwner {
+        void objectMadePrimary(Object key, Object value);
     }
 
 //------------------------------------------------------------------------------
@@ -325,7 +325,7 @@ public abstract class AbstractReplicatedMap<K,V>
             Member[] members = mapMembers.keySet().toArray(new Member[0]);
             long now = System.currentTimeMillis();
             for (Member member : members) {
-                long access = mapMembers.get(member).longValue();
+                long access = mapMembers.get(member);
                 if ( (now - access) > timeout ) {
                     log.warn(sm.getString("abstractReplicatedMap.ping.timeout", member, mapname));
                     memberDisappeared(member);
@@ -341,7 +341,7 @@ public abstract class AbstractReplicatedMap<K,V>
     protected void memberAlive(Member member) {
         mapMemberAdded(member);
         synchronized (mapMembers) {
-            mapMembers.put(member, Long.valueOf(System.currentTimeMillis()));
+            mapMembers.put(member, System.currentTimeMillis());
         }
     }
 
@@ -827,7 +827,7 @@ public abstract class AbstractReplicatedMap<K,V>
                 if (log.isInfoEnabled()) {
                     log.info(sm.getString("abstractReplicatedMap.mapMemberAdded.added", mapMember));
                 }
-                mapMembers.put(mapMember, Long.valueOf(System.currentTimeMillis()));
+                mapMembers.put(mapMember, System.currentTimeMillis());
                 memberAdded = true;
             }
         }

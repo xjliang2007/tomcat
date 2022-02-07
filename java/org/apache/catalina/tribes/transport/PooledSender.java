@@ -91,7 +91,7 @@ public abstract class PooledSender extends AbstractSender implements MultiPointS
     @Override
     public boolean keepalive() {
         //do nothing, the pool checks on every return
-        return (queue==null)?false:queue.checkIdleKeepAlive();
+        return queue != null && queue.checkIdleKeepAlive();
     }
 
     @Override

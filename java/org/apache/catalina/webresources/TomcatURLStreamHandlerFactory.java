@@ -61,8 +61,7 @@ public class TomcatURLStreamHandlerFactory implements URLStreamHandlerFactory {
     private final boolean registered;
 
     // List of factories for application defined stream handler factories.
-    private final List<URLStreamHandlerFactory> userFactories =
-            new CopyOnWriteArrayList<>();
+    private final List<URLStreamHandlerFactory> userFactories = new CopyOnWriteArrayList<>();
 
     /**
      * Register this factory with the JVM. May be called more than once. The

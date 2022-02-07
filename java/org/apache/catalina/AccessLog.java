@@ -33,55 +33,47 @@ import org.apache.catalina.connector.Response;
 public interface AccessLog {
 
     /**
-     * Name of request attribute used to override the remote address recorded by
-     * the AccessLog.
+     * Name of request attribute used to override the remote address recorded by the AccessLog.
      */
-    public static final String REMOTE_ADDR_ATTRIBUTE =
-            "org.apache.catalina.AccessLog.RemoteAddr";
+    String REMOTE_ADDR_ATTRIBUTE =
+        "org.apache.catalina.AccessLog.RemoteAddr";
 
     /**
-     * Name of request attribute used to override remote host name recorded by
-     * the AccessLog.
+     * Name of request attribute used to override remote host name recorded by the AccessLog.
      */
-    public static final String REMOTE_HOST_ATTRIBUTE =
-            "org.apache.catalina.AccessLog.RemoteHost";
+    String REMOTE_HOST_ATTRIBUTE =
+        "org.apache.catalina.AccessLog.RemoteHost";
 
     /**
-     * Name of request attribute used to override the protocol recorded by the
-     * AccessLog.
+     * Name of request attribute used to override the protocol recorded by the AccessLog.
      */
-    public static final String PROTOCOL_ATTRIBUTE =
-            "org.apache.catalina.AccessLog.Protocol";
+    String PROTOCOL_ATTRIBUTE =
+        "org.apache.catalina.AccessLog.Protocol";
 
     /**
-     * Name of request attribute used to override the server name recorded by
-     * the AccessLog.
+     * Name of request attribute used to override the server name recorded by the AccessLog.
      */
-    public static final String SERVER_NAME_ATTRIBUTE =
-            "org.apache.catalina.AccessLog.ServerName";
+    String SERVER_NAME_ATTRIBUTE =
+        "org.apache.catalina.AccessLog.ServerName";
 
     /**
-     * Name of request attribute used to override the server port recorded by
-     * the AccessLog.
+     * Name of request attribute used to override the server port recorded by the AccessLog.
      */
-    public static final String SERVER_PORT_ATTRIBUTE =
-            "org.apache.catalina.AccessLog.ServerPort";
+    String SERVER_PORT_ATTRIBUTE =
+        "org.apache.catalina.AccessLog.ServerPort";
 
 
     /**
-     * Add the request/response to the access log using the specified processing
-     * time.
+     * Add the request/response to the access log using the specified processing time.
      *
-     * @param request   Request (associated with the response) to log
-     * @param response  Response (associated with the request) to log
-     * @param time      Time taken to process the request/response in
-     *                  milliseconds (use 0 if not known)
+     * @param request  Request (associated with the response) to log
+     * @param response Response (associated with the request) to log
+     * @param time     Time taken to process the request/response in milliseconds (use 0 if not known)
      */
-    public void log(Request request, Response response, long time);
+    void log(Request request, Response response, long time);
 
     /**
-     * Should this valve use request attributes for IP address, hostname,
-     * protocol and port used for the request?
+     * Should this valve use request attributes for IP address, hostname, protocol and port used for the request?
      *
      * The attributes used are:
      * <ul>
@@ -92,16 +84,16 @@ public interface AccessLog {
      * <li>org.apache.catalina.ServerPost</li>
      * </ul>
      *
-     * @param requestAttributesEnabled  <code>true</code> causes the attributes
-     *                                  to be used, <code>false</code> causes
-     *                                  the original values to be used.
+     * @param requestAttributesEnabled <code>true</code> causes the attributes
+     *                                 to be used, <code>false</code> causes the original values to be used.
      */
-    public void setRequestAttributesEnabled(boolean requestAttributesEnabled);
+    void setRequestAttributesEnabled(boolean requestAttributesEnabled);
 
     /**
-     * @see #setRequestAttributesEnabled(boolean)
      * @return <code>true</code> if the attributes will be logged, otherwise
-     *         <code>false</code>
+     * <code>false</code>
+     *
+     * @see #setRequestAttributesEnabled(boolean)
      */
-    public boolean getRequestAttributesEnabled();
+    boolean getRequestAttributesEnabled();
 }
