@@ -205,7 +205,6 @@ public class TldScanner {
                 log.warn(Localizer.getMessage(MSG + ".webxmlFailPathDoesNotExist",
                         resourcePath,
                         taglibURI));
-                continue;
             }
         }
     }

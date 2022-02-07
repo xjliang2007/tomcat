@@ -43,7 +43,7 @@ public class Utf8Decoder extends CharsetDecoder {
     // 11oyyyyy 1oxxxxxx                   00000000 00000yyy yyxxxxxx
     // 111ozzzz 1oyyyyyy 1oxxxxxx          00000000 zzzzyyyy yyxxxxxx
     // 1111ouuu 1ouuzzzz 1oyyyyyy 1oxxxxxx 000uuuuu zzzzyyyy yyxxxxxx
-    private static final int remainingBytes[] = {
+    private static final int[] remainingBytes = {
             // 1owwwwww
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -58,13 +58,13 @@ public class Utf8Decoder extends CharsetDecoder {
             3, 3, 3, 3, 3, -1, -1, -1,
             // > 11110111
             -1, -1, -1, -1, -1, -1, -1, -1};
-    private static final int remainingNumbers[] = {0, // 0 1 2 3
+    private static final int[] remainingNumbers = {0, // 0 1 2 3
             4224, // (01o00000b << 6)+(1o000000b)
             401536, // (011o0000b << 12)+(1o000000b << 6)+(1o000000b)
             29892736 // (0111o000b << 18)+(1o000000b << 12)+(1o000000b <<
                      // 6)+(1o000000b)
     };
-    private static final int lowerEncodingLimit[] = {-1, 0x80, 0x800, 0x10000};
+    private static final int[] lowerEncodingLimit = {-1, 0x80, 0x800, 0x10000};
 
 
     public Utf8Decoder() {

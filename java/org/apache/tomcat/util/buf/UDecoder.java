@@ -104,64 +104,64 @@ public final class UDecoder {
 
     private void convert(ByteChunk mb, boolean query, EncodedSolidusHandling encodedSolidusHandling) throws IOException {
 
-        int start=mb.getOffset();
-        byte buff[]=mb.getBytes();
-        int end=mb.getEnd();
+        int start = mb.getOffset();
+        byte[] buff = mb.getBytes();
+        int end = mb.getEnd();
 
-        int idx= ByteChunk.findByte( buff, start, end, (byte) '%' );
-        int idx2=-1;
-        if( query ) {
-            idx2= ByteChunk.findByte( buff, start, (idx >= 0 ? idx : end), (byte) '+' );
+        int idx = ByteChunk.findByte(buff, start, end, (byte) '%');
+        int idx2 = -1;
+        if (query) {
+            idx2 = ByteChunk.findByte(buff, start, (idx >= 0 ? idx : end), (byte) '+');
         }
-        if( idx<0 && idx2<0 ) {
+        if (idx < 0 && idx2 < 0) {
             return;
         }
 
         // idx will be the smallest positive index ( first % or + )
-        if( (idx2 >= 0 && idx2 < idx) || idx < 0 ) {
-            idx=idx2;
+        if ((idx2 >= 0 && idx2 < idx) || idx < 0) {
+            idx = idx2;
         }
 
-        for( int j=idx; j<end; j++, idx++ ) {
-            if( buff[ j ] == '+' && query) {
-                buff[idx]= (byte)' ' ;
-            } else if( buff[ j ] != '%' ) {
-                buff[idx]= buff[j];
+        for (int j = idx; j < end; j++, idx++) {
+            if (buff[j] == '+' && query) {
+                buff[idx] = (byte) ' ';
+            } else if (buff[j] != '%') {
+                buff[idx] = buff[j];
             } else {
                 // read next 2 digits
-                if( j+2 >= end ) {
+                if (j + 2 >= end) {
                     throw EXCEPTION_EOF;
                 }
-                byte b1= buff[j+1];
-                byte b2=buff[j+2];
-                if( !isHexDigit( b1 ) || ! isHexDigit(b2 )) {
+                byte b1 = buff[j + 1];
+                byte b2 = buff[j + 2];
+                if (!isHexDigit(b1) || !isHexDigit(b2)) {
                     throw EXCEPTION_NOT_HEX_DIGIT;
                 }
 
-                j+=2;
-                int res=x2c( b1, b2 );
+                j += 2;
+                int res = x2c(b1, b2);
                 if (res == '/') {
                     switch (encodedSolidusHandling) {
-                    case DECODE: {
-                        buff[idx]=(byte)res;
-                        break;
-                    }
-                    case REJECT: {
-                        throw EXCEPTION_SLASH;
-                    }
-                    case PASS_THROUGH: {
-                        buff[idx++] = buff[j-2];
-                        buff[idx++] = buff[j-1];
-                        buff[idx] = buff[j];
-                    }
+                        case DECODE: {
+                            buff[idx] = (byte) res;
+                            break;
+                        }
+                        case REJECT: {
+                            throw EXCEPTION_SLASH;
+                        }
+                        case PASS_THROUGH: {
+                            buff[idx++] = buff[j - 2];
+                            buff[idx++] = buff[j - 1];
+                            buff[idx] = buff[j];
+                        }
                     }
                 } else {
-                    buff[idx]=(byte)res;
+                    buff[idx] = (byte) res;
                 }
             }
         }
 
-        mb.setEnd( idx );
+        mb.setEnd(idx);
     }
 
     // -------------------- Additional methods --------------------
@@ -183,7 +183,7 @@ public final class UDecoder {
     {
         //        log( "Converting a char chunk ");
         int start=mb.getOffset();
-        char buff[]=mb.getBuffer();
+        char[] buff =mb.getBuffer();
         int cend=mb.getEnd();
 
         int idx= CharChunk.indexOf( buff, start, cend, '%' );
@@ -327,7 +327,6 @@ public final class UDecoder {
             if (metaChar == '+') {
                 dec.append(' ');
                 strPos++;
-                continue;
             } else if (metaChar == '%') {
                 // We throw the original exception - the super will deal with
                 // it

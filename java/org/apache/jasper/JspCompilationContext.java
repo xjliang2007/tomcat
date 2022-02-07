@@ -191,7 +191,7 @@ public class JspCompilationContext {
     }
 
 
-    /** ---------- Input/Output  ---------- */
+    /* ---------- Input/Output  ---------- */
 
     /**
      * The output directory to generate code into.  The output directory

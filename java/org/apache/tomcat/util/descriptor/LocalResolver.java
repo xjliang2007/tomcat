@@ -34,8 +34,7 @@ import org.xml.sax.ext.EntityResolver2;
  */
 public class LocalResolver implements EntityResolver2 {
 
-    private static final StringManager sm =
-            StringManager.getManager(Constants.PACKAGE_NAME);
+    private static final StringManager sm = StringManager.getManager(Constants.PACKAGE_NAME);
 
     private static final String[] JAVA_EE_NAMESPACES = {
         XmlIdentifiers.JAVAEE_1_4_NS,

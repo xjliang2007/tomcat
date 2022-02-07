@@ -223,9 +223,9 @@ public final class UriUtil {
         }
         // path starts with something that might be a protocol. Look for a
         // following "://"
-        if (i + 2 < path.length() && path.charAt(i++) == ':' && path.charAt(i++) == '/' && path.charAt(i) == '/') {
-            return true;
-        }
-        return false;
+        return i + 2 < path.length()
+            && path.charAt(i++) == ':'
+            && path.charAt(i++) == '/'
+            && path.charAt(i) == '/';
     }
 }

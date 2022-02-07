@@ -70,12 +70,11 @@ import org.apache.tomcat.Jar;
 @SuppressWarnings("deprecation") // Have to support SingleThreadModel
 public class JspServletWrapper {
 
-    private static final Map<String,Long> ALWAYS_OUTDATED_DEPENDENCIES =
-            new HashMap<>();
+    private static final Map<String,Long> ALWAYS_OUTDATED_DEPENDENCIES = new HashMap<>();
 
     static {
         // If this is missing,
-        ALWAYS_OUTDATED_DEPENDENCIES.put("/WEB-INF/web.xml", Long.valueOf(-1));
+        ALWAYS_OUTDATED_DEPENDENCIES.put("/WEB-INF/web.xml", -1L);
     }
 
     // Logger
@@ -120,9 +119,9 @@ public class JspServletWrapper {
         this.config = config;
         this.options = options;
         this.jspUri = jspUri;
-        unloadByCount = options.getMaxLoadedJsps() > 0 ? true : false;
-        unloadByIdle = options.getJspIdleTimeout() > 0 ? true : false;
-        unloadAllowed = unloadByCount || unloadByIdle ? true : false;
+        unloadByCount = options.getMaxLoadedJsps() > 0;
+        unloadByIdle = options.getJspIdleTimeout() > 0;
+        unloadAllowed = unloadByCount || unloadByIdle;
         ctxt = new JspCompilationContext(jspUri, options,
                                          config.getServletContext(),
                                          this, rctxt);
@@ -143,9 +142,9 @@ public class JspServletWrapper {
         this.options = options;
         this.jspUri = tagFilePath;
         this.tripCount = 0;
-        unloadByCount = options.getMaxLoadedJsps() > 0 ? true : false;
-        unloadByIdle = options.getJspIdleTimeout() > 0 ? true : false;
-        unloadAllowed = unloadByCount || unloadByIdle ? true : false;
+        unloadByCount = options.getMaxLoadedJsps() > 0;
+        unloadByIdle = options.getJspIdleTimeout() > 0;
+        unloadAllowed = unloadByCount || unloadByIdle;
         ctxt = new JspCompilationContext(jspUri, tagInfo, options,
                                          servletContext, this, rctxt,
                                          tagJar);

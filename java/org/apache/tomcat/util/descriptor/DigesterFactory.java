@@ -36,8 +36,7 @@ import org.xml.sax.ext.EntityResolver2;
  */
 public class DigesterFactory {
 
-    private static final StringManager sm =
-            StringManager.getManager(Constants.PACKAGE_NAME);
+    private static final StringManager sm = StringManager.getManager(Constants.PACKAGE_NAME);
 
     private static final Class<ServletContext> CLASS_SERVLET_CONTEXT;
     private static final Class<?> CLASS_JSP_CONTEXT;

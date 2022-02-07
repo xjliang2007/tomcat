@@ -27,8 +27,7 @@ import org.xml.sax.SAXParseException;
 
 public class XmlErrorHandler implements ErrorHandler {
 
-    private static final StringManager sm =
-        StringManager.getManager(Constants.PACKAGE_NAME);
+    private static final StringManager sm = StringManager.getManager(Constants.PACKAGE_NAME);
 
     private final List<SAXParseException> errors = new ArrayList<>();
 

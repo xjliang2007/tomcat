@@ -42,9 +42,7 @@ import org.apache.tools.ant.types.FileSet;
  *
  * @author Mark Roth
  */
-public class Txt2Html
-    extends Task
-{
+public class Txt2Html extends Task {
 
     /** The directory to contain the resulting files */
     private File todir;

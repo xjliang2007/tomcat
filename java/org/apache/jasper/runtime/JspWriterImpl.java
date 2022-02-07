@@ -42,7 +42,7 @@ public class JspWriterImpl extends JspWriter {
 
     private Writer out;
     private ServletResponse response;
-    private char cb[];
+    private char[] cb;
     private int nextChar;
     private boolean flushed = false;
     private boolean closed = false;
@@ -147,7 +147,7 @@ public class JspWriterImpl extends JspWriter {
         nextChar = 0;
     }
 
-    private final void bufferOverflow() throws IOException {
+    private void bufferOverflow() throws IOException {
         throw new IOException(Localizer.getMessage("jsp.error.overflow"));
     }
 
@@ -244,7 +244,7 @@ public class JspWriterImpl extends JspWriter {
      * @param  len   Number of characters to write
      */
     @Override
-    public void write(char cbuf[], int off, int len)
+    public void write(char[] cbuf, int off, int len)
     throws IOException
     {
         ensureOpen();
@@ -298,7 +298,7 @@ public class JspWriterImpl extends JspWriter {
      * Writer class because it must suppress I/O exceptions.
      */
     @Override
-    public void write(char buf[]) throws IOException {
+    public void write(char[] buf) throws IOException {
         write(buf, 0, buf.length);
     }
 
@@ -444,7 +444,7 @@ public class JspWriterImpl extends JspWriter {
      * @throws  NullPointerException  If <code>s</code> is <code>null</code>
      */
     @Override
-    public void print(char s[]) throws IOException {
+    public void print(char[] s) throws IOException {
         write(s);
     }
 
@@ -568,7 +568,7 @@ public class JspWriterImpl extends JspWriter {
      * <code>{@link #println()}</code>.
      */
     @Override
-    public void println(char x[]) throws IOException {
+    public void println(char[] x) throws IOException {
         print(x);
         println();
     }

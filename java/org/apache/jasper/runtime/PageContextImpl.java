@@ -166,8 +166,7 @@ public class PageContextImpl extends PageContext {
         try {
             ((JspWriterImpl) out).flushBuffer();
         } catch (IOException ex) {
-            IllegalStateException ise = new IllegalStateException(Localizer.getMessage("jsp.error.flush"), ex);
-            throw ise;
+            throw new IllegalStateException(Localizer.getMessage("jsp.error.flush"), ex);
         } finally {
             servlet = null;
             config = null;
@@ -603,7 +602,7 @@ public class PageContextImpl extends PageContext {
              */
             request.setAttribute(PageContext.EXCEPTION, t);
             request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE,
-                    Integer.valueOf(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+                HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             request.setAttribute(RequestDispatcher.ERROR_REQUEST_URI,
                     ((HttpServletRequest) request).getRequestURI());
             request.setAttribute(RequestDispatcher.ERROR_SERVLET_NAME,

@@ -49,29 +49,24 @@ public class BodyContentImpl extends BodyContent {
             LIMIT_BUFFER = Boolean.parseBoolean(System.getProperty(
                     "org.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER", "false"));
             TAG_BUFFER_SIZE = Integer.getInteger(
-                    "org.apache.jasper.runtime.BodyContentImpl.BUFFER_SIZE",
-                    Constants.DEFAULT_TAG_BUFFER_SIZE).intValue();
+                "org.apache.jasper.runtime.BodyContentImpl.BUFFER_SIZE",
+                Constants.DEFAULT_TAG_BUFFER_SIZE);
         } else {
             LIMIT_BUFFER = AccessController.doPrivileged(
-                    new PrivilegedAction<Boolean>() {
-                        @Override
-                        public Boolean run() {
-                            return Boolean.valueOf(System.getProperty(
-                                    "org.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER",
-                                    "false"));
-                        }
-                    }
-            ).booleanValue();
+                (PrivilegedAction<Boolean>) () -> Boolean.valueOf(System.getProperty(
+                    "org.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER",
+                    "false"))
+            );
             TAG_BUFFER_SIZE = AccessController.doPrivileged(
-                    new PrivilegedAction<Integer>() {
-                        @Override
-                        public Integer run() {
-                            return Integer.getInteger(
-                                    "org.apache.jasper.runtime.BodyContentImpl.BUFFER_SIZE",
-                                    Constants.DEFAULT_TAG_BUFFER_SIZE);
-                        }
+                new PrivilegedAction<Integer>() {
+                    @Override
+                    public Integer run() {
+                        return Integer.getInteger(
+                            "org.apache.jasper.runtime.BodyContentImpl.BUFFER_SIZE",
+                            Constants.DEFAULT_TAG_BUFFER_SIZE);
                     }
-            ).intValue();
+                }
+            );
         }
     }
 

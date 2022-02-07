@@ -239,14 +239,10 @@ public class StringCache {
                         for (Entry<ByteEntry,int[]> item : bcStats.entrySet()) {
                             ByteEntry entry = item.getKey();
                             int[] countA = item.getValue();
-                            Integer count = Integer.valueOf(countA[0]);
+                            Integer count = countA[0];
                             // Add to the list for that count
-                            ArrayList<ByteEntry> list = tempMap.get(count);
-                            if (list == null) {
-                                // Create list
-                                list = new ArrayList<>();
-                                tempMap.put(count, list);
-                            }
+                            ArrayList<ByteEntry> list = tempMap.computeIfAbsent(count, k -> new ArrayList<>());
+                            // Create list
                             list.add(entry);
                         }
                         // Allocate array of the right size
@@ -356,14 +352,10 @@ public class StringCache {
                         for (Entry<CharEntry,int[]> item : ccStats.entrySet()) {
                             CharEntry entry = item.getKey();
                             int[] countA = item.getValue();
-                            Integer count = Integer.valueOf(countA[0]);
+                            Integer count = countA[0];
                             // Add to the list for that count
-                            ArrayList<CharEntry> list = tempMap.get(count);
-                            if (list == null) {
-                                // Create list
-                                list = new ArrayList<>();
-                                tempMap.put(count, list);
-                            }
+                            ArrayList<CharEntry> list = tempMap.computeIfAbsent(count, k -> new ArrayList<>());
+                            // Create list
                             list.add(entry);
                         }
                         // Allocate array of the right size
@@ -454,7 +446,7 @@ public class StringCache {
      * @param compareTo The compared to data
      * @return -1, 0 or +1 if inferior, equal, or superior to the String.
      */
-    protected static final int compare(ByteChunk name, byte[] compareTo) {
+    protected static int compare(ByteChunk name, byte[] compareTo) {
         int result = 0;
 
         byte[] b = name.getBuffer();
@@ -489,7 +481,7 @@ public class StringCache {
      * @param name The name to find
      * @return the corresponding value
      */
-    protected static final String find(ByteChunk name) {
+    protected static String find(ByteChunk name) {
         int pos = findClosest(name, bcCache, bcCache.length);
         if ((pos < 0) || (compare(name, bcCache[pos].name) != 0)
                 || !(name.getCharset().equals(bcCache[pos].charset))) {
@@ -509,7 +501,7 @@ public class StringCache {
      * @param len The effective length of the array
      * @return the position of the best match
      */
-    protected static final int findClosest(ByteChunk name, ByteEntry[] array,
+    protected static int findClosest(ByteChunk name, ByteEntry[] array,
             int len) {
 
         int a = 0;
@@ -557,7 +549,7 @@ public class StringCache {
      * @param compareTo The compared to data
      * @return -1, 0 or +1 if inferior, equal, or superior to the String.
      */
-    protected static final int compare(CharChunk name, char[] compareTo) {
+    protected static int compare(CharChunk name, char[] compareTo) {
         int result = 0;
 
         char[] c = name.getBuffer();
@@ -592,7 +584,7 @@ public class StringCache {
      * @param name The name to find
      * @return the corresponding value
      */
-    protected static final String find(CharChunk name) {
+    protected static String find(CharChunk name) {
         int pos = findClosest(name, ccCache, ccCache.length);
         if ((pos < 0) || (compare(name, ccCache[pos].name) != 0)) {
             return null;
@@ -611,7 +603,7 @@ public class StringCache {
      * @param len The effective length of the array
      * @return the position of the best match
      */
-    protected static final int findClosest(CharChunk name, CharEntry[] array,
+    protected static int findClosest(CharChunk name, CharEntry[] array,
             int len) {
 
         int a = 0;

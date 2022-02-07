@@ -24,8 +24,7 @@ import org.apache.jasper.Constants;
 
 public final class SecurityUtil{
 
-    private static final boolean packageDefinitionEnabled =
-         System.getProperty("package.definition") == null ? false : true;
+    private static final boolean packageDefinitionEnabled = System.getProperty("package.definition") != null;
 
     /**
      * Return the <code>SecurityManager</code> only if Security is enabled AND
@@ -33,9 +32,6 @@ public final class SecurityUtil{
      * @return <code>true</code> if package protection is enabled
      */
     public static boolean isPackageProtectionEnabled(){
-        if (packageDefinitionEnabled && Constants.IS_SECURITY_ENABLED){
-            return true;
-        }
-        return false;
+        return packageDefinitionEnabled && Constants.IS_SECURITY_ENABLED;
     }
 }

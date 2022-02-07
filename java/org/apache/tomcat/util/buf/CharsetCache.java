@@ -191,15 +191,9 @@ public class CharsetCache {
         if (result == DUMMY_CHARSET) {
             // Name is known but the Charset is not in the cache
             Charset charset = Charset.forName(lcCharsetName);
-            if (charset == null) {
-                // Charset not available in this JVM - remove cache entry
-                cache.remove(lcCharsetName);
-                result = null;
-            } else {
-                // Charset is available - populate cache entry
-                addToCache(lcCharsetName, charset);
-                result = charset;
-            }
+            // Charset is available - populate cache entry
+            addToCache(lcCharsetName, charset);
+            result = charset;
         }
 
         return result;

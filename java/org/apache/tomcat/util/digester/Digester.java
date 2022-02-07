@@ -917,7 +917,7 @@ public class Digester extends DefaultHandler2 {
      * @exception SAXException if a parsing error is to be reported
      */
     @Override
-    public void characters(char buffer[], int start, int length) throws SAXException {
+    public void characters(char[] buffer, int start, int length) throws SAXException {
 
         if (saxLog.isDebugEnabled()) {
             saxLog.debug("characters(" + new String(buffer, start, length) + ")");
@@ -1107,7 +1107,7 @@ public class Digester extends DefaultHandler2 {
      * @exception SAXException if a parsing error is to be reported
      */
     @Override
-    public void ignorableWhitespace(char buffer[], int start, int len) throws SAXException {
+    public void ignorableWhitespace(char[] buffer, int start, int len) throws SAXException {
 
         if (saxLog.isDebugEnabled()) {
             saxLog.debug("ignorableWhitespace(" + new String(buffer, start, len) + ")");
@@ -1456,8 +1456,8 @@ public class Digester extends DefaultHandler2 {
      */
     @Override
     public void error(SAXParseException exception) throws SAXException {
-        log.error(sm.getString("digester.parseError", Integer.valueOf(exception.getLineNumber()),
-                Integer.valueOf(exception.getColumnNumber())), exception);
+        log.error(sm.getString("digester.parseError", exception.getLineNumber(),
+            exception.getColumnNumber()), exception);
         if (errorHandler != null) {
             errorHandler.error(exception);
         }
@@ -1474,8 +1474,8 @@ public class Digester extends DefaultHandler2 {
      */
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-        log.error(sm.getString("digester.parseErrorFatal", Integer.valueOf(exception.getLineNumber()),
-                Integer.valueOf(exception.getColumnNumber())), exception);
+        log.error(sm.getString("digester.parseErrorFatal", exception.getLineNumber(),
+            exception.getColumnNumber()), exception);
         if (errorHandler != null) {
             errorHandler.fatalError(exception);
         }
@@ -1492,8 +1492,8 @@ public class Digester extends DefaultHandler2 {
      */
     @Override
     public void warning(SAXParseException exception) throws SAXException {
-        log.error(sm.getString("digester.parseWarning", Integer.valueOf(exception.getLineNumber()),
-                Integer.valueOf(exception.getColumnNumber()), exception));
+        log.error(sm.getString("digester.parseWarning", exception.getLineNumber(),
+            exception.getColumnNumber(), exception));
         if (errorHandler != null) {
             errorHandler.warning(exception);
         }
@@ -1960,8 +1960,8 @@ public class Digester extends DefaultHandler2 {
         }
         if (locator != null) {
             String error = sm.getString("digester.errorLocation",
-                    Integer.valueOf(locator.getLineNumber()),
-                    Integer.valueOf(locator.getColumnNumber()), message);
+                locator.getLineNumber(),
+                locator.getColumnNumber(), message);
             if (e != null) {
                 return new SAXParseException(error, locator, e);
             } else {

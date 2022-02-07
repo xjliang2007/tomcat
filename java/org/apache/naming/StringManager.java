@@ -155,8 +155,7 @@ public class StringManager {
     // STATIC SUPPORT METHODS
     // --------------------------------------------------------------
 
-    private static final Hashtable<String, StringManager> managers =
-            new Hashtable<>();
+    private static final Hashtable<String, StringManager> managers = new Hashtable<>();
 
     /**
      * Get the StringManager for a particular package. If a manager for
@@ -167,7 +166,7 @@ public class StringManager {
      *
      * @return The instance associated with the given package
      */
-    public static final synchronized StringManager getManager(String packageName) {
+    public static synchronized StringManager getManager(String packageName) {
         StringManager mgr = managers.get(packageName);
         if (mgr == null) {
             mgr = new StringManager(packageName);
@@ -177,7 +176,7 @@ public class StringManager {
     }
 
 
-    public static final StringManager getManager(Class<?> clazz) {
+    public static StringManager getManager(Class<?> clazz) {
         return getManager(clazz.getPackage().getName());
     }
 }

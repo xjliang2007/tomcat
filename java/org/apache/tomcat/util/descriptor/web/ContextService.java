@@ -307,11 +307,7 @@ public class ContextService extends ResourceBase {
         } else if (!displayname.equals(other.displayname)) {
             return false;
         }
-        if (handlers == null) {
-            if (other.handlers != null) {
-                return false;
-            }
-        } else if (!handlers.equals(other.handlers)) {
+        if (!handlers.equals(other.handlers)) {
             return false;
         }
         if (jaxrpcmappingfile == null) {
@@ -346,12 +342,9 @@ public class ContextService extends ResourceBase {
             return false;
         }
         if (wsdlfile == null) {
-            if (other.wsdlfile != null) {
-                return false;
-            }
-        } else if (!wsdlfile.equals(other.wsdlfile)) {
-            return false;
+            return other.wsdlfile == null;
+        } else {
+            return wsdlfile.equals(other.wsdlfile);
         }
-        return true;
     }
 }

@@ -93,9 +93,6 @@ public class LoginConfig extends XmlEncodingBase implements Serializable {
     }
 
     public void setErrorPage(String errorPage) {
-        //        if ((errorPage == null) || !errorPage.startsWith("/"))
-        //            throw new IllegalArgumentException
-        //                ("Error Page resource path must start with a '/'");
         this.errorPage = UDecoder.URLDecode(errorPage, getCharset());
     }
 
@@ -110,9 +107,6 @@ public class LoginConfig extends XmlEncodingBase implements Serializable {
     }
 
     public void setLoginPage(String loginPage) {
-        //        if ((loginPage == null) || !loginPage.startsWith("/"))
-        //            throw new IllegalArgumentException
-        //                ("Login Page resource path must start with a '/'");
         this.loginPage = UDecoder.URLDecode(loginPage, getCharset());
     }
 
@@ -160,9 +154,6 @@ public class LoginConfig extends XmlEncodingBase implements Serializable {
     }
 
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -179,9 +170,7 @@ public class LoginConfig extends XmlEncodingBase implements Serializable {
     }
 
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -213,13 +202,10 @@ public class LoginConfig extends XmlEncodingBase implements Serializable {
             return false;
         }
         if (realmName == null) {
-            if (other.realmName != null) {
-                return false;
-            }
-        } else if (!realmName.equals(other.realmName)) {
-            return false;
+            return other.realmName == null;
+        } else {
+            return realmName.equals(other.realmName);
         }
-        return true;
     }
 
 

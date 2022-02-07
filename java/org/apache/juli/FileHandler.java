@@ -267,7 +267,7 @@ public class FileHandler extends Handler {
         writerLock.readLock().lock();
         try {
             // If the date has changed, switch log files
-            if (rotatable.booleanValue() && !date.equals(tsDate)) {
+            if (rotatable && !date.equals(tsDate)) {
                 // Upgrade to writeLock before we switch
                 writerLock.readLock().unlock();
                 writerLock.writeLock().lock();
@@ -298,7 +298,7 @@ public class FileHandler extends Handler {
             try {
                 if (writer != null) {
                     writer.write(result);
-                    if (bufferSize.intValue() < 0) {
+                    if (bufferSize < 0) {
                         writer.flush();
                     }
                 } else {
@@ -394,7 +394,7 @@ public class FileHandler extends Handler {
 
         // https://bz.apache.org/bugzilla/show_bug.cgi?id=61232
         boolean shouldCheckForRedundantSeparator =
-                !rotatable.booleanValue() && !prefix.isEmpty() && !suffix.isEmpty();
+                !rotatable && !prefix.isEmpty() && !suffix.isEmpty();
         // assuming separator is just one char, if there are use cases with
         // more, the notion of separator might be introduced
         if (shouldCheckForRedundantSeparator &&
@@ -410,7 +410,7 @@ public class FileHandler extends Handler {
             try {
                 maxDays = Integer.valueOf(sMaxDays);
             } catch (NumberFormatException ignore) {
-                maxDays = Integer.valueOf(DEFAULT_MAX_DAYS);
+                maxDays = DEFAULT_MAX_DAYS;
             }
         }
 
@@ -420,7 +420,7 @@ public class FileHandler extends Handler {
             try {
                 bufferSize = Integer.valueOf(sBufferSize);
             } catch (NumberFormatException ignore) {
-                bufferSize = Integer.valueOf(DEFAULT_BUFFER_SIZE);
+                bufferSize = DEFAULT_BUFFER_SIZE;
             }
         }
 
@@ -500,7 +500,7 @@ public class FileHandler extends Handler {
         OutputStream os = null;
         try {
             File pathname = new File(dir.getAbsoluteFile(), prefix
-                    + (rotatable.booleanValue() ? date : "") + suffix);
+                    + (rotatable ? date : "") + suffix);
             File parent = pathname.getParentFile();
             if (!parent.mkdirs() && !parent.isDirectory()) {
                 reportError("Unable to create [" + parent + "]", null, ErrorManager.OPEN_FAILURE);
@@ -509,7 +509,7 @@ public class FileHandler extends Handler {
             }
             String encoding = getEncoding();
             fos = new FileOutputStream(pathname, true);
-            os = bufferSize.intValue() > 0 ? new BufferedOutputStream(fos, bufferSize.intValue()) : fos;
+            os = bufferSize > 0 ? new BufferedOutputStream(fos, bufferSize) : fos;
             writer = new PrintWriter(
                     (encoding != null) ? new OutputStreamWriter(os, encoding)
                                        : new OutputStreamWriter(os), false);
@@ -537,7 +537,7 @@ public class FileHandler extends Handler {
     }
 
     private void clean() {
-        if (maxDays.intValue() <= 0) {
+        if (maxDays <= 0) {
             return;
         }
         DELETE_FILES_SERVICE.submit(() -> {
@@ -553,7 +553,7 @@ public class FileHandler extends Handler {
     }
 
     private DirectoryStream<Path> streamFilesForDelete() throws IOException {
-        LocalDate maxDaysOffset = LocalDate.now().minus(maxDays.intValue(), ChronoUnit.DAYS);
+        LocalDate maxDaysOffset = LocalDate.now().minus(maxDays, ChronoUnit.DAYS);
         return Files.newDirectoryStream(new File(directory).toPath(), path -> {
             boolean result = false;
             String date = obtainDateFromPath(path);

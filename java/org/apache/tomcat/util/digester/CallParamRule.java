@@ -181,7 +181,7 @@ public class CallParamRule extends Rule {
     public void end(String namespace, String name) {
         if (bodyTextStack != null && !bodyTextStack.empty()) {
             // what we do now is push one parameter onto the top set of parameters
-            Object parameters[] = (Object[]) digester.peekParams();
+            Object[] parameters = (Object[]) digester.peekParams();
             parameters[paramIndex] = bodyTextStack.pop();
         }
     }

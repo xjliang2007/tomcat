@@ -74,7 +74,7 @@ public final class ByteChunk extends AbstractChunk {
      *
      * Same as java.nio.channels.ReadableByteChannel
      */
-    public static interface ByteInputChannel {
+    public interface ByteInputChannel {
 
         /**
          * Read new bytes.
@@ -83,7 +83,7 @@ public final class ByteChunk extends AbstractChunk {
          *
          * @throws IOException If an I/O error occurs during reading
          */
-        public int realReadBytes() throws IOException;
+        int realReadBytes() throws IOException;
     }
 
     /**
@@ -92,7 +92,7 @@ public final class ByteChunk extends AbstractChunk {
      *
      * Same as java.nio.channel.WritableByteChannel.
      */
-    public static interface ByteOutputChannel {
+    public interface ByteOutputChannel {
 
         /**
          * Send the bytes ( usually the internal conversion buffer ). Expect 8k
@@ -103,7 +103,7 @@ public final class ByteChunk extends AbstractChunk {
          * @param len length that will be written
          * @throws IOException If an I/O occurs while writing the bytes
          */
-        public void realWriteBytes(byte buf[], int off, int len) throws IOException;
+        void realWriteBytes(byte[] buf, int off, int len) throws IOException;
 
 
         /**
@@ -113,7 +113,7 @@ public final class ByteChunk extends AbstractChunk {
          * @param from bytes that will be written
          * @throws IOException If an I/O occurs while writing the bytes
          */
-        public void realWriteBytes(ByteBuffer from) throws IOException;
+        void realWriteBytes(ByteBuffer from) throws IOException;
     }
 
     // --------------------
@@ -280,7 +280,7 @@ public final class ByteChunk extends AbstractChunk {
      * @param len Length
      * @throws IOException Writing overflow data to the output channel failed
      */
-    public void append(byte src[], int off, int len) throws IOException {
+    public void append(byte[] src, int off, int len) throws IOException {
         // will grow, up to limit
         makeSpace(len);
         int limit = getLimitInternal();
@@ -427,11 +427,11 @@ public final class ByteChunk extends AbstractChunk {
      *             This method will be removed in Tomcat 10
      */
     @Deprecated
-    public int substract(byte dest[], int off, int len) throws IOException {
+    public int substract(byte[] dest, int off, int len) throws IOException {
         return subtract(dest, off, len);
     }
 
-    public int subtract(byte dest[], int off, int len) throws IOException {
+    public int subtract(byte[] dest, int off, int len) throws IOException {
         if (checkEof()) {
             return -1;
         }
@@ -541,7 +541,8 @@ public final class ByteChunk extends AbstractChunk {
 
         if (buff == null) {
             if (desiredSize < 256) {
-                desiredSize = 256; // take a minimum
+                // take a minimum
+                desiredSize = 256;
             }
             buff = new byte[(int) desiredSize];
         }
@@ -667,8 +668,8 @@ public final class ByteChunk extends AbstractChunk {
     }
 
 
-    public boolean equals(byte b2[], int off2, int len2) {
-        byte b1[] = buff;
+    public boolean equals(byte[] b2, int off2, int len2) {
+        byte[] b1 = buff;
         if (b1 == null && b2 == null) {
             return true;
         }
@@ -694,9 +695,9 @@ public final class ByteChunk extends AbstractChunk {
     }
 
 
-    public boolean equals(char c2[], int off2, int len2) {
+    public boolean equals(char[] c2, int off2, int len2) {
         // XXX works only for enc compatible with ASCII/UTF !!!
-        byte b1[] = buff;
+        byte[] b1 = buff;
         if (c2 == null && b1 == null) {
             return true;
         }
@@ -801,7 +802,7 @@ public final class ByteChunk extends AbstractChunk {
      * @return The position of the first instance of the character or -1 if the
      *         character is not found.
      */
-    public static int indexOf(byte bytes[], int start, int end, char s) {
+    public static int indexOf(byte[] bytes, int start, int end, char s) {
         int offset = start;
 
         while (offset < end) {
@@ -826,7 +827,7 @@ public final class ByteChunk extends AbstractChunk {
      * @return The position of the first instance of the byte or -1 if the byte
      *         is not found.
      */
-    public static int findByte(byte bytes[], int start, int end, byte b) {
+    public static int findByte(byte[] bytes, int start, int end, byte b) {
         int offset = start;
         while (offset < end) {
             if (bytes[offset] == b) {
@@ -849,7 +850,7 @@ public final class ByteChunk extends AbstractChunk {
      * @return The position of the first instance of the byte or -1 if the byte
      *         is not found.
      */
-    public static int findBytes(byte bytes[], int start, int end, byte b[]) {
+    public static int findBytes(byte[] bytes, int start, int end, byte[] b) {
         int offset = start;
         while (offset < end) {
             for (byte value : b) {
@@ -870,7 +871,7 @@ public final class ByteChunk extends AbstractChunk {
      * @param value to convert to byte array
      * @return the byte array value
      */
-    public static final byte[] convertToBytes(String value) {
+    public static byte[] convertToBytes(String value) {
         byte[] result = new byte[value.length()];
         for (int i = 0; i < value.length(); i++) {
             result[i] = (byte) value.charAt(i);

@@ -178,45 +178,45 @@ public class JspRuntimeLibrary {
             return Boolean.valueOf(s);
         } else if (target == Byte.class) {
             if (isNullOrEmpty) {
-                return Byte.valueOf((byte) 0);
+                return (byte) 0;
             } else {
                 return Byte.valueOf(s);
             }
         } else if (target == Character.class) {
             if (isNullOrEmpty) {
-                return Character.valueOf((char) 0);
+                return (char) 0;
             } else {
                 @SuppressWarnings("null")
-                Character result = Character.valueOf(s.charAt(0));
+                Character result = s.charAt(0);
                 return result;
             }
         } else if (target == Double.class) {
             if (isNullOrEmpty) {
-                return Double.valueOf(0);
+                return (double) 0;
             } else {
                 return Double.valueOf(s);
             }
         } else if (target == Float.class) {
             if (isNullOrEmpty) {
-                return Float.valueOf(0);
+                return (float) 0;
             } else {
                 return Float.valueOf(s);
             }
         } else if (target == Integer.class) {
             if (isNullOrEmpty) {
-                return Integer.valueOf(0);
+                return 0;
             } else {
                 return Integer.valueOf(s);
             }
         } else if (target == Short.class) {
             if (isNullOrEmpty) {
-                return Short.valueOf((short) 0);
+                return (short) 0;
             } else {
                 return Short.valueOf(s);
             }
         } else if (target == Long.class) {
             if (isNullOrEmpty) {
-                return Long.valueOf(0);
+                return 0L;
             } else {
                 return Long.valueOf(s);
             }
@@ -245,43 +245,43 @@ public class JspRuntimeLibrary {
                 return Boolean.valueOf(s);
             } else if (t.equals(Byte.class) || t.equals(Byte.TYPE)) {
                 if (s.length() == 0) {
-                    return Byte.valueOf((byte)0);
+                    return (byte) 0;
                 } else {
                     return Byte.valueOf(s);
                 }
             } else if (t.equals(Character.class) || t.equals(Character.TYPE)) {
                 if (s.length() == 0) {
-                    return Character.valueOf((char) 0);
+                    return (char) 0;
                 } else {
-                    return Character.valueOf(s.charAt(0));
+                    return s.charAt(0);
                 }
             } else if (t.equals(Double.class) || t.equals(Double.TYPE)) {
                 if (s.length() == 0) {
-                    return Double.valueOf(0);
+                    return (double) 0;
                 } else {
                     return Double.valueOf(s);
                 }
             } else if (t.equals(Integer.class) || t.equals(Integer.TYPE)) {
                 if (s.length() == 0) {
-                    return Integer.valueOf(0);
+                    return 0;
                 } else {
                     return Integer.valueOf(s);
                 }
             } else if (t.equals(Float.class) || t.equals(Float.TYPE)) {
                 if (s.length() == 0) {
-                    return Float.valueOf(0);
+                    return (float) 0;
                 } else {
                     return Float.valueOf(s);
                 }
             } else if (t.equals(Long.class) || t.equals(Long.TYPE)) {
                 if (s.length() == 0) {
-                    return Long.valueOf(0);
+                    return 0L;
                 } else {
                     return Long.valueOf(s);
                 }
             } else if (t.equals(Short.class) || t.equals(Short.TYPE)) {
                 if (s.length() == 0) {
-                    return Short.valueOf((short) 0);
+                    return (short) 0;
                 } else {
                     return Short.valueOf(s);
                 }
@@ -330,8 +330,7 @@ public class JspRuntimeLibrary {
                 java.beans.BeanInfo info
                 = java.beans.Introspector.getBeanInfo(bean.getClass());
                 if ( info != null ) {
-                    java.beans.PropertyDescriptor pd[]
-                            = info.getPropertyDescriptors();
+                    java.beans.PropertyDescriptor[] pd = info.getPropertyDescriptors();
                     for (java.beans.PropertyDescriptor propertyDescriptor : pd) {
                         if (propertyDescriptor.getName().equals(prop)) {
                             method = propertyDescriptor.getWriteMethod();
@@ -366,7 +365,7 @@ public class JspRuntimeLibrary {
                     }
                     Object oval = convert(prop, value, type, propertyEditorClass);
                     if ( oval != null ) {
-                        method.invoke(bean, new Object[] { oval });
+                        method.invoke(bean, oval);
                     }
                 }
             }
@@ -507,7 +506,7 @@ public class JspRuntimeLibrary {
             } else if (t.equals(Character.class)) {
                 Character[] tmpval = new Character[values.length];
                 for (int i = 0 ; i < values.length; i++) {
-                    tmpval[i] = Character.valueOf(values[i].charAt(0));
+                    tmpval[i] = values[i].charAt(0);
                 }
                 method.invoke (bean, new Object[] {tmpval});
             } else if (t.equals(int.class)) {
@@ -627,13 +626,11 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] {
-                PageContextImpl.proprietaryEvaluate(
-                    expression,
-                    method.getParameterTypes()[0],
-                    pageContext,
-                    functionMapper)
-            });
+            method.invoke(bean, PageContextImpl.proprietaryEvaluate(
+                expression,
+                method.getParameterTypes()[0],
+                pageContext,
+                functionMapper));
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -647,7 +644,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { value });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -661,7 +658,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { Integer.valueOf(value) });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -675,7 +672,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { Short.valueOf(value) });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -689,7 +686,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { Long.valueOf(value) });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -703,7 +700,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { Double.valueOf(value) });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -717,7 +714,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { Float.valueOf(value) });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -731,7 +728,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { Character.valueOf(value) });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -745,7 +742,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { Byte.valueOf(value) });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -759,7 +756,7 @@ public class JspRuntimeLibrary {
     {
         try {
             Method method = getWriteMethod(bean.getClass(), prop);
-            method.invoke(bean, new Object[] { Boolean.valueOf(value) });
+            method.invoke(bean, value);
         } catch (Exception ex) {
             Throwable thr = ExceptionUtils.unwrapInvocationTargetException(ex);
             ExceptionUtils.handleThrowable(thr);
@@ -776,7 +773,7 @@ public class JspRuntimeLibrary {
         if (name == null || name.length() == 0) {
             return name;
         }
-        char chars[] = name.toCharArray();
+        char[] chars = name.toCharArray();
         chars[0] = Character.toUpperCase(chars[0]);
         return new String(chars);
     }
@@ -787,7 +784,7 @@ public class JspRuntimeLibrary {
         Class<?> type = null;
         if (GRAAL) {
             String setter = "set" + capitalize(prop);
-            Method methods[] = beanClass.getMethods();
+            Method[] methods = beanClass.getMethods();
             for (Method method : methods) {
                 if (setter.equals(method.getName())) {
                     return method;
@@ -796,7 +793,7 @@ public class JspRuntimeLibrary {
         } else {
             try {
                 java.beans.BeanInfo info = java.beans.Introspector.getBeanInfo(beanClass);
-                java.beans.PropertyDescriptor pd[] = info.getPropertyDescriptors();
+                java.beans.PropertyDescriptor[] pd = info.getPropertyDescriptors();
                 for (java.beans.PropertyDescriptor propertyDescriptor : pd) {
                     if (propertyDescriptor.getName().equals(prop)) {
                         result = propertyDescriptor.getWriteMethod();
@@ -827,7 +824,7 @@ public class JspRuntimeLibrary {
         Class<?> type = null;
         if (GRAAL) {
             String setter = "get" + capitalize(prop);
-            Method methods[] = beanClass.getMethods();
+            Method[] methods = beanClass.getMethods();
             for (Method method : methods) {
                 if (setter.equals(method.getName())) {
                     return method;
@@ -836,7 +833,7 @@ public class JspRuntimeLibrary {
         } else {
             try {
                 java.beans.BeanInfo info = java.beans.Introspector.getBeanInfo(beanClass);
-                java.beans.PropertyDescriptor pd[] = info.getPropertyDescriptors();
+                java.beans.PropertyDescriptor[] pd = info.getPropertyDescriptors();
                 for (java.beans.PropertyDescriptor propertyDescriptor : pd) {
                     if (propertyDescriptor.getName().equals(prop)) {
                         result = propertyDescriptor.getReadMethod();

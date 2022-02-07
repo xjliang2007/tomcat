@@ -445,7 +445,7 @@ public class JspCServletContext implements ServletContext {
         if (basePath != null) {
             File theBaseDir = new File(basePath);
             if (theBaseDir.isDirectory()) {
-                String theFiles[] = theBaseDir.list();
+                String[] theFiles = theBaseDir.list();
                 if (theFiles != null) {
                     for (String theFile : theFiles) {
                         File testFile = new File(basePath + File.separator + theFile);

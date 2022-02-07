@@ -221,7 +221,7 @@ public class OneLineFormatter extends Formatter {
      */
     private static String getThreadName(int logRecordThreadId) {
         Map<Integer,String> cache = threadNameCache.get();
-        String result = cache.get(Integer.valueOf(logRecordThreadId));
+        String result = cache.get(logRecordThreadId);
 
         if (result != null) {
             return result;
@@ -246,7 +246,7 @@ public class OneLineFormatter extends Formatter {
             result = threadInfo.getThreadName();
         }
 
-        cache.put(Integer.valueOf(logRecordThreadId), result);
+        cache.put(logRecordThreadId, result);
 
         return result;
     }

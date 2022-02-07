@@ -53,7 +53,7 @@ public class ResourceLinkRef extends AbstractRef {
     public ResourceLinkRef(String resourceClass, String globalName,
             String factory, String factoryLocation) {
         super(resourceClass, factory, factoryLocation);
-        StringRefAddr refAddr = null;
+        StringRefAddr refAddr;
         if (globalName != null) {
             refAddr = new StringRefAddr(GLOBALNAME, globalName);
             add(refAddr);
