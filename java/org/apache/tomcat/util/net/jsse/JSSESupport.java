@@ -59,7 +59,7 @@ public class JSSESupport implements SSLSupport, SSLSessionManager {
     static {
         for (Cipher cipher : Cipher.values()) {
             for (String jsseName : cipher.getJsseNames()) {
-                keySizeCache.put(jsseName, Integer.valueOf(cipher.getStrength_bits()));
+                keySizeCache.put(jsseName, cipher.getStrength_bits());
             }
         }
     }
@@ -116,7 +116,7 @@ public class JSSESupport implements SSLSupport, SSLSessionManager {
             return null;
         }
 
-        Certificate [] certs=null;
+        Certificate [] certs;
         try {
             certs = session.getPeerCertificates();
         } catch( Throwable t ) {

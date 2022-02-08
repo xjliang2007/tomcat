@@ -224,20 +224,12 @@ public class StandardJarScanFilter implements JarScanFilter {
             }
             if (defaultScan) {
                 if (Matcher.matchName(toSkip, jarName)) {
-                    if (Matcher.matchName(toScan, jarName)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return Matcher.matchName(toScan, jarName);
                 }
                 return true;
             } else {
                 if (Matcher.matchName(toScan, jarName)) {
-                    if (Matcher.matchName(toSkip, jarName)) {
-                        return false;
-                    } else {
-                        return true;
-                    }
+                    return !Matcher.matchName(toSkip, jarName);
                 }
                 return false;
             }

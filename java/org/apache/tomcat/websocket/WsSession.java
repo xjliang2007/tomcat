@@ -60,7 +60,10 @@ import org.apache.tomcat.websocket.server.DefaultServerEndpointConfigurator;
 
 public class WsSession implements Session {
 
-    private final Log log = LogFactory.getLog(WsSession.class); // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(WsSession.class);
     private static final StringManager sm = StringManager.getManager(WsSession.class);
 
     // An ellipsis is a single character that looks like three periods in a row
@@ -111,7 +114,7 @@ public class WsSession implements Session {
     private final Map<String, Object> userProperties = new ConcurrentHashMap<>();
     private volatile int maxBinaryMessageBufferSize = Constants.DEFAULT_BUFFER_SIZE;
     private volatile int maxTextMessageBufferSize = Constants.DEFAULT_BUFFER_SIZE;
-    private volatile long maxIdleTimeout = 0;
+    private volatile long maxIdleTimeout;
     private volatile long lastActiveRead = System.currentTimeMillis();
     private volatile long lastActiveWrite = System.currentTimeMillis();
     private Map<FutureToSendHandler, FutureToSendHandler> futures = new ConcurrentHashMap<>();
@@ -294,11 +297,8 @@ public class WsSession implements Session {
         if (configurator.getClass().equals(DefaultServerEndpointConfigurator.class)) {
             return true;
         }
-        if (SEC_CONFIGURATOR_USES_IMPL_DEFAULT &&
-                configurator.getClass().equals(ServerEndpointConfig.Configurator.class)) {
-            return true;
-        }
-        return false;
+        return SEC_CONFIGURATOR_USES_IMPL_DEFAULT
+            && configurator.getClass().equals(Configurator.class);
     }
 
 
@@ -1050,7 +1050,7 @@ public class WsSession implements Session {
     private long getMaxIdleTimeoutRead() {
         Object timeout = userProperties.get(Constants.READ_IDLE_TIMEOUT_MS);
         if (timeout instanceof Long) {
-            return ((Long) timeout).longValue();
+            return (Long) timeout;
         }
         return 0;
     }
@@ -1059,7 +1059,7 @@ public class WsSession implements Session {
     private long getMaxIdleTimeoutWrite() {
         Object timeout = userProperties.get(Constants.WRITE_IDLE_TIMEOUT_MS);
         if (timeout instanceof Long) {
-            return ((Long) timeout).longValue();
+            return (Long) timeout;
         }
         return 0;
     }

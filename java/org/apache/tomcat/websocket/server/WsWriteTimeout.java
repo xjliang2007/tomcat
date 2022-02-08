@@ -116,13 +116,7 @@ public class WsWriteTimeout implements BackgroundProcess {
             long t1 = o1.getTimeoutExpiry();
             long t2 = o2.getTimeoutExpiry();
 
-            if (t1 < t2) {
-                return -1;
-            } else if (t1 == t2) {
-                return 0;
-            } else {
-                return 1;
-            }
+            return Long.compare(t1, t2);
         }
     }
 }

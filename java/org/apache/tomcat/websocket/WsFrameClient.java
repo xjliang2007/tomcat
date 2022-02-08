@@ -30,7 +30,10 @@ import org.apache.tomcat.util.res.StringManager;
 
 public class WsFrameClient extends WsFrameBase {
 
-    private final Log log = LogFactory.getLog(WsFrameClient.class); // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(WsFrameClient.class);
     private static final StringManager sm = StringManager.getManager(WsFrameClient.class);
 
     private final AsyncChannelWrapper channel;
@@ -120,7 +123,7 @@ public class WsFrameClient extends WsFrameBase {
      * Fatal error. Usually an I/O error. Try and send notifications. Make sure
      * socket is closed.
      */
-    private final void close(Throwable t) {
+    private void close(Throwable t) {
         changeReadState(ReadState.CLOSING);
         CloseReason cr;
         if (t instanceof WsIOException) {
@@ -149,7 +152,7 @@ public class WsFrameClient extends WsFrameBase {
 
         @Override
         public void completed(Integer result, Void attachment) {
-            if (result.intValue() == -1) {
+            if (result == -1) {
                 // BZ 57762. A dropped connection will get reported as EOF
                 // rather than as an error so handle it here.
                 if (isOpen()) {

@@ -392,7 +392,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
 
     // runState is stored in the high-order bits
     private static final int RUNNING    = -1 << COUNT_BITS;
-    private static final int SHUTDOWN   =  0 << COUNT_BITS;
+    private static final int SHUTDOWN   = 0;
     private static final int STOP       =  1 << COUNT_BITS;
     private static final int TIDYING    =  2 << COUNT_BITS;
     private static final int TERMINATED =  3 << COUNT_BITS;
@@ -739,7 +739,8 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
                 (runStateLessThan(c, STOP) && ! workQueue.isEmpty())) {
                 return;
             }
-            if (workerCountOf(c) != 0) { // Eligible to terminate
+            if (workerCountOf(c) != 0) {
+                // Eligible to terminate
                 interruptIdleWorkers(ONLY_ONE);
                 return;
             }
@@ -2216,10 +2217,7 @@ public class ThreadPoolExecutor extends AbstractExecutorService {
         if (threadRenewalDelay >= 0
             && Thread.currentThread() instanceof TaskThread) {
             TaskThread currentTaskThread = (TaskThread) Thread.currentThread();
-            if (currentTaskThread.getCreationTime() <
-                    this.lastContextStoppedTime.longValue()) {
-                return true;
-            }
+            return currentTaskThread.getCreationTime() < this.lastContextStoppedTime.longValue();
         }
         return false;
     }

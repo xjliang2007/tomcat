@@ -101,7 +101,7 @@ public final class FastHttpDateFormat {
      * Get the current date in HTTP format.
      * @return the HTTP date
      */
-    public static final String getCurrentDate() {
+    public static String getCurrentDate() {
         long now = System.currentTimeMillis();
         if ((now - currentDateGenerated) > 1000) {
             currentDate = FORMAT_RFC5322.format(new Date(now));
@@ -121,7 +121,7 @@ public final class FastHttpDateFormat {
      * @deprecated Unused. This will be removed in Tomcat 10
      */
     @Deprecated
-    public static final String formatDate(long value, DateFormat threadLocalformat) {
+    public static String formatDate(long value, DateFormat threadLocalformat) {
         return formatDate(value);
     }
 
@@ -131,8 +131,8 @@ public final class FastHttpDateFormat {
      * @param value The date
      * @return the HTTP date
      */
-    public static final String formatDate(long value) {
-        Long longValue = Long.valueOf(value);
+    public static String formatDate(long value) {
+        Long longValue = value;
         String cachedDate = formatCache.get(longValue);
         if (cachedDate != null) {
             return cachedDate;
@@ -155,7 +155,7 @@ public final class FastHttpDateFormat {
      *             Use {@link #parseDate(String)}
      */
     @Deprecated
-    public static final long parseDate(String value, DateFormat[] threadLocalformats) {
+    public static long parseDate(String value, DateFormat[] threadLocalformats) {
         return parseDate(value);
     }
 
@@ -166,18 +166,18 @@ public final class FastHttpDateFormat {
      * @return the date as a long or <code>-1</code> if the value cannot be
      *         parsed
      */
-    public static final long parseDate(String value) {
+    public static long parseDate(String value) {
 
         Long cachedDate = parseCache.get(value);
         if (cachedDate != null) {
-            return cachedDate.longValue();
+            return cachedDate;
         }
 
         long date = -1;
         for (int i = 0; (date == -1) && (i < httpParseFormats.length); i++) {
             try {
                 date = httpParseFormats[i].parse(value).getTime();
-                updateParseCache(value, Long.valueOf(date));
+                updateParseCache(value, date);
             } catch (ParseException e) {
                 // Ignore
             }

@@ -402,7 +402,7 @@ public abstract class WsRemoteEndpointImplBase implements RemoteEndpoint {
 
     void endMessage(SendHandler handler, SendResult result) {
         boolean doWrite = false;
-        MessagePart mpNext = null;
+        MessagePart mpNext;
         synchronized (messagePartLock) {
 
             fragmented = nextFragmented;
@@ -538,7 +538,7 @@ public abstract class WsRemoteEndpointImplBase implements RemoteEndpoint {
         if (userTimeout == null) {
             return Constants.DEFAULT_BLOCKING_SEND_TIMEOUT;
         } else {
-            return userTimeout.longValue();
+            return userTimeout;
         }
     }
 

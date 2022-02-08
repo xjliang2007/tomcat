@@ -177,7 +177,7 @@ public abstract class SSLUtilBase implements SSLUtil {
     static KeyStore getStore(String type, String provider, String path,
             String pass) throws IOException {
 
-        KeyStore ks = null;
+        KeyStore ks;
         InputStream istream = null;
         try {
             if (provider == null) {

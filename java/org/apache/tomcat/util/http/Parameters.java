@@ -207,14 +207,10 @@ public final class Parameters {
             // what Request.parseParts() uses for requests that are too big
             setParseFailedReason(FailReason.TOO_MANY_PARAMETERS);
             throw new IllegalStateException(sm.getString(
-                    "parameters.maxCountFail", Integer.valueOf(limit)));
+                    "parameters.maxCountFail", limit));
         }
 
-        ArrayList<String> values = paramHashValues.get(key);
-        if (values == null) {
-            values = new ArrayList<>(1);
-            paramHashValues.put(key, values);
-        }
+        ArrayList<String> values = paramHashValues.computeIfAbsent(key, k -> new ArrayList<>(1));
         values.add(value);
     }
 
@@ -233,11 +229,11 @@ public final class Parameters {
     private static final Charset DEFAULT_URI_CHARSET = StandardCharsets.UTF_8;
 
 
-    public void processParameters( byte bytes[], int start, int len ) {
+    public void processParameters( byte[] bytes, int start, int len ) {
         processParameters(bytes, start, len, charset);
     }
 
-    private void processParameters(byte bytes[], int start, int len, Charset charset) {
+    private void processParameters(byte[] bytes, int start, int len, Charset charset) {
 
         if(log.isDebugEnabled()) {
             log.debug(sm.getString("parameters.bytes",
@@ -310,7 +306,7 @@ public final class Parameters {
 
             if (log.isDebugEnabled() && valueStart == -1) {
                 log.debug(sm.getString("parameters.noequal",
-                        Integer.valueOf(nameStart), Integer.valueOf(nameEnd),
+                    nameStart, nameEnd,
                         new String(bytes, nameStart, nameEnd-nameStart, DEFAULT_BODY_CHARSET)));
             }
 
@@ -334,8 +330,8 @@ public final class Parameters {
                         extract = "";
                     }
                     String message = sm.getString("parameters.invalidChunk",
-                            Integer.valueOf(nameStart),
-                            Integer.valueOf(valueEnd), extract);
+                        nameStart,
+                        valueEnd, extract);
                     switch (logMode) {
                         case INFO_THEN_DEBUG:
                             message += sm.getString("parameters.fallToDebug");
@@ -460,7 +456,7 @@ public final class Parameters {
             if (logMode != null) {
                 String message = sm.getString(
                         "parameters.multipleDecodingFail",
-                        Integer.valueOf(decodeFailCount));
+                    decodeFailCount);
                 switch (logMode) {
                     case INFO_THEN_DEBUG:
                         message += sm.getString("parameters.fallToDebug");

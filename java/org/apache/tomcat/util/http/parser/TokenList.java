@@ -103,12 +103,10 @@ public class TokenList {
             } else if (skipResult == SkipResult.FOUND) {
                 valid = true;
                 collection.add(element.toLowerCase(Locale.ENGLISH));
-                continue;
             } else {
                 // Not a token - ignore it
                 invalid = true;
                 HttpParser.skipUntil(input, 0, ',');
-                continue;
             }
         } while (true);
 

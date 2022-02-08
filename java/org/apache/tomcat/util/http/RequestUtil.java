@@ -106,7 +106,8 @@ public class RequestUtil {
                 break;
             }
             if (index == 0) {
-                return null;  // Trying to go outside our context
+                // Trying to go outside our context
+                return null;
             }
             int index2 = normalized.lastIndexOf('/', index - 1);
             normalized = normalized.substring(0, index2) + normalized.substring(index + 3);

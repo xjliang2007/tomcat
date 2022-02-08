@@ -144,7 +144,6 @@ public class StringManager {
             //better: consistent with container pattern to
             //      simply return null.  Calling code can then do
             //      a null check.
-            str = null;
         }
 
         return str;

@@ -72,14 +72,14 @@ public class DigestAuthenticator extends Authenticator {
         }
 
         challenge.append("Digest ");
-        challenge.append("username =\"" + userName + "\",");
-        challenge.append("realm=\"" + realm + "\",");
-        challenge.append("nonce=\"" + nonce + "\",");
-        challenge.append("uri=\"" + requestUri + "\",");
+        challenge.append("username =\"").append(userName).append("\",");
+        challenge.append("realm=\"").append(realm).append("\",");
+        challenge.append("nonce=\"").append(nonce).append("\",");
+        challenge.append("uri=\"").append(requestUri).append("\",");
 
         try {
-            challenge.append("response=\"" + calculateRequestDigest(requestUri, userName, password,
-                    realm, nonce, messageQop, algorithm) + "\",");
+            challenge.append("response=\"").append(calculateRequestDigest(requestUri, userName, password,
+                realm, nonce, messageQop, algorithm)).append("\",");
         }
 
         catch (NoSuchAlgorithmException e) {
@@ -87,13 +87,13 @@ public class DigestAuthenticator extends Authenticator {
                     "Unable to generate request digest " + e.getMessage());
         }
 
-        challenge.append("algorithm=" + algorithm + ",");
-        challenge.append("opaque=\"" + opaque + "\",");
+        challenge.append("algorithm=").append(algorithm).append(",");
+        challenge.append("opaque=\"").append(opaque).append("\",");
 
         if (!messageQop.isEmpty()) {
-            challenge.append("qop=\"" + messageQop + "\"");
-            challenge.append(",cnonce=\"" + cNonce + "\",");
-            challenge.append("nc=" + String.format("%08X", Integer.valueOf(nonceCount)));
+            challenge.append("qop=\"").append(messageQop).append("\"");
+            challenge.append(",cnonce=\"").append(cNonce).append("\",");
+            challenge.append("nc=").append(String.format("%08X", nonceCount));
         }
 
         return challenge.toString();
@@ -126,7 +126,7 @@ public class DigestAuthenticator extends Authenticator {
 
         if (qop.toLowerCase().contains("auth")) {
             preDigest.append(':');
-            preDigest.append(String.format("%08X", Integer.valueOf(nonceCount)));
+            preDigest.append(String.format("%08X", nonceCount));
             preDigest.append(':');
             preDigest.append(String.valueOf(cNonce));
             preDigest.append(':');

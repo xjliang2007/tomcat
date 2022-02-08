@@ -96,7 +96,8 @@ public class FileUtils {
         }
 
         final File[] files = directory.listFiles();
-        if (files == null) {  // null if security restricted
+        if (files == null) {
+            // null if security restricted
             throw new IOException("Failed to list contents of " + directory);
         }
 
@@ -199,7 +200,8 @@ public class FileUtils {
         }
 
         File[] files = directory.listFiles();
-        if (files == null) {  // null if security restricted
+        if (files == null) {
+            // null if security restricted
             throw new IOException("Failed to list contents of " + directory);
         }
 
@@ -288,7 +290,6 @@ public class FileUtils {
         if (file == null) {
             throw new NullPointerException("File must not be null");
         }
-        //FilenameUtils.isSystemWindows()
         if (File.separatorChar == '\\') {
             return false;
         }
@@ -300,10 +301,6 @@ public class FileUtils {
             fileInCanonicalDir = new File(canonicalDir, file.getName());
         }
 
-        if (fileInCanonicalDir.getCanonicalFile().equals(fileInCanonicalDir.getAbsoluteFile())) {
-            return false;
-        } else {
-            return true;
-        }
+        return !fileInCanonicalDir.getCanonicalFile().equals(fileInCanonicalDir.getAbsoluteFile());
     }
 }

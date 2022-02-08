@@ -89,7 +89,7 @@ public class UpgradeUtil {
         // Validate the rest of the headers and reject the request if that
         // validation fails
         String key;
-        String subProtocol = null;
+        String subProtocol;
         if (!headerContainsToken(req, Constants.CONNECTION_HEADER_NAME,
                 Constants.CONNECTION_HEADER_VALUE)) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -132,7 +132,7 @@ public class UpgradeUtil {
         // Negotiation phase 1. By default this simply filters out the
         // extensions that the server does not support but applications could
         // use a custom configurator to do more than this.
-        List<Extension> installedExtensions = null;
+        List<Extension> installedExtensions;
         if (sec.getExtensions().size() == 0) {
             installedExtensions = Constants.INSTALLED_EXTENSIONS;
         } else {
@@ -235,12 +235,7 @@ public class UpgradeUtil {
 
         for (Extension extension : negotiatedExtensions) {
             List<List<Extension.Parameter>> preferences =
-                    extensionPreferences.get(extension.getName());
-
-            if (preferences == null) {
-                preferences = new ArrayList<>();
-                extensionPreferences.put(extension.getName(), preferences);
-            }
+                extensionPreferences.computeIfAbsent(extension.getName(), k -> new ArrayList<>());
 
             preferences.add(extension.getParameters());
         }

@@ -58,8 +58,7 @@ import org.apache.tomcat.util.http.fileupload.util.Streams;
  *
  * @since FileUpload 1.1
  */
-public class DiskFileItem
-    implements FileItem {
+public class DiskFileItem implements FileItem {
 
     // ----------------------------------------------------- Manifest constants
 
@@ -602,8 +601,7 @@ public class DiskFileItem
     @Override
     public String toString() {
         return String.format("name=%s, StoreLocation=%s, size=%s bytes, isFormField=%s, FieldName=%s",
-                      getName(), getStoreLocation(), Long.valueOf(getSize()),
-                      Boolean.valueOf(isFormField()), getFieldName());
+                      getName(), getStoreLocation(), getSize(), isFormField(), getFieldName());
     }
 
     /**

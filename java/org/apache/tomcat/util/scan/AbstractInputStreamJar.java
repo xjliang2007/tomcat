@@ -64,13 +64,13 @@ public abstract class AbstractInputStreamJar implements Jar {
         }
         try {
             entry = jarInputStream.getNextJarEntry();
-            if (multiRelease.booleanValue()) {
+            if (multiRelease) {
                 // Skip base entries where there is a multi-release entry
                 // Skip multi-release entries that are not being used
                 while (entry != null &&
-                        (mrMap.keySet().contains(entry.getName()) ||
+                        (mrMap.containsKey(entry.getName()) ||
                                 entry.getName().startsWith("META-INF/versions/") &&
-                                !mrMap.values().contains(entry.getName()))) {
+                                !mrMap.containsValue(entry.getName()))) {
                     entry = jarInputStream.getNextJarEntry();
                 }
             } else {
@@ -176,7 +176,7 @@ public abstract class AbstractInputStreamJar implements Jar {
             } else {
                 multiRelease = Boolean.FALSE;
             }
-            if (multiRelease.booleanValue()) {
+            if (multiRelease) {
                 if (mrMap == null) {
                     populateMrMap();
                 }
@@ -207,7 +207,7 @@ public abstract class AbstractInputStreamJar implements Jar {
         }
 
         // Need to convert requested name to multi-release name (if one exists)
-        if (multiRelease.booleanValue()) {
+        if (multiRelease) {
             String mrName = mrMap.get(name);
             if (mrName != null) {
                 name = mrName;
@@ -260,13 +260,13 @@ public abstract class AbstractInputStreamJar implements Jar {
                         Integer mappedVersion = mrVersions.get(baseName);
                         if (mappedVersion == null) {
                             // No version found for this name. Create one.
-                            mrVersions.put(baseName, Integer.valueOf(version));
+                            mrVersions.put(baseName, version);
                         } else {
                             // Ignore any entry for which we have already found
                             // a later version
-                            if (version > mappedVersion.intValue()) {
+                            if (version > mappedVersion) {
                                 // Replace the earlier version
-                                mrVersions.put(baseName, Integer.valueOf(version));
+                                mrVersions.put(baseName, version);
                             }
                         }
                     }

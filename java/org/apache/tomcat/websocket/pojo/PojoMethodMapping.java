@@ -422,7 +422,7 @@ public class PojoMethodMapping {
                     if (paramAnnotation.annotationType().equals(
                             PathParam.class)) {
                         indexPathParams.put(
-                                Integer.valueOf(i), new PojoPathParam(types[i],
+                            i, new PojoPathParam(types[i],
                                         ((PathParam) paramAnnotation).value()));
                         paramFound = true;
                         break;
@@ -659,7 +659,7 @@ public class PojoMethodMapping {
                     indexPathParams.entrySet()) {
                 PojoPathParam pathParam = entry.getValue();
                 String valueString = pathParameters.get(pathParam.getName());
-                Object value = null;
+                Object value;
                 try {
                     value = Util.coerceToType(pathParam.getType(), valueString);
                 } catch (Exception e) {
@@ -670,7 +670,7 @@ public class PojoMethodMapping {
                     params = new Object[] { de };
                     break;
                 }
-                params[entry.getKey().intValue()] = value;
+                params[entry.getKey()] = value;
             }
 
             Set<MessageHandler> results = new HashSet<>(2);

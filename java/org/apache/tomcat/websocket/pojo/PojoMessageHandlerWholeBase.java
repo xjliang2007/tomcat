@@ -42,7 +42,10 @@ import org.apache.tomcat.websocket.WsSession;
 public abstract class PojoMessageHandlerWholeBase<T>
         extends PojoMessageHandlerBase<T> implements MessageHandler.Whole<T> {
 
-    private final Log log = LogFactory.getLog(PojoMessageHandlerWholeBase.class);  // must not be static
+    /**
+     * must not be static
+     */
+    private final Log log = LogFactory.getLog(PojoMessageHandlerWholeBase.class);
     private static final StringManager sm = StringManager.getManager(PojoMessageHandlerWholeBase.class);
 
     protected final List<Decoder> decoders = new ArrayList<>();

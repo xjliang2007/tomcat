@@ -70,11 +70,11 @@ public class SSLHostConfig implements Serializable {
 
     private String hostName = DEFAULT_SSL_HOST_NAME;
 
-    private transient Long openSslConfContext = Long.valueOf(0);
+    private transient Long openSslConfContext = 0L;
     // OpenSSL can handle multiple certs in a single config so the reference to
     // the context is here at the virtual host level. JSSE can't so the
     // reference is held on the certificate.
-    private transient Long openSslContext = Long.valueOf(0);
+    private transient Long openSslContext = 0L;
 
     // Configuration properties
 
@@ -363,7 +363,7 @@ public class SSLHostConfig implements Serializable {
             StringBuilder sb = new StringBuilder();
             // Not obviously in OpenSSL format. May be a single OpenSSL or JSSE
             // cipher name. May be a comma separated list of cipher names
-            String ciphers[] = ciphersList.split(",");
+            String[] ciphers = ciphersList.split(",");
             for (String cipher : ciphers) {
                 String trimmed = cipher.trim();
                 if (trimmed.length() > 0) {

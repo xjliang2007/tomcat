@@ -678,7 +678,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
         public boolean events() {
             boolean result = false;
 
-            PollerEvent pe = null;
+            PollerEvent pe;
             for (int i = 0, size = events.size(); i < size && (pe = events.poll()) != null; i++ ) {
                 result = true;
                 NioSocketWrapper socketWrapper = pe.getSocketWrapper();
@@ -1160,8 +1160,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
 
             fillReadBuffer(false);
 
-            boolean isReady = socketBufferHandler.getReadBuffer().position() > 0;
-            return isReady;
+            return socketBufferHandler.getReadBuffer().position() > 0;
         }
 
 
@@ -1280,7 +1279,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
 
 
         private int fillReadBuffer(boolean block, ByteBuffer buffer) throws IOException {
-            int n = 0;
+            int n;
             if (getSocket() == NioChannel.CLOSED_NIO_CHANNEL) {
                 throw new ClosedChannelException();
             }
@@ -1333,7 +1332,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
 
         @Override
         protected void doWrite(boolean block, ByteBuffer buffer) throws IOException {
-            int n = 0;
+            int n;
             if (getSocket() == NioChannel.CLOSED_NIO_CHANNEL) {
                 throw new ClosedChannelException();
             }
@@ -1618,7 +1617,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
                                     }
                                 }
                                 if (doWrite) {
-                                    long n = 0;
+                                    long n;
                                     do {
                                         n = getSocket().write(buffers, offset, length);
                                         if (n == -1) {
@@ -1640,7 +1639,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
                 }
                 if (nBytes > 0 || (nBytes == 0 && !buffersArrayHasRemaining(buffers, offset, length))) {
                     // The bytes processed are only updated in the completion handler
-                    completion.completed(Long.valueOf(nBytes), this);
+                    completion.completed(nBytes, this);
                 } else if (nBytes < 0 || getError() != null) {
                     IOException error = getError();
                     if (error == null) {
@@ -1692,7 +1691,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
             }
 
             try {
-                int handshake = -1;
+                int handshake;
                 try {
                     if (socketWrapper.getSocket().isHandshakeComplete()) {
                         // No TLS handshaking required. Let the handler
@@ -1723,7 +1722,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
                     handshake = -1;
                 }
                 if (handshake == 0) {
-                    SocketState state = SocketState.OPEN;
+                    SocketState state;
                     // Process the request from this socket
                     if (event == null) {
                         state = getHandler().process(socketWrapper, SocketEvent.OPEN_READ);

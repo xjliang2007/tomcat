@@ -97,7 +97,7 @@ public class FileItemStreamImpl implements FileItemStream {
             final FileSizeLimitExceededException e =
                     new FileSizeLimitExceededException(
                             String.format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                    fieldName, Long.valueOf(fileSizeMax)),
+                                    fieldName, fileSizeMax),
                             pContentLength, fileSizeMax);
             e.setFileName(pName);
             e.setFieldName(pFieldName);
@@ -115,7 +115,7 @@ public class FileItemStreamImpl implements FileItemStream {
                     final FileSizeLimitExceededException e =
                         new FileSizeLimitExceededException(
                             String.format("The field %s exceeds its maximum permitted size of %s bytes.",
-                                   fieldName, Long.valueOf(pSizeMax)),
+                                   fieldName, pSizeMax),
                             pCount, pSizeMax);
                     e.setFieldName(fieldName);
                     e.setFileName(name);

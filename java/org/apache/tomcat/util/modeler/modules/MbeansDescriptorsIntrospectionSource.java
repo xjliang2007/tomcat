@@ -139,10 +139,7 @@ public class MbeansDescriptorsIntrospectionSource extends ModelerSource
                 return true;
             }
         }
-        if (isBeanCompatible(ret)) {
-            return true;
-        }
-        return false;
+        return isBeanCompatible(ret);
     }
 
     /**
@@ -166,7 +163,7 @@ public class MbeansDescriptorsIntrospectionSource extends ModelerSource
         }
 
         try {
-            javaType.getConstructor(new Class[]{});
+            javaType.getConstructor();
         } catch (java.lang.NoSuchMethodException e) {
             return false;
         }
@@ -177,9 +174,7 @@ public class MbeansDescriptorsIntrospectionSource extends ModelerSource
             superClass != java.lang.Object.class &&
             superClass != java.lang.Exception.class &&
             superClass != java.lang.Throwable.class) {
-            if (!isBeanCompatible(superClass)) {
-                return false;
-            }
+            return isBeanCompatible(superClass);
         }
         return true;
     }
@@ -194,7 +189,7 @@ public class MbeansDescriptorsIntrospectionSource extends ModelerSource
      * @param setAttMap The settable attributes map
      * @param invokeAttMap The invokable attributes map
      */
-    private void initMethods(Class<?> realClass, Method methods[], Hashtable<String,Method> attMap,
+    private void initMethods(Class<?> realClass, Method[] methods, Hashtable<String,Method> attMap,
             Hashtable<String,Method> getAttMap, Hashtable<String,Method> setAttMap,
             Hashtable<String,Method> invokeAttMap) {
 
@@ -213,7 +208,7 @@ public class MbeansDescriptorsIntrospectionSource extends ModelerSource
             if (method.getDeclaringClass() == Object.class) {
                 continue;
             }
-            Class<?> params[] = method.getParameterTypes();
+            Class<?>[] params = method.getParameterTypes();
 
             if (name.startsWith("get") && params.length == 0) {
                 Class<?> ret = method.getReturnType();
@@ -292,7 +287,7 @@ public class MbeansDescriptorsIntrospectionSource extends ModelerSource
     {
         ManagedBean mbean= new ManagedBean();
 
-        Method methods[]=null;
+        Method[] methods =null;
 
         Hashtable<String,Method> attMap = new Hashtable<>();
         // key: attribute val: getter method
@@ -358,7 +353,7 @@ public class MbeansDescriptorsIntrospectionSource extends ModelerSource
                 op.setName(name);
                 op.setReturnType(m.getReturnType().getName());
                 op.setDescription("Introspected operation " + name);
-                Class<?> parms[] = m.getParameterTypes();
+                Class<?>[] parms = m.getParameterTypes();
                 for(int i=0; i<parms.length; i++ ) {
                     ParameterInfo pi=new ParameterInfo();
                     pi.setType(parms[i].getName());
@@ -394,7 +389,7 @@ public class MbeansDescriptorsIntrospectionSource extends ModelerSource
         if (name == null || name.length() == 0) {
             return name;
         }
-        char chars[] = name.toCharArray();
+        char[] chars = name.toCharArray();
         chars[0] = Character.toLowerCase(chars[0]);
         return new String(chars);
     }

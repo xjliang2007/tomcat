@@ -30,14 +30,14 @@ public class ConfigFileLoader {
 
     private static ConfigurationSource source;
 
-    public static final ConfigurationSource getSource() {
+    public static ConfigurationSource getSource() {
         if (ConfigFileLoader.source == null) {
             return ConfigurationSource.DEFAULT;
         }
         return source;
     }
 
-    public static final void setSource(ConfigurationSource source) {
+    public static void setSource(ConfigurationSource source) {
         if (ConfigFileLoader.source == null) {
             ConfigFileLoader.source = source;
         }

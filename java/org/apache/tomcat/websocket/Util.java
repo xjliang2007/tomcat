@@ -292,17 +292,16 @@ public class Util {
     public static boolean isPrimitive(Class<?> clazz) {
         if (clazz.isPrimitive()) {
             return true;
-        } else if(clazz.equals(Boolean.class) ||
+        } else {
+            return clazz.equals(Boolean.class) ||
                 clazz.equals(Byte.class) ||
                 clazz.equals(Character.class) ||
                 clazz.equals(Double.class) ||
                 clazz.equals(Float.class) ||
                 clazz.equals(Integer.class) ||
                 clazz.equals(Long.class) ||
-                clazz.equals(Short.class)) {
-            return true;
+                clazz.equals(Short.class);
         }
-        return false;
     }
 
 
@@ -527,11 +526,11 @@ public class Util {
 
         // Step one, split the header into individual extensions using ',' as a
         // separator
-        String unparsedExtensions[] = header.split(",");
+        String[] unparsedExtensions = header.split(",");
         for (String unparsedExtension : unparsedExtensions) {
             // Step two, split the extension into the registered name and
             // parameter/value pairs using ';' as a separator
-            String unparsedParameters[] = unparsedExtension.split(";");
+            String[] unparsedParameters = unparsedExtension.split(";");
             WsExtension extension = new WsExtension(unparsedParameters[0].trim());
 
             for (int i = 1; i < unparsedParameters.length; i++) {

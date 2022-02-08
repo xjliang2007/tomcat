@@ -19,8 +19,7 @@ package org.apache.tomcat.util.http.fileupload.impl;
 /**
  * Thrown to indicate that the request size exceeds the configured maximum.
  */
-public class SizeLimitExceededException
-        extends SizeException {
+public class SizeLimitExceededException extends SizeException {
 
     /**
      * The exceptions UID, for serializing an instance.

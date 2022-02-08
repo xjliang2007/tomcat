@@ -240,7 +240,7 @@ public class ByteArrayOutputStream extends OutputStream {
         if (remaining == 0) {
             return EMPTY_BYTE_ARRAY;
         }
-        final byte newbuf[] = new byte[remaining];
+        final byte[] newbuf = new byte[remaining];
         int pos = 0;
         for (final byte[] buf : buffers) {
             final int c = Math.min(buf.length, remaining);

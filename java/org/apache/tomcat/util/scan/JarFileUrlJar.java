@@ -146,7 +146,7 @@ public class JarFileUrlJar implements Jar {
 
             // Enumerate the entries until one is reached that represents an
             // entry that has not been seen before.
-            String name = null;
+            String name;
             while (true) {
                 if (entries.hasMoreElements()) {
                     entry = entries.nextElement();

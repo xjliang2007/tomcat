@@ -31,7 +31,7 @@ public class AuthenticatorFactory {
      */
     public static Authenticator getAuthenticator(String authScheme) {
 
-        Authenticator auth = null;
+        Authenticator auth;
         switch (authScheme.toLowerCase()) {
 
         case BasicAuthenticator.schemeName:

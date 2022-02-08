@@ -277,27 +277,19 @@ public class Registry implements RegistryMBean, MBeanRegistration {
         if (domain == null) {
             domain = "";
         }
-        Hashtable<String, Integer> domainTable = idDomains.get(domain);
-        if (domainTable == null) {
-            domainTable = new Hashtable<>();
-            idDomains.put(domain, domainTable);
-        }
+        Hashtable<String, Integer> domainTable = idDomains.computeIfAbsent(domain, k -> new Hashtable<>());
         if (name == null) {
             name = "";
         }
         Integer i = domainTable.get(name);
 
         if (i != null) {
-            return i.intValue();
+            return i;
         }
 
-        int id[] = ids.get(domain);
-        if (id == null) {
-            id = new int[1];
-            ids.put(domain, id);
-        }
+        int[] id = ids.computeIfAbsent(domain, k -> new int[1]);
         int code = id[0]++;
-        domainTable.put(name, Integer.valueOf(code));
+        domainTable.put(name, code);
         return code;
     }
 
@@ -360,7 +352,7 @@ public class Registry implements RegistryMBean, MBeanRegistration {
             return null;
         }
 
-        MBeanAttributeInfo attInfo[] = info.getAttributes();
+        MBeanAttributeInfo[] attInfo = info.getAttributes();
         for (MBeanAttributeInfo mBeanAttributeInfo : attInfo) {
             if (attName.equals(mBeanAttributeInfo.getName())) {
                 type = mBeanAttributeInfo.getType();
@@ -386,7 +378,7 @@ public class Registry implements RegistryMBean, MBeanRegistration {
             log.info(sm.getString("registry.noMetadata", oname));
             return null;
         }
-        MBeanOperationInfo attInfo[] = info.getOperations();
+        MBeanOperationInfo[] attInfo = info.getOperations();
         for (MBeanOperationInfo mBeanOperationInfo : attInfo) {
             if (opName.equals(mBeanOperationInfo.getName())) {
                 return mBeanOperationInfo;
@@ -416,7 +408,7 @@ public class Registry implements RegistryMBean, MBeanRegistration {
             log.warn(sm.getString("registry.noMetadata", oname), e);
             return null;
         }
-        MBeanOperationInfo attInfo[] = info.getOperations();
+        MBeanOperationInfo[] attInfo = info.getOperations();
         for (MBeanOperationInfo mBeanOperationInfo : attInfo) {
             if (opName.equals(mBeanOperationInfo.getName())
                     && argCount == mBeanOperationInfo.getSignature().length) {
@@ -710,8 +702,7 @@ public class Registry implements RegistryMBean, MBeanRegistration {
             classLoader = this.getClass().getClassLoader();
         }
 
-        String className = type;
-        String pkg = className;
+        String pkg = type;
         while (pkg.indexOf('.') > 0) {
             int lastComp = pkg.lastIndexOf('.');
             if (lastComp <= 0) {
@@ -735,8 +726,7 @@ public class Registry implements RegistryMBean, MBeanRegistration {
         }
 
         Class<?> c = Class.forName(type);
-        ModelerSource ds = (ModelerSource) c.getConstructor().newInstance();
-        return ds;
+        return (ModelerSource) c.getConstructor().newInstance();
     }
 
 

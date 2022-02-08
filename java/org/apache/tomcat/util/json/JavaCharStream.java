@@ -23,9 +23,7 @@ package org.apache.tomcat.util.json;
  * contain only ASCII characters (with java-like unicode escape processing).
  */
 @SuppressWarnings("all") // Ignore warnings in generated code
-public
-class JavaCharStream
-{
+public class JavaCharStream {
   /** Whether parser is static. */
   public static final boolean staticFlag = false;
 

@@ -64,7 +64,7 @@ public abstract class FileUploadBase {
      * @return {@code true} if the request is multipart;
      *         {@code false} otherwise.
      */
-    public static final boolean isMultipartContent(final RequestContext ctx) {
+    public static boolean isMultipartContent(final RequestContext ctx) {
         final String contentType = ctx.getContentType();
         if (contentType == null) {
             return false;

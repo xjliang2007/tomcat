@@ -189,8 +189,9 @@ final class SetPropertyClass implements Comparable<SetPropertyClass> {
                 ;
 
             } else {
-                code.append(ReflectionLessCodeGenerator.getIndent(3))
-                    .append("//no set" + IntrospectionUtils.capitalize(property.getPropertyName())+ " method found on this class")
+                code.append(ReflectionLessCodeGenerator.getIndent(3)).append("//no set")
+                    .append(IntrospectionUtils.capitalize(property.getPropertyName()))
+                    .append(" method found on this class")
                     .append(System.lineSeparator())
                     ;
             }
@@ -262,7 +263,7 @@ final class SetPropertyClass implements Comparable<SetPropertyClass> {
     }
 
     public String generateParentSetPropertyForMethodInvocation() {
-        String[] classParts = clazz.getName().split("\\.|\\$");
+        String[] classParts = clazz.getName().split("[.$]");
         StringBuilder methodInvocation = new StringBuilder("setPropertyFor");
         for (String s : classParts) {
             methodInvocation.append(IntrospectionUtils.capitalize(s));
@@ -280,7 +281,7 @@ final class SetPropertyClass implements Comparable<SetPropertyClass> {
     }
 
     public String generatesSetPropertyForMethodHeader() {
-        String[] classParts = clazz.getName().split("\\.|\\$");
+        String[] classParts = clazz.getName().split("[.$]");
         StringBuilder methodInvocation = new StringBuilder("private static boolean setPropertyFor");
         for (String s : classParts) {
             methodInvocation.append(IntrospectionUtils.capitalize(s));
@@ -315,7 +316,7 @@ final class SetPropertyClass implements Comparable<SetPropertyClass> {
     }
 
     public String generateParentGetPropertyForMethodInvocation() {
-        String[] classParts = clazz.getName().split("\\.|\\$");
+        String[] classParts = clazz.getName().split("[.$]");
         StringBuilder methodInvocation = new StringBuilder("getPropertyFor");
         for (String s : classParts) {
             methodInvocation.append(IntrospectionUtils.capitalize(s));
@@ -329,7 +330,7 @@ final class SetPropertyClass implements Comparable<SetPropertyClass> {
     }
 
     public String generatesGetPropertyForMethodHeader() {
-        String[] classParts = clazz.getName().split("\\.|\\$");
+        String[] classParts = clazz.getName().split("[.$]");
         StringBuilder methodInvocation = new StringBuilder("private static Object getPropertyFor");
         for (String s : classParts) {
             methodInvocation.append(IntrospectionUtils.capitalize(s));
@@ -382,8 +383,9 @@ final class SetPropertyClass implements Comparable<SetPropertyClass> {
                 ;
 
             } else {
-                code.append(ReflectionLessCodeGenerator.getIndent(3))
-                    .append("//no get" + IntrospectionUtils.capitalize(property.getPropertyName())+ " method found on this class")
+                code.append(ReflectionLessCodeGenerator.getIndent(3)).append("//no get")
+                    .append(IntrospectionUtils.capitalize(property.getPropertyName()))
+                    .append(" method found on this class")
                     .append(System.lineSeparator())
                 ;
             }

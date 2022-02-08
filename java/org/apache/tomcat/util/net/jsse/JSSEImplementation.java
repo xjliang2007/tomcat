@@ -27,7 +27,7 @@ import org.apache.tomcat.util.net.SSLImplementation;
 import org.apache.tomcat.util.net.SSLSupport;
 import org.apache.tomcat.util.net.SSLUtil;
 
-/* JSSEImplementation:
+/** JSSEImplementation:
 
    Concrete implementation class for JSSE
 

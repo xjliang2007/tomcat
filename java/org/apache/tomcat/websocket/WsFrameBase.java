@@ -154,7 +154,7 @@ public abstract class WsFrameBase {
         if (!transformation.validateRsv(rsv, opCode)) {
             throw new WsIOException(new CloseReason(
                     CloseCodes.PROTOCOL_ERROR,
-                    sm.getString("wsFrame.wrongRsv", Integer.valueOf(rsv), Integer.valueOf(opCode))));
+                    sm.getString("wsFrame.wrongRsv", rsv, (int) opCode)));
         }
 
         if (Util.isControl(opCode)) {
@@ -168,7 +168,7 @@ public abstract class WsFrameBase {
                     opCode != Constants.OPCODE_CLOSE) {
                 throw new WsIOException(new CloseReason(
                         CloseCodes.PROTOCOL_ERROR,
-                        sm.getString("wsFrame.invalidOpCode", Integer.valueOf(opCode))));
+                        sm.getString("wsFrame.invalidOpCode", (int) opCode)));
             }
         } else {
             if (continuationExpected) {
@@ -200,7 +200,7 @@ public abstract class WsFrameBase {
                     } else {
                         throw new WsIOException(new CloseReason(
                                 CloseCodes.PROTOCOL_ERROR,
-                                sm.getString("wsFrame.invalidOpCode", Integer.valueOf(opCode))));
+                                sm.getString("wsFrame.invalidOpCode", (int) opCode)));
                     }
                 } catch (IllegalStateException ise) {
                     // Thrown if the session is already closed
@@ -274,7 +274,7 @@ public abstract class WsFrameBase {
             if (payloadLength > 125) {
                 throw new WsIOException(new CloseReason(
                         CloseCodes.PROTOCOL_ERROR,
-                        sm.getString("wsFrame.controlPayloadTooBig", Long.valueOf(payloadLength))));
+                        sm.getString("wsFrame.controlPayloadTooBig", payloadLength)));
             }
             if (!fin) {
                 throw new WsIOException(new CloseReason(
@@ -385,7 +385,7 @@ public abstract class WsFrameBase {
             controlBufferBinary.clear();
             throw new WsIOException(new CloseReason(
                     CloseCodes.PROTOCOL_ERROR,
-                    sm.getString("wsFrame.invalidOpCode", Integer.valueOf(opCode))));
+                    sm.getString("wsFrame.invalidOpCode", (int) opCode)));
         }
         controlBufferBinary.clear();
         newFrame();
@@ -400,8 +400,8 @@ public abstract class WsFrameBase {
             if (maxMessageSize > -1 && messageBufferText.remaining() > maxMessageSize) {
                 throw new WsIOException(new CloseReason(CloseCodes.TOO_BIG,
                         sm.getString("wsFrame.messageTooBig",
-                                Long.valueOf(messageBufferText.remaining()),
-                                Long.valueOf(maxMessageSize))));
+                            (long) messageBufferText.remaining(),
+                            maxMessageSize)));
             }
         }
 
@@ -535,8 +535,8 @@ public abstract class WsFrameBase {
             if (!usePartial()) {
                 CloseReason cr = new CloseReason(CloseCodes.TOO_BIG,
                         sm.getString("wsFrame.bufferTooSmall",
-                                Integer.valueOf(messageBufferBinary.capacity()),
-                                Long.valueOf(payloadLength)));
+                            messageBufferBinary.capacity(),
+                            payloadLength));
                 throw new WsIOException(cr);
             }
             messageBufferBinary.flip();
@@ -590,8 +590,8 @@ public abstract class WsFrameBase {
             if (maxMessageSize > -1 && msg.remaining() > maxMessageSize) {
                 throw new WsIOException(new CloseReason(CloseCodes.TOO_BIG,
                         sm.getString("wsFrame.messageTooBig",
-                                Long.valueOf(msg.remaining()),
-                                Long.valueOf(maxMessageSize))));
+                            (long) msg.remaining(),
+                            maxMessageSize)));
             }
         }
         try {
@@ -686,7 +686,7 @@ public abstract class WsFrameBase {
 
     protected static long byteArrayToLong(byte[] b, int start, int len) throws IOException {
         if (len > 8) {
-            throw new IOException(sm.getString("wsFrame.byteToLongFail", Long.valueOf(len)));
+            throw new IOException(sm.getString("wsFrame.byteToLongFail", (long) len));
         }
         int shift = 0;
         long result = 0;

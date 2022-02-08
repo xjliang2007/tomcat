@@ -85,8 +85,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
         for (char c : HTTP_SEPARATORS) {
             httpSeparatorFlags.set(c);
         }
-        boolean b = STRICT_SERVLET_COMPLIANCE;
-        if (b) {
+        if (STRICT_SERVLET_COMPLIANCE) {
             httpSeparatorFlags.set('/');
         }
 
@@ -105,7 +104,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
             allowedWithoutQuotes.clear(ch);
         }
 
-        /**
+        /*
          * Some browsers (e.g. IE6 and IE7) do not handle quoted Path values even
          * when Version is set to 1. To allow for this, we support a property
          * FWD_SLASH_IS_SEPARATOR which, when false, means a '/' character will not
@@ -420,7 +419,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
      * RFC 2965 / RFC 2109
      * JVK
      */
-    private final void processCookieHeader(byte bytes[], int off, int len,
+    private void processCookieHeader(byte[] bytes, int off, int len,
             ServerCookies serverCookies) {
 
         if (len <= 0 || bytes == null) {
@@ -664,7 +663,6 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
                     // Name Only
                     sc.getValue().setString("");
                 }
-                continue;
             }
         }
     }
@@ -675,7 +673,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
      * token, with no separator characters in between.
      * JVK
      */
-    private final int getTokenEndPosition(byte bytes[], int off, int end,
+    private int getTokenEndPosition(byte[] bytes, int off, int end,
             int version, boolean isName){
         int pos = off;
         while (pos < end &&
@@ -686,10 +684,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
             pos++;
         }
 
-        if (pos > end) {
-            return end;
-        }
-        return pos;
+        return Math.min(pos, end);
     }
 
 
@@ -726,7 +721,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
      * the position of the end quote. This escapes anything after a '\' char
      * JVK RFC 2616
      */
-    private static final int getQuotedValueEndPosition(byte bytes[], int off, int end){
+    private static int getQuotedValueEndPosition(byte[] bytes, int off, int end){
         int pos = off;
         while (pos < end) {
             if (bytes[pos] == '"') {
@@ -742,7 +737,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
     }
 
 
-    private static final boolean equals(String s, byte b[], int start, int end) {
+    private static boolean equals(String s, byte[] b, int start, int end) {
         int blen = end-start;
         if (b == null || blen != s.length()) {
             return false;
@@ -762,27 +757,8 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
      * defined in RFC2619
      * JVK
      */
-    private static final boolean isWhiteSpace(final byte c) {
-        // This switch statement is slightly slower
-        // for my vm than the if statement.
-        // Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_07-164)
-        /*
-        switch (c) {
-        case ' ':;
-        case '\t':;
-        case '\n':;
-        case '\r':;
-        case '\f':;
-            return true;
-        default:;
-            return false;
-        }
-        */
-        if (c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f') {
-            return true;
-        } else {
-            return false;
-        }
+    private static boolean isWhiteSpace(final byte c) {
+        return c == ' ' || c == '\t' || c == '\n' || c == '\r' || c == '\f';
     }
 
 
@@ -791,7 +767,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
      *
      * @param bc The cookie value to modify
      */
-    private static final void unescapeDoubleQuotes(ByteChunk bc) {
+    private static void unescapeDoubleQuotes(ByteChunk bc) {
 
         if (bc == null || bc.getLength() == 0 || bc.indexOf('"', 0) == -1) {
             return;
@@ -809,7 +785,7 @@ public final class LegacyCookieProcessor extends CookieProcessorBase {
         int dest = 0;
 
         while (src < len) {
-            if (copy[src] == '\\' && src < len && copy[src+1]  == '"') {
+            if (copy[src] == '\\' && copy[src + 1] == '"') {
                 src++;
             }
             copy[dest] = copy[src];

@@ -63,7 +63,7 @@ public final class ObjectReflectionPropertyInspector {
         );
     }
 
-    private static final Set<Class<?>> getKnownClasses() throws ClassNotFoundException {
+    private static Set<Class<?>> getKnownClasses() throws ClassNotFoundException {
         return
             Collections.unmodifiableSet(new LinkedHashSet<>(
                     Arrays.asList(
@@ -208,7 +208,7 @@ public final class ObjectReflectionPropertyInspector {
             Character.isUpperCase(name.charAt(0))) {
             return name;
         }
-        char chars[] = name.toCharArray();
+        char[] chars = name.toCharArray();
         chars[0] = Character.toLowerCase(chars[0]);
         return new String(chars);
     }

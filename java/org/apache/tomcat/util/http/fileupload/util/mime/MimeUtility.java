@@ -115,7 +115,8 @@ public final class MimeUtility {
             char ch = text.charAt(offset);
 
             // is this a whitespace character?
-            if (LINEAR_WHITESPACE.indexOf(ch) != -1) { // whitespace found
+            if (LINEAR_WHITESPACE.indexOf(ch) != -1) {
+                // whitespace found
                 startWhiteSpace = offset;
                 while (offset < endOffset) {
                     // step over the white space characters.
@@ -239,7 +240,8 @@ public final class MimeUtility {
             // Base64 encoded?
             if (encoding.equals(BASE64_ENCODING_MARKER)) {
                 decodedData = Base64.decodeBase64(encodedText);
-            } else if (encoding.equals(QUOTEDPRINTABLE_ENCODING_MARKER)) { // maybe quoted printable.
+            } else if (encoding.equals(QUOTEDPRINTABLE_ENCODING_MARKER)) {
+                // maybe quoted printable.
                 byte[] encodedData = encodedText.getBytes(StandardCharsets.US_ASCII);
                 QuotedPrintableDecoder.decode(encodedData, out);
                 decodedData = out.toByteArray();

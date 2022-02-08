@@ -92,7 +92,7 @@ class FutureToSendHandler implements Future<Void>, SendHandler {
     public Void get(long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException,
             TimeoutException {
-        boolean retval = false;
+        boolean retval;
         try {
             wsSession.registerFuture(this);
             retval = latch.await(timeout, unit);
@@ -100,9 +100,9 @@ class FutureToSendHandler implements Future<Void>, SendHandler {
             wsSession.unregisterFuture(this);
 
         }
-        if (retval == false) {
+        if (!retval) {
             throw new TimeoutException(sm.getString("futureToSendHandler.timeout",
-                    Long.valueOf(timeout), unit.toString().toLowerCase()));
+                timeout, unit.toString().toLowerCase()));
         }
         if (result.get().getException() != null) {
             throw new ExecutionException(result.get().getException());

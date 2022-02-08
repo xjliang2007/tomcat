@@ -5011,10 +5011,10 @@ public enum Cipher {
      */
     private final int alg_bits;
 
-    private Cipher(int id, String openSSLAlias, KeyExchange kx, Authentication au, Encryption enc,
-            MessageDigest mac, Protocol protocol, boolean export, EncryptionLevel level,
-            boolean fipsCompatible, int strength_bits, int alg_bits, String[] jsseAltNames,
-            String[] openSSlAltNames) {
+    Cipher(int id, String openSSLAlias, KeyExchange kx, Authentication au, Encryption enc,
+        MessageDigest mac, Protocol protocol, boolean export, EncryptionLevel level,
+        boolean fipsCompatible, int strength_bits, int alg_bits, String[] jsseAltNames,
+        String[] openSSlAltNames) {
         this.id = id;
         this.openSSLAlias = openSSLAlias;
         if (openSSlAltNames != null && openSSlAltNames.length != 0) {
@@ -5105,13 +5105,13 @@ public enum Cipher {
             int id = cipher.getId();
 
             if (id > 0 && id < 0xFFFF) {
-                idMap.put(Integer.valueOf(id), cipher);
+                idMap.put(id, cipher);
             }
         }
     }
 
 
     public static Cipher valueOf(int cipherId) {
-        return idMap.get(Integer.valueOf(cipherId));
+        return idMap.get(cipherId);
     }
 }

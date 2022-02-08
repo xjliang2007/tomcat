@@ -73,7 +73,7 @@ public class WsRemoteEndpointImplServer extends WsRemoteEndpointImplBase {
             ByteBuffer... buffers) {
         if (socketWrapper.hasAsyncIO()) {
             final boolean block = (blockingWriteTimeoutExpiry != -1);
-            long timeout = -1;
+            long timeout;
             if (block) {
                 timeout = blockingWriteTimeoutExpiry - System.currentTimeMillis();
                 if (timeout <= 0) {

@@ -394,7 +394,7 @@ public class OpenSSLCipherConfigurationParser {
 
     private static final Map<String,String> jsseToOpenSSL = new HashMap<>();
 
-    private static final void init() {
+    private static void init() {
 
         for (Cipher cipher : Cipher.values()) {
             String alias = cipher.getOpenSSLAlias();
@@ -593,7 +593,7 @@ public class OpenSSLCipherConfigurationParser {
          */
         Set<Integer> keySizes = new HashSet<>();
         for (Cipher cipher : ciphers) {
-            keySizes.add(Integer.valueOf(cipher.getStrength_bits()));
+            keySizes.add(cipher.getStrength_bits());
         }
         List<Integer> strength_bits = new ArrayList<>(keySizes);
         Collections.sort(strength_bits);
@@ -831,7 +831,7 @@ public class OpenSSLCipherConfigurationParser {
             }
             builder.append(separator);
         }
-        return builder.toString().substring(0, builder.length() - 1);
+        return builder.substring(0, builder.length() - 1);
     }
 
     public static void usage() {

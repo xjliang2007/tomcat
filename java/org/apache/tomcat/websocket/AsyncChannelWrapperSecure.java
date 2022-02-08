@@ -49,8 +49,7 @@ import org.apache.tomcat.util.res.StringManager;
  */
 public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
 
-    private final Log log =
-            LogFactory.getLog(AsyncChannelWrapperSecure.class);
+    private final Log log = LogFactory.getLog(AsyncChannelWrapperSecure.class);
     private static final StringManager sm =
             StringManager.getManager(AsyncChannelWrapperSecure.class);
 
@@ -123,8 +122,7 @@ public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
 
         executor.execute(writeTask);
 
-        Future<Integer> future = new LongToIntegerFuture(inner);
-        return future;
+        return new LongToIntegerFuture(inner);
     }
 
     @Override
@@ -230,14 +228,14 @@ public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
                             Future<Integer> f =
                                     socketChannel.write(socketWriteBuffer);
                             Integer socketWrite = f.get();
-                            toWrite -= socketWrite.intValue();
+                            toWrite -= socketWrite;
                         }
                     }
                 }
 
 
                 if (writing.compareAndSet(true, false)) {
-                    future.complete(Long.valueOf(written));
+                    future.complete(written);
                 } else {
                     future.fail(new IllegalStateException(sm.getString(
                             "asyncChannelWrapperSecure.wrongStateWrite")));
@@ -274,7 +272,7 @@ public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
                         forceRead = false;
                         Future<Integer> f = socketChannel.read(socketReadBuffer);
                         Integer socketRead = f.get();
-                        if (socketRead.intValue() == -1) {
+                        if (socketRead == -1) {
                             throw new EOFException(sm.getString("asyncChannelWrapperSecure.eof"));
                         }
                     }
@@ -335,7 +333,7 @@ public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
 
 
                 if (reading.compareAndSet(true, false)) {
-                    future.complete(Integer.valueOf(read));
+                    future.complete(read);
                 } else {
                     future.fail(new IllegalStateException(sm.getString(
                             "asyncChannelWrapperSecure.wrongStateRead")));
@@ -400,7 +398,7 @@ public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
                             break;
                         }
                         case NEED_TASK: {
-                            Runnable r = null;
+                            Runnable r;
                             while ((r = sslEngine.getDelegatedTask()) != null) {
                                 r.run();
                             }
@@ -511,7 +509,7 @@ public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
                 throws InterruptedException, ExecutionException,
                 TimeoutException {
             boolean latchResult = completionLatch.await(timeout, unit);
-            if (latchResult == false) {
+            if (!latchResult) {
                 throw new TimeoutException();
             }
             if (throwable != null) {
@@ -547,11 +545,11 @@ public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
         @Override
         public Integer get() throws InterruptedException, ExecutionException {
             Long result = wrapped.get();
-            if (result.longValue() > Integer.MAX_VALUE) {
+            if (result > Integer.MAX_VALUE) {
                 throw new ExecutionException(sm.getString(
                         "asyncChannelWrapperSecure.tooBig", result), null);
             }
-            return Integer.valueOf(result.intValue());
+            return result.intValue();
         }
 
         @Override
@@ -559,11 +557,11 @@ public class AsyncChannelWrapperSecure implements AsyncChannelWrapper {
                 throws InterruptedException, ExecutionException,
                 TimeoutException {
             Long result = wrapped.get(timeout, unit);
-            if (result.longValue() > Integer.MAX_VALUE) {
+            if (result > Integer.MAX_VALUE) {
                 throw new ExecutionException(sm.getString(
                         "asyncChannelWrapperSecure.tooBig", result), null);
             }
-            return Integer.valueOf(result.intValue());
+            return result.intValue();
         }
     }
 

@@ -522,7 +522,7 @@ public class MultipartStream {
             if (++size > HEADER_PART_SIZE_MAX) {
                 throw new MalformedStreamException(String.format(
                         "Header section has more than %s bytes (maybe it is not properly terminated)",
-                        Integer.valueOf(HEADER_PART_SIZE_MAX)));
+                    HEADER_PART_SIZE_MAX));
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++;
@@ -569,7 +569,8 @@ public class MultipartStream {
      */
     public int readBodyData(final OutputStream output)
             throws MalformedStreamException, IOException {
-        return (int) Streams.copy(newInputStream(), output, false); // N.B. Streams.copy closes the input stream
+        // N.B. Streams.copy closes the input stream
+        return (int) Streams.copy(newInputStream(), output, false);
     }
 
     /**
