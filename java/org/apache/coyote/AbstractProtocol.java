@@ -890,7 +890,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
                 // Associate the processor with the connection
                 wrapper.setCurrentProcessor(processor);
 
-                SocketState state = SocketState.CLOSED;
+                SocketState state;
                 do {
                     state = processor.process(wrapper, status);
 
@@ -1133,6 +1133,11 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler,
         }
 
 
+        /**
+         * JMX register component
+         *
+         * @param processor
+         */
         protected void register(Processor processor) {
             if (getProtocol().getDomain() != null) {
                 synchronized (this) {

@@ -841,7 +841,7 @@ public class Http11Processor extends AbstractProcessor {
 
         OutputFilter[] outputFilters = outputBuffer.getFilters();
 
-        if (http09 == true) {
+        if (http09) {
             // HTTP/0.9
             outputBuffer.addActiveFilter(outputFilters[Constants.IDENTITY_FILTER]);
             outputBuffer.commit();
@@ -1054,13 +1054,6 @@ public class Http11Processor extends AbstractProcessor {
             sendfileData = socketWrapper.createSendfileData(fileName, pos, end - pos);
         }
     }
-
-
-    /*
-     * Note: populateHost() is not over-ridden.
-     *       request.serverName() will be set to return the default host name by
-     *       the Mapper.
-     */
 
 
     /**

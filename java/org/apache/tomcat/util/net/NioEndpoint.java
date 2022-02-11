@@ -83,8 +83,10 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
 
     private static final Log log = LogFactory.getLog(NioEndpoint.class);
 
-
-    public static final int OP_REGISTER = 0x100; //register interest op
+    /**
+     * register interest op
+     */
+    public static final int OP_REGISTER = 0x100;
 
     // ----------------------------------------------------------------- Fields
 

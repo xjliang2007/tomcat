@@ -367,6 +367,7 @@ public abstract class AbstractHttp11Protocol<S> extends AbstractProtocol<S> {
 
 
     private Pattern restrictedUserAgents = null;
+
     /**
      * Get the string form of the regular expression that defines the User
      * agents which should be restricted to HTTP/1.0 support.

@@ -122,7 +122,7 @@ public class Acceptor<U> implements Runnable {
                         continue;
                     }
 
-                    U socket = null;
+                    U socket;
                     try {
                         // Accept the next incoming connection from the server
                         // socket
@@ -247,6 +247,9 @@ public class Acceptor<U> implements Runnable {
 
 
     public enum AcceptorState {
-        NEW, RUNNING, PAUSED, ENDED
+        NEW,
+        RUNNING,
+        PAUSED,
+        ENDED
     }
 }

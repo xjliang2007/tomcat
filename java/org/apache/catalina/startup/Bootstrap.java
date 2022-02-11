@@ -463,30 +463,36 @@ public final class Bootstrap {
                 command = args[args.length - 1];
             }
 
-            if (command.equals("startd")) {
-                args[args.length - 1] = "start";
-                daemon.load(args);
-                daemon.start();
-            } else if (command.equals("stopd")) {
-                args[args.length - 1] = "stop";
-                daemon.stop();
-            } else if (command.equals("start")) {
-                daemon.setAwait(true);
-                daemon.load(args);
-                daemon.start();
-                if (null == daemon.getServer()) {
-                    System.exit(1);
-                }
-            } else if (command.equals("stop")) {
-                daemon.stopServer(args);
-            } else if (command.equals("configtest")) {
-                daemon.load(args);
-                if (null == daemon.getServer()) {
-                    System.exit(1);
-                }
-                System.exit(0);
-            } else {
-                log.warn("Bootstrap: command \"" + command + "\" does not exist.");
+            switch (command) {
+                case "startd":
+                    args[args.length - 1] = "start";
+                    daemon.load(args);
+                    daemon.start();
+                    break;
+                case "stopd":
+                    args[args.length - 1] = "stop";
+                    daemon.stop();
+                    break;
+                case "start":
+                    daemon.setAwait(true);
+                    daemon.load(args);
+                    daemon.start();
+                    if (null == daemon.getServer()) {
+                        System.exit(1);
+                    }
+                    break;
+                case "stop":
+                    daemon.stopServer(args);
+                    break;
+                case "configtest":
+                    daemon.load(args);
+                    if (null == daemon.getServer()) {
+                        System.exit(1);
+                    }
+                    System.exit(0);
+                default:
+                    log.warn("Bootstrap: command \"" + command + "\" does not exist.");
+                    break;
             }
         } catch (Throwable t) {
             // Unwrap the Exception for clearer error reporting

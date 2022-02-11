@@ -77,7 +77,14 @@ public abstract class AbstractEndpoint<S,U> {
         enum SocketState {
             // TODO Add a new state to the AsyncStateMachine and remove
             //      ASYNC_END (if possible)
-            OPEN, CLOSED, LONG, ASYNC_END, SENDFILE, UPGRADING, UPGRADED, SUSPENDED
+            OPEN,
+            CLOSED,
+            LONG,
+            ASYNC_END,
+            SENDFILE,
+            UPGRADING,
+            UPGRADED,
+            SUSPENDED
         }
 
 
@@ -192,6 +199,7 @@ public abstract class AbstractEndpoint<S,U> {
      * Socket properties
      */
     protected final SocketProperties socketProperties = new SocketProperties();
+
     public SocketProperties getSocketProperties() {
         return socketProperties;
     }
@@ -206,6 +214,9 @@ public abstract class AbstractEndpoint<S,U> {
      */
     protected SynchronizedStack<SocketProcessorBase<S>> processorCache;
 
+    /**
+     * object name, for JMX use
+     */
     private ObjectName oname = null;
 
     /**
@@ -224,6 +235,7 @@ public abstract class AbstractEndpoint<S,U> {
     // ----------------------------------------------------------------- Properties
 
     private String defaultSSLHostConfigName = SSLHostConfig.DEFAULT_SSL_HOST_NAME;
+
     /**
      * @return The host name for the default SSL configuration for this endpoint
      *         - always in lower case.
@@ -231,6 +243,7 @@ public abstract class AbstractEndpoint<S,U> {
     public String getDefaultSSLHostConfigName() {
         return defaultSSLHostConfigName;
     }
+
     public void setDefaultSSLHostConfigName(String defaultSSLHostConfigName) {
         this.defaultSSLHostConfigName = defaultSSLHostConfigName.toLowerCase(Locale.ENGLISH);
     }
@@ -249,6 +262,7 @@ public abstract class AbstractEndpoint<S,U> {
     public void addSslHostConfig(SSLHostConfig sslHostConfig) throws IllegalArgumentException {
         addSslHostConfig(sslHostConfig, false);
     }
+
     /**
      * Add the given SSL Host configuration, optionally replacing the existing
      * configuration for the given host.
@@ -439,9 +453,11 @@ public abstract class AbstractEndpoint<S,U> {
      * Has the user requested that send file be used where possible?
      */
     private boolean useSendfile = true;
+
     public boolean getUseSendfile() {
         return useSendfile;
     }
+
     public void setUseSendfile(boolean useSendfile) {
         this.useSendfile = useSendfile;
     }
@@ -493,13 +509,18 @@ public abstract class AbstractEndpoint<S,U> {
      * Priority of the acceptor threads.
      */
     protected int acceptorThreadPriority = Thread.NORM_PRIORITY;
+
     public void setAcceptorThreadPriority(int acceptorThreadPriority) {
         this.acceptorThreadPriority = acceptorThreadPriority;
     }
+
     public int getAcceptorThreadPriority() { return acceptorThreadPriority; }
 
-
+    /**
+     * 允许的最大连接数
+     */
     private int maxConnections = 8*1024;
+
     public void setMaxConnections(int maxCon) {
         this.maxConnections = maxCon;
         LimitLatch latch = this.connectionLimitLatch;
@@ -514,6 +535,7 @@ public abstract class AbstractEndpoint<S,U> {
             initializeConnectionLatch();
         }
     }
+
     public int getMaxConnections() { return this.maxConnections; }
 
     /**
@@ -542,10 +564,12 @@ public abstract class AbstractEndpoint<S,U> {
      * External Executor based thread pool.
      */
     private Executor executor = null;
+
     public void setExecutor(Executor executor) {
         this.executor = executor;
         this.internalExecutor = (executor == null);
     }
+
     public Executor getExecutor() { return executor; }
 
 
@@ -553,9 +577,11 @@ public abstract class AbstractEndpoint<S,U> {
      * External Executor based thread pool for utility tasks.
      */
     private ScheduledExecutorService utilityExecutor = null;
+
     public void setUtilityExecutor(ScheduledExecutorService utilityExecutor) {
         this.utilityExecutor = utilityExecutor;
     }
+
     public ScheduledExecutorService getUtilityExecutor() {
         if (utilityExecutor == null) {
             getLog().warn(sm.getString("endpoint.warn.noUtilityExecutor"));
@@ -569,12 +595,16 @@ public abstract class AbstractEndpoint<S,U> {
      * Server socket port.
      */
     private int port = -1;
+
     public int getPort() { return port; }
+
     public void setPort(int port ) { this.port=port; }
 
 
     private int portOffset = 0;
+
     public int getPortOffset() { return portOffset; }
+
     public void setPortOffset(int portOffset ) {
         if (portOffset < 0) {
             throw new IllegalArgumentException(
@@ -611,7 +641,9 @@ public abstract class AbstractEndpoint<S,U> {
      * Address for the server socket.
      */
     private InetAddress address;
+
     public InetAddress getAddress() { return address; }
+
     public void setAddress(InetAddress address) { this.address = address; }
 
 
@@ -636,9 +668,11 @@ public abstract class AbstractEndpoint<S,U> {
      * is 100.
      */
     private int acceptCount = 100;
+
     public void setAcceptCount(int acceptCount) { if (acceptCount > 0) {
         this.acceptCount = acceptCount;
     } }
+
     public int getAcceptCount() { return acceptCount; }
 
     /**
@@ -648,9 +682,12 @@ public abstract class AbstractEndpoint<S,U> {
      * unbound on {@link #stop()}.
      */
     private boolean bindOnInit = true;
+
     public boolean getBindOnInit() { return bindOnInit; }
     public void setBindOnInit(boolean b) { this.bindOnInit = b; }
+
     private volatile BindState bindState = BindState.UNBOUND;
+
     protected BindState getBindState() {
         return bindState;
     }
@@ -659,6 +696,7 @@ public abstract class AbstractEndpoint<S,U> {
      * Keepalive timeout, if not set the soTimeout is used.
      */
     private Integer keepAliveTimeout = null;
+
     public int getKeepAliveTimeout() {
         if (keepAliveTimeout == null) {
             return getConnectionTimeout();
@@ -719,7 +757,11 @@ public abstract class AbstractEndpoint<S,U> {
      */
     public abstract boolean isAlpnSupported();
 
+    /**
+     * 线程池中允许空闲的最少线程数
+     */
     private int minSpareThreads = 10;
+
     public void setMinSpareThreads(int minSpareThreads) {
         this.minSpareThreads = minSpareThreads;
         Executor executor = this.executor;
@@ -744,9 +786,11 @@ public abstract class AbstractEndpoint<S,U> {
 
 
     /**
+     *
      * Maximum amount of worker threads.
      */
     private int maxThreads = 200;
+
     public void setMaxThreads(int maxThreads) {
         this.maxThreads = maxThreads;
         Executor executor = this.executor;
@@ -771,6 +815,7 @@ public abstract class AbstractEndpoint<S,U> {
      * Priority of the worker threads.
      */
     protected int threadPriority = Thread.NORM_PRIORITY;
+
     public void setThreadPriority(int threadPriority) {
         // Can't change this once the executor has started
         this.threadPriority = threadPriority;
@@ -786,8 +831,10 @@ public abstract class AbstractEndpoint<S,U> {
 
     /**
      * Max keep alive requests
+     * as in Apache HTTPD server
      */
-    private int maxKeepAliveRequests=100; // as in Apache HTTPD server
+    private int maxKeepAliveRequests = 100;
+
     public int getMaxKeepAliveRequests() {
         // Disable keep-alive if the server socket is not bound
         if (bindState.isBound()) {
@@ -805,6 +852,7 @@ public abstract class AbstractEndpoint<S,U> {
      * Name of the thread pool, which will be used for naming child threads.
      */
     private String name = "TP";
+
     public void setName(String name) { this.name = name; }
     public String getName() { return name; }
 
@@ -813,6 +861,7 @@ public abstract class AbstractEndpoint<S,U> {
      * Name of domain to use for JMX registration.
      */
     private String domain;
+
     public void setDomain(String domain) { this.domain = domain; }
     public String getDomain() { return domain; }
 
@@ -823,6 +872,7 @@ public abstract class AbstractEndpoint<S,U> {
      *  will not be daemon - and will keep the process alive.
      */
     private boolean daemon = true;
+
     public void setDaemon(boolean b) { daemon = b; }
     public boolean getDaemon() { return daemon; }
 
@@ -831,6 +881,7 @@ public abstract class AbstractEndpoint<S,U> {
      * Expose asynchronous IO capability.
      */
     private boolean useAsyncIO = true;
+
     public void setUseAsyncIO(boolean useAsyncIO) { this.useAsyncIO = useAsyncIO; }
     public boolean getUseAsyncIO() { return useAsyncIO; }
 
@@ -850,6 +901,7 @@ public abstract class AbstractEndpoint<S,U> {
 
 
     protected final List<String> negotiableProtocols = new ArrayList<>();
+
     public void addNegotiatedProtocol(String negotiableProtocol) {
         negotiableProtocols.add(negotiableProtocol);
     }
@@ -862,6 +914,7 @@ public abstract class AbstractEndpoint<S,U> {
      * Handling of accepted sockets.
      */
     private Handler<S> handler = null;
+
     public void setHandler(Handler<S> handler ) { this.handler = handler; }
     public Handler<S> getHandler() { return handler; }
 
@@ -921,6 +974,7 @@ public abstract class AbstractEndpoint<S,U> {
             return false;
         }
     }
+
     public String getProperty(String name) {
         String value = (String) getAttribute(name);
         final String socketName = "socket.";
@@ -1362,10 +1416,10 @@ public abstract class AbstractEndpoint<S,U> {
     protected abstract Log getLog();
 
     protected LimitLatch initializeConnectionLatch() {
-        if (maxConnections==-1) {
+        if (maxConnections == -1) {
             return null;
         }
-        if (connectionLimitLatch==null) {
+        if (connectionLimitLatch == null) {
             connectionLimitLatch = new LimitLatch(getMaxConnections());
         }
         return connectionLimitLatch;
@@ -1373,30 +1427,30 @@ public abstract class AbstractEndpoint<S,U> {
 
     private void releaseConnectionLatch() {
         LimitLatch latch = connectionLimitLatch;
-        if (latch!=null) {
+        if (latch != null) {
             latch.releaseAll();
         }
         connectionLimitLatch = null;
     }
 
     protected void countUpOrAwaitConnection() throws InterruptedException {
-        if (maxConnections==-1) {
+        if (maxConnections == -1) {
             return;
         }
         LimitLatch latch = connectionLimitLatch;
-        if (latch!=null) {
+        if (latch != null) {
             latch.countUpOrAwait();
         }
     }
 
     protected long countDownConnection() {
-        if (maxConnections==-1) {
+        if (maxConnections == -1) {
             return -1;
         }
         LimitLatch latch = connectionLimitLatch;
-        if (latch!=null) {
+        if (latch != null) {
             long result = latch.countDown();
-            if (result<0) {
+            if (result < 0) {
                 getLog().warn(sm.getString("endpoint.warn.incorrectConnectionCount"));
             }
             return result;
